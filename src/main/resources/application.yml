@@ -1,11 +1,7 @@
 server :
   port : 80
-  #session :
-  #   timeout : 600
 
 spring :
-  #session :
-  #   timeout : 600
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/kshopping_db?serverTimezone=UTC&characterEncoding=UTF-8

@@ -8,6 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 public class AdminVo {
+    private String adminId;
+    private String adminPw;
+    private int status;
+    /*private String adminIp;
+    private String name;
+    private String regDate;
+    private String regTime;
+    private int roleId;*/
 }
