@@ -47,7 +47,7 @@ public class AdminViewController {
         }
     }
 
-    @RequestMapping("/logout")
+    @RequestMapping("/adminLogout")
     public String logout(HttpServletRequest request){
         HttpSession session = request.getSession();
         session.removeAttribute("adminLoginCheck");

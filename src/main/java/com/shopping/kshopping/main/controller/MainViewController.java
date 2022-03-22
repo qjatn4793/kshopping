@@ -15,9 +15,4 @@ public class MainViewController {
         return "main/main.html";
     }
 
-    @GetMapping("/login")
-    public String login(){
-
-        return "main/login.html";
-    }
 }
