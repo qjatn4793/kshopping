@@ -1,4 +1,4 @@
-package com.shopping.kshopping.main.controller;
+package com.shopping.kshopping.product.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @AllArgsConstructor
 @Controller
-public class MainViewController {
+public class ProductViewController {
 
-    @RequestMapping("/")
-    public String main(){
+    @GetMapping("/detailProduct")
+    public String details(){
 
-        return "main/main.html";
+        return "main/detailProduct.html";
     }
+
 }

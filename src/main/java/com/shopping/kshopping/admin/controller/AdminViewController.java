@@ -55,4 +55,23 @@ public class AdminViewController {
         session.invalidate();
         return "redirect:/admin";
     }
+
+    @RequestMapping("/admin/createProduct")
+    public String createProduct(){
+
+        return "/admin/createProduct.html";
+    }
+
+    @RequestMapping("/admin/updateProduct")
+    public String updateProduct(){
+
+        return "/admin/updateProduct.html";
+    }
+
+    @RequestMapping("/admin/deleteProduct")
+    public String deleteProduct(){
+
+        return "/admin/deleteProduct.html";
+    }
+
 }
