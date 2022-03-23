@@ -12,21 +12,9 @@ import java.util.ArrayList;
 @RestController
 public class AdminController {
 
-    @GetMapping("/admin/viewProduct")
+    /*@GetMapping("/admin/viewProduct")
     public String viewProduct(ProductVo productVo){
 
-        ArrayList<ProductVo> productVoArrayList = new ArrayList<>();
-        for (int i = 0; i < 10; i++ ){
-            ProductVo products = new ProductVo();
-            /*products.getProductId("productId"+ i);
-            products.getProductName("productName"+ i);
-            products.getProduct("product"+ i);*/
-
-            productVoArrayList.add(products);
-        }
-
-        //productVo.addAttribute("product", products);
-
         return null;
-    }
+    }*/
 }
