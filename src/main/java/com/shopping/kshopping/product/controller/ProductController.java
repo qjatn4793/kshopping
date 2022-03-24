@@ -3,11 +3,14 @@ package com.shopping.kshopping.product.controller;
 import com.shopping.kshopping.product.service.ProductService;
 import com.shopping.kshopping.product.vo.ProductVo;
 import lombok.AllArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static java.lang.String.valueOf;
 
 @AllArgsConstructor
 @RestController
@@ -17,20 +20,19 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping("/product")
-    public ProductVo productView() throws Exception{
+    public HashMap<String, ProductVo> productView() throws Exception{
 
-        ArrayList<String> productView = new ArrayList();
+        HashMap<String, ProductVo> productView = new HashMap<>();
 
+        int productCount = productService.productCount();
 
+        for (int i=1; productCount >= i; i++) {
 
-        for (int i=0; productService.productCount() > i; i++) {
+            //System.out.println(productService.productView(i));
 
-
-            //productView.add();
+            productView.put(valueOf(i), productService.productView(i));
         }
-
-
-        return productService.productView(1);
+        return productView;
     }
 
     @PostMapping("/product")

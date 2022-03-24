@@ -24,7 +24,7 @@ public class AdminViewController {
 
         if(session.getAttribute("adminLoginCheck")!=null && session.getAttribute("adminVo")!=null){
             if(session.getAttribute("adminLoginCheck").equals("success")){
-                return "/admin/admin.html";
+                return "admin/admin.html";
             }
         }
 
@@ -59,19 +59,19 @@ public class AdminViewController {
     @RequestMapping("/admin/createProduct")
     public String createProduct(){
 
-        return "/admin/createProduct.html";
+        return "admin/createProduct.html";
     }
 
     @RequestMapping("/admin/updateProduct")
     public String updateProduct(){
 
-        return "/admin/updateProduct.html";
+        return "admin/updateProduct.html";
     }
 
     @RequestMapping("/admin/deleteProduct")
     public String deleteProduct(){
 
-        return "/admin/deleteProduct.html";
+        return "admin/deleteProduct.html";
     }
 
 }
