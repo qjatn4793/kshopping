@@ -15,7 +15,6 @@ public class ProductVo {
     private String productName;
     private int productLikes;
     private int productViews;
-    private int productStatus;
     private String regDate;
     private String modDate;
 

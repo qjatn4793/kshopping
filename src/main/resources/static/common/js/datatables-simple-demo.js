@@ -19,7 +19,6 @@ window.addEventListener('DOMContentLoaded', event => {
                 var productName = data[Object.keys(data)[i]].productName;
                 var productLikes = data[Object.keys(data)[i]].productLikes;
                 var productViews = data[Object.keys(data)[i]].productViews;
-                var productStatus = data[Object.keys(data)[i]].productStatus;
                 var regDate = data[Object.keys(data)[i]].regDate;
                 var modDate = data[Object.keys(data)[i]].modDate;
 
@@ -28,7 +27,6 @@ window.addEventListener('DOMContentLoaded', event => {
                     "<td>" + productName + "</td>" +
                     "<td>" + productLikes + "</td>" +
                     "<td>" + productViews + "</td>" +
-                    "<td>" + productStatus + "</td>" +
                     "<td>" + regDate + "</td>" +
                     "<td>" + modDate + "</td>" +
                     "</tr>";
