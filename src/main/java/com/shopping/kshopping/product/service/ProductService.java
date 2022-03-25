@@ -23,4 +23,14 @@ public class ProductService {
         return productMapper.productCount();
     }
 
+    public int productCreate(String productName) throws Exception{
+
+        return productMapper.productCreate(productName);
+    }
+
+    public int productDelete(int productSeq) throws Exception{
+
+        return productMapper.productDelete(productSeq);
+    }
+
 }

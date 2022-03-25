@@ -104,22 +104,22 @@
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>productSeq</th>
-                                            <th>productName</th>
-                                            <th>productLikes</th>
-                                            <th>productViews</th>
-                                            <th>regDate</th>
-                                            <th>modDate</th>
+                                            <th>상품 번호</th>
+                                            <th>상품 이름</th>
+                                            <th>좋아요 수</th>
+                                            <th>조회 수</th>
+                                            <th>생성일</th>
+                                            <th>수정일</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>productSeq</th>
-                                            <th>productName</th>
-                                            <th>productLikes</th>
-                                            <th>productViews</th>
-                                            <th>regDate</th>
-                                            <th>modDate</th>
+                                            <th>상품 번호</th>
+                                            <th>상품 이름</th>
+                                            <th>좋아요 수</th>
+                                            <th>조회 수</th>
+                                            <th>생성일</th>
+                                            <th>수정일</th>
                                         </tr>
                                     </tfoot>
                                     <tbody class="product">
@@ -132,18 +132,17 @@
                             <div id="productCreate" style="border:solid 1px gray;">
                                 <div id="createMenu">
                                     <p>상품 등록</p>
-                                    <input name="productName" type="text" placeholder="상품명">
+                                    <input name="productName" class="productName" type="text" placeholder="상품명">
                                     <button style="height: 30px !important; width: 100px !important; margin-right:5px; margin-top:5px; float:right; background-color:white;" class="exit2">닫기</button>
-                                    <button style="height: 30px !important; width: 100px !important; margin-right:5px; margin-top:5px; float:right; background-color:white;" class="">등록</button>
+                                    <button style="height: 30px !important; width: 100px !important; margin-right:5px; margin-top:5px; float:right; background-color:white;" class="" onclick="productCreate()">등록</button>
                                 </div>
                             </div>
                             <div id="productDelete" style="border:solid 1px gray;">
                                 <div id="deleteMenu">
                                     <p>상품 삭제</p>
-                                    <input name="productSeq" type="text" placeholder="상품순번">
-                                    <input name="productName" type="text" placeholder="상품명">
+                                    <input name="productSeq" class="productSeq" type="number" placeholder="상품 번호">
                                     <button style="height: 30px !important; width: 100px !important; margin-right:5px; margin-top:5px; float:right; background-color:white;" class="exit1">닫기</button>
-                                    <button style="height: 30px !important; width: 100px !important; margin-right:5px; margin-top:5px; float:right; background-color:white;" class="">등록</button>
+                                    <button style="height: 30px !important; width: 100px !important; margin-right:5px; margin-top:5px; float:right; background-color:white;" class="" onclick="productDelete()">삭제</button>
                                 </div>
                             </div>
                         </div>
@@ -171,6 +170,7 @@
 
                 $("#deletePopup").click(function() {
                     $("#productDelete").fadeToggle();
+                    $("#productCreate").fadeOut();
                 });
 
                 $(".exit1").click(function() {
@@ -181,12 +181,102 @@
 
                 $("#createPopup").click(function() {
                     $("#productCreate").fadeToggle();
+                    $("#productDelete").fadeOut();
                 });
 
                 $(".exit2").click(function() {
                     $("#productCreate").fadeOut();
                 });
             });
+
+            function productCreate(){
+                var productName = $("#createMenu .productName").val();
+
+                var result = confirm(productName + " (을)를 생성하시겠습니까?");
+
+                if(result) {
+                    $.ajax({
+                        type : "POST",
+                        url : "/product",
+                        dataType : "text",
+                        async : false,
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            "productName" : productName
+                        }),
+                        error : function(){
+                            alert('상품 등록 실패!!');
+                            location.reload();
+                        },
+                        success : function(data){
+                            alert('상품 등록 성공!!');
+                            location.reload();
+                        }
+                    });
+                }else {
+                    alert('취소');
+                }
+            }
+
+            function productUpdate(){
+                var productSeq = $("#deleteMenu .productSeq").val();
+
+                var result2 = confirm(productSeq + "번 상품을 정말로 삭제하시겠습니까? 한번 삭제된 상품은 복구가 되지 않습니다.");
+
+                if(result2){
+                    $.ajax({
+                        type : "DELETE",
+                        url : "/product",
+                        dataType : "text",
+                        async : false,
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            "productSeq" : productSeq
+                        }),
+                        error : function(){
+                            alert('상품 삭제 실패!!');
+                            location.reload();
+                        },
+                        success : function(data){
+                            alert('상품 삭제 성공!!');
+                            location.reload();
+                        }
+                    });
+                }else {
+                    alert('취소');
+                }
+            }
+
+
+            function productDelete(){
+                var productSeq = $("#deleteMenu .productSeq").val();
+
+                var result2 = confirm(productSeq + "번 상품을 정말로 삭제하시겠습니까? 한번 삭제된 상품은 복구가 되지 않습니다.");
+
+                if(result2){
+                    $.ajax({
+                        type : "DELETE",
+                        url : "/product",
+                        dataType : "text",
+                        async : false,
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            "productSeq" : productSeq
+                        }),
+                        error : function(){
+                            alert('상품 삭제 실패!!');
+                            location.reload();
+                        },
+                        success : function(data){
+                            alert('상품 삭제 성공!!');
+                            location.reload();
+                        }
+                    });
+                }else {
+                    alert('취소');
+                }
+            }
+
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

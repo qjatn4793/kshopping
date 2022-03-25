@@ -9,6 +9,14 @@
     </select>
 
     <select id="productCount" resultType="integer">
-        select count(*) from product
+        select max(product_seq) from product
     </select>
+
+    <insert id="productCreate" parameterType="string">
+        INSERT INTO product (product_name) VALUES (#{productName})
+    </insert>
+
+    <delete id="productDelete" parameterType="integer">
+        DELETE FROM product WHERE product_seq=#{productSeq}
+    </delete>
 </mapper>

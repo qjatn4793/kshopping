@@ -11,4 +11,8 @@ public interface ProductMapper {
     ProductVo productView(int productSeq);
 
     int productCount();
+
+    int productCreate(String productName);
+
+    int productDelete(int productSeq);
 }

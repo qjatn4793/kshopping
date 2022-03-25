@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,17 +29,18 @@ public class ProductController {
 
         for (int i=1; productCount >= i; i++) {
 
-            //System.out.println(productService.productView(i));
-
-            productView.put(valueOf(i), productService.productView(i));
+            if(productService.productView(i) != null){
+                productView.put(valueOf(i), productService.productView(i));
+            }
         }
         return productView;
     }
 
     @PostMapping("/product")
-    public String productCreate(){
+    public int productCreate(@RequestBody ProductVo productVo) throws Exception{
 
-        return null;
+        return productService.productCreate(productVo.getProductName());
+
     }
 
     @PutMapping("/product")
@@ -48,8 +50,8 @@ public class ProductController {
     }
 
     @DeleteMapping("/product")
-    public String productDelete(){
+    public int productDelete(@RequestBody ProductVo productVo) throws Exception{
 
-        return null;
+        return productService.productDelete(productVo.getProductSeq());
     }
 }

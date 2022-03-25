@@ -14,6 +14,52 @@
         <link href="/common/css/styles.css" rel="stylesheet" />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <script>
+
+            $(document).ready(function() {
+                $.ajax({
+                    type: "GET",
+                    url: "/product",
+                    dataType: "JSON",
+                    async: false,
+                    error: function () {
+                        alert('통신실패!!');
+                    },
+                    success: function (data) {
+                        var str = "";
+
+                        for (var i = 0; Object.keys(data).length > i; i++) {
+
+                            var productSeq = data[Object.keys(data)[i]].productSeq;
+                            var productName = data[Object.keys(data)[i]].productName;
+                            var productLikes = data[Object.keys(data)[i]].productLikes;
+                            var productViews = data[Object.keys(data)[i]].productViews;
+                            var regDate = data[Object.keys(data)[i]].regDate;
+                            var modDate = data[Object.keys(data)[i]].modDate;
+
+                            str += "<div class='col mb-5'>" +
+                                "<div class='card h-100'>" +
+                                "<img class='card-img-top' src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg' alt='...' />" +
+                                "<div class='card-body p-4'>" +
+                                "<div class='text-center'>" +
+                                "<h5 class='fw-bolder'>" + productName + "</h5>" +
+                                "$40.00 - $80.00" +
+                                "</div>" +
+                                "</div>" +
+                                "<div class='card-footer p-4 pt-0 border-top-0 bg-transparent'>" +
+                                "<div class='text-center'><a class='btn btn-outline-dark mt-auto' href='/detailProduct/" + productSeq + "'>View options</a></div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>";
+
+                            $("div.main-product").html(str);
+                        }
+                    }
+                });
+            });
+        </script>
+
     </head>
     <body>
         <!-- Navigation-->
@@ -21,9 +67,10 @@
         <!-- Header-->
         <div th:replace="/common/header.html :: common-header"></div>
         <!-- Section-->
+
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="main-product row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
@@ -230,6 +277,6 @@
         <script src="/common/js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="/common/js/datatables-simple-demo.js"></script>
+        <!--<script src="/common/js/datatables-simple-demo.js"></script>-->
     </body>
 </html>
