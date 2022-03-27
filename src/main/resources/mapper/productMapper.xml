@@ -5,18 +5,23 @@
 <mapper namespace="com.shopping.kshopping.product.mapper.ProductMapper">
 
     <select id="productView" resultType="com.shopping.kshopping.product.vo.ProductVo">
-        select * from product where product_seq = #{productSeq}
+        SELECT * FROM product WHERE product_seq = #{productSeq}
     </select>
 
     <select id="productCount" resultType="integer">
-        select max(product_seq) from product
+        SELECT max(product_seq) FROM product
     </select>
 
-    <insert id="productCreate" parameterType="string">
-        INSERT INTO product (product_name) VALUES (#{productName})
+    <insert id="productCreate" parameterType="hashmap">
+        INSERT INTO product (product_name, product_contents1, product_contents2, product_contents3, product_img, product_thumb_img) VALUES (#{productName}, #{productContents1}, #{productContents2}, #{productContents3}, #{productImg}, #{productThumbImg})
     </insert>
 
     <delete id="productDelete" parameterType="integer">
         DELETE FROM product WHERE product_seq=#{productSeq}
     </delete>
+    
+    <update id="updateView">
+        UPDATE product SET product_views = product_views+1 WHERE product_seq = #{productSeq};
+
+    </update>
 </mapper>

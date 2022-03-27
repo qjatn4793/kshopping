@@ -37,14 +37,22 @@
                             var productViews = data[Object.keys(data)[i]].productViews;
                             var regDate = data[Object.keys(data)[i]].regDate;
                             var modDate = data[Object.keys(data)[i]].modDate;
+                            var productThumbImg = data[Object.keys(data)[i]].productThumbImg;
+
+                            if(productThumbImg == "" || productThumbImg == null){
+                                productThumbImg = "https://dummyimage.com/450x300/dee2e6/6c757d.jpg";
+                            }else {
+                                productThumbImg = productThumbImg.replace("\\", "/");
+                                productThumbImg = "common/img" + productThumbImg;
+                            }
 
                             str += "<div class='col mb-5'>" +
                                 "<div class='card h-100'>" +
-                                "<img class='card-img-top' src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg' alt='...' />" +
+                                "<img class='card-img-top' src='"+productThumbImg+"' alt='...' />" +
                                 "<div class='card-body p-4'>" +
                                 "<div class='text-center'>" +
                                 "<h5 class='fw-bolder'>" + productName + "</h5>" +
-                                "$40.00 - $80.00" +
+                                "조회 수 : " + productViews +
                                 "</div>" +
                                 "</div>" +
                                 "<div class='card-footer p-4 pt-0 border-top-0 bg-transparent'>" +

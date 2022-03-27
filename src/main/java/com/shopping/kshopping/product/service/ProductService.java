@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+
 @AllArgsConstructor
 @Transactional
 @Service("productService")
@@ -23,14 +25,18 @@ public class ProductService {
         return productMapper.productCount();
     }
 
-    public int productCreate(String productName) throws Exception{
+    public int productCreate(HashMap<String, String> product) throws Exception{
 
-        return productMapper.productCreate(productName);
+        return productMapper.productCreate(product);
     }
 
     public int productDelete(int productSeq) throws Exception{
 
         return productMapper.productDelete(productSeq);
+    }
+
+    public void updateView(int productSeq) throws Exception{
+        productMapper.updateView(productSeq);
     }
 
 }

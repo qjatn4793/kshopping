@@ -24,3 +24,13 @@ spring :
     configuration:
       map-underscore-to-camel-case: true
 
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 10MB
+      location: C:\\/resources/static/common/img/
+
+  custom:
+    path:
+      upload-images: C:\\Users\\PHS-SECURUS\\Desktop\\kshopping\\src\\main\\resources\\static\\common\\img
+

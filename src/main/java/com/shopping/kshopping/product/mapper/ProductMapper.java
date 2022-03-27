@@ -4,6 +4,8 @@ import com.shopping.kshopping.product.vo.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+
 @Repository
 @Mapper
 public interface ProductMapper {
@@ -12,7 +14,9 @@ public interface ProductMapper {
 
     int productCount();
 
-    int productCreate(String productName);
+    int productCreate(HashMap<String, String> product);
 
     int productDelete(int productSeq);
+
+    int updateView(int productSeq);
 }
