@@ -228,8 +228,10 @@
 
                 //최신 정책상 경로가 무조건 C:fakepath 로 들어가는 문제 때문에 특정 경로에 있는 파일만 업로드 되도록 수정
                 //C:fakepath 를 C:uploadPath 로 변경해주기 위해 아래와 같이 수정
-                if (productImg == null || productImg == ""){ // 이미지 업로드를 했을 때만 경로를 찾아서 수정해주도록 함
+                if (productImg != null || productImg != ""){ // 이미지 업로드를 했을 때만 경로를 찾아서 수정해주도록 함
                     productImg = productImg.replace("fakepath", "uploadPath");
+
+                    //alert(productImg);
                 }
 
                 if(productName == ""){

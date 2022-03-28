@@ -39,7 +39,7 @@
                             var modDate = data[Object.keys(data)[i]].modDate;
                             var productThumbImg = data[Object.keys(data)[i]].productThumbImg;
 
-                            if(productThumbImg == "" || productThumbImg == null){
+                            if(productThumbImg == "" || productThumbImg == null || productThumbImg == 0){
                                 productThumbImg = "https://dummyimage.com/450x300/dee2e6/6c757d.jpg";
                             }else {
                                 productThumbImg = productThumbImg.replace("\\", "/");

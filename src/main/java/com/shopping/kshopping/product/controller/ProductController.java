@@ -44,20 +44,48 @@ public class ProductController {
         String path = System.getProperty("user.dir"); // 현재 경로 > C:\Users\PHS-SECURUS\Desktop\kshopping
         // TODO : 프로젝트 경로가 바뀌면 상기 경로 확인 후 변경해줘야함
 
+
+        //배포시 경로
+        if(path != "" || path != null){
+            path = path.replace("bin","webapps");
+        }
+
+        String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\img\\";
+
         //File to Multipartfile
         File file = new File(productVo.getProductImg()); // String to File
         FileInputStream input = new FileInputStream(file);
         MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
         //여기까지
-        String imgUploadPath = path + "\\src\\main\\resources\\static\\common\\img" + File.separator + "imgUpload";
+        String imgUploadPath = path + divPath + File.separator + "imgUpload";
         String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
         String fileName = null;
 
         if(multipartFile != null){
             fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
         }else {
-            fileName = path + "\\src\\main\\resources\\static\\common\\img" + File.separator + "images" + File.separator + "none.png";
+            fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
         }
+
+        /*
+        //개발시 경로
+        String divPath = "\\src\\main\\resources\\static\\common\\img";
+
+        //File to Multipartfile
+        File file = new File(productVo.getProductImg()); // String to File
+        FileInputStream input = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
+        //여기까지
+        String imgUploadPath = path + divPath + File.separator + "imgUpload";
+        String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+        String fileName = null;
+
+        if(multipartFile != null){
+            fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
+        }else {
+            fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
+        }
+        */
 
         productVo.setProductImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
         productVo.setProductThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
