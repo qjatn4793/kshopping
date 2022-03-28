@@ -54,12 +54,8 @@ public class ProductController {
         String fileName = null;
 
         if(multipartFile != null){
-            System.out.println("file 이 널이아님");
-
             fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
         }else {
-            System.out.println("file 이 널임");
-
             fileName = path + "\\src\\main\\resources\\static\\common\\img" + File.separator + "images" + File.separator + "none.png";
         }
 

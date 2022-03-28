@@ -133,7 +133,7 @@
                                 <div id="createMenu">
                                     <p>상품 등록</p>
                                     <input id="productName" name="productName" class="productName" type="text" placeholder="상품명"><br>
-                                    <input id="productImg" name="productImg" class="productImg" type="file" enctype="multipart/form-data" placeholder="상품 사진" accept="image/png"><br>
+                                    <input id="productImg" name="productImg" class="productImg" type="file" placeholder="상품 사진" accept="image/png"><br>
                                     <label for="productImg">이미지</label>
                                     <div style="margin: 20px 0;" class="selectImg"><img src="" /></div>
                                     <textarea id="productContents1" name="productContents1" class="productContents1" type="text" placeholder="상품 내용 1" maxlength="190" style="word-wrap: break-word;"></textarea><br>
@@ -226,6 +226,12 @@
 
                 var productImg = $("#createMenu .productImg").val();
 
+                //최신 정책상 경로가 무조건 C:fakepath 로 들어가는 문제 때문에 특정 경로에 있는 파일만 업로드 되도록 수정
+                //C:fakepath 를 C:uploadPath 로 변경해주기 위해 아래와 같이 수정
+                if (productImg == null || productImg == ""){ // 이미지 업로드를 했을 때만 경로를 찾아서 수정해주도록 함
+                    productImg = productImg.replace("fakepath", "uploadPath");
+                }
+
                 if(productName == ""){
                     alert("등록할 상품 이름을 입력해주세요");
                 }else {
@@ -245,7 +251,6 @@
                                 "productContents3" : productContents3,
                                 "productImg" : productImg
                             }),
-                            //enctype : 'multipart/form-data',
                             error : function(){
                                 alert('상품 등록 실패, 정상적인 값을 입력해 주세요!');
                                 location.reload();
