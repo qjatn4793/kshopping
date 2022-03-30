@@ -19,4 +19,10 @@ public class ProductViewController {
         return "product/detailProduct.html";
     }
 
+    @RequestMapping("/mainProduct")
+    public String product(){
+
+        return "product/product.html";
+    }
+
 }
