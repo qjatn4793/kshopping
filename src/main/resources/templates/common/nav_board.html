@@ -24,7 +24,7 @@
                     </li>
                 </ul>
                 <form th:if="${session.loginCheck == 'success'}" class="d-flex">
-                    <a class="btn btn-outline-dark" href="/userLogout">
+                    <a class="btn btn-outline-dark" onclick="userLogout()">
                         <i class="me-1">logout</i>
                     </a>
                     <button class="btn btn-outline-dark" type="submit">

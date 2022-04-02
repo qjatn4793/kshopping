@@ -20,7 +20,7 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                     <div class="card-body">
-                                        <form name="userLoginForm" id="userLoginForm" action="/login" method="post">
+                                        <div name="userLoginForm" id="userLoginForm">
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="userId" name="userId" type="text" placeholder="id" />
                                                 <label for="userId">id</label>
@@ -35,9 +35,9 @@
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" href="../user/userPassword.html">Forgot Password?</a>
-                                                <button class="btn btn-primary" onkeyup="userLogin()">Login</button>
+                                                <button class="btn btn-primary" onclick="userLogin()">Login</button>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
                                     <div class="card-footer text-center py-3">
                                         <div class="small"><a href="../user/userRegister.html">Need an account? Sign up!</a></div>
@@ -71,14 +71,6 @@
                 if(window.event.keyCode==13){
                     userLogin();
                 }
-            }
-
-            function userLogin() {
-                var form = document.userLoginForm;
-
-                form.method = "post";
-                form.action = "/login";
-                form.submit();
             }
         </script>
     </body>

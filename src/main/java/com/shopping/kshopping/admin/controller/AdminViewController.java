@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 @AllArgsConstructor
 @Controller
 public class AdminViewController {
-    AdminService adminService;
 
     @GetMapping("/admin")
     public String admin(HttpServletRequest request){
@@ -29,31 +28,6 @@ public class AdminViewController {
         }
 
         return "admin/adminLogin.html";
-    }
-
-    @PostMapping("/admin")
-    public String adminLoginCheck(AdminVo adminVo, HttpServletRequest request, Model model)throws Exception{
-
-        int adminLoginCheck = adminService.adminLoginCheck(adminVo);
-        HttpSession session = request.getSession();
-
-        if(adminLoginCheck == 1){
-            session.setAttribute("adminLoginCheck", "success");
-            session.setAttribute("adminVo", adminVo);
-
-            return "redirect:/admin";
-        }else {
-            return "redirect:/admin";
-        }
-    }
-
-    @RequestMapping("/adminLogout")
-    public String logout(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        session.removeAttribute("adminLoginCheck");
-        session.removeAttribute("adminVo");
-        session.invalidate();
-        return "redirect:/admin";
     }
 
     @RequestMapping("/admin/createProduct")

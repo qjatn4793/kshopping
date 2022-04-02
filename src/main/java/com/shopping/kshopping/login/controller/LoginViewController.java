@@ -18,38 +18,17 @@ import java.io.PrintWriter;
 @Controller
 public class LoginViewController {
 
-    LoginService loginService;
-
     @GetMapping("/login")
-    public String login(){
+    public String login(HttpServletRequest request){
 
-        return "login/login.html";
-    }
-
-    @PostMapping("/login")
-    public String loginCheck(LoginVo loginVo, HttpServletRequest request){
-
-        int loginCheck = loginService.loginCheck(loginVo);
         HttpSession session = request.getSession();
 
-        if(loginCheck == 1){
-            session.setAttribute("loginCheck", "success");
-            session.setAttribute("loginVo", loginVo);
-
-            return "redirect:/";
+        if(session.getAttribute("loginCheck") == "success"){
+            return "/";
         }else {
-            return "redirect:/login";
+            session.removeAttribute("loginCheck");
+            session.removeAttribute("loginVo");
+            return "login/login.html";
         }
-    }
-
-    @RequestMapping("/userLogout")
-    public String logout(HttpServletRequest request){
-
-        HttpSession session = request.getSession();
-        session.removeAttribute("loginCheck");
-        session.removeAttribute("loginVo");
-        session.invalidate();
-
-        return "redirect:/";
     }
 }

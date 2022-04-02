@@ -24,3 +24,116 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+
+
+//로그인
+function userLogin(){
+
+    var userId = $("#userId").val();
+    var userPw = $("#userPw").val();
+
+    $.ajax({
+        type : "POST",
+        url : "/login",
+        dataType : "text",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "userId" : userId,
+            "userPw" : userPw,
+            "status" : 1
+        }),
+        async : false,
+        error : function(){
+            alert('로그인을 실패하였습니다. ID 또는 PW를 확인해주세요');
+        },
+        success : function(data){
+            if(data == "1"){
+                location.replace("/");
+            }else{
+                alert('로그인을 실패하였습니다. ID 또는 PW를 확인해주세요');
+                location.replace("/login");
+            }
+        }
+    });
+}
+
+
+//로그아웃
+function userLogout(){
+    $.ajax({
+        type : "DELETE",
+        url : "/login",
+        dataType : "text",
+        async : false,
+        error : function(){
+            alert('통신실패!!');
+        },
+        success : function(data){
+            if(data == "logout"){
+                alert("로그아웃 성공");
+
+                location.replace("/");
+            }else {
+                alert("로그아웃 실패");
+
+                location.replace("/");
+            }
+        }
+    });
+}
+
+//관리자 로그인
+function adminLogin(){
+
+    var adminId = $("#adminId").val();
+    var adminPw = $("#adminPw").val();
+
+    $.ajax({
+        type : "POST",
+        url : "/admin",
+        dataType : "text",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "adminId" : adminId,
+            "adminPw" : adminPw,
+            "status" : 1
+        }),
+        async : false,
+        error : function(){
+            alert('로그인을 실패하였습니다. ID 또는 PW를 확인해주세요');
+        },
+        success : function(data){
+            if(data == "1"){
+                location.replace("/admin");
+            }else {
+                alert("로그인을 실패하였습니다. ID 또는 PW를 확인해주세요");
+
+                location.replace("/admin");
+            }
+        }
+    });
+}
+
+//관리자 로그아웃
+function adminLogout(){
+    $.ajax({
+        type : "DELETE",
+        url : "/admin",
+        dataType : "text",
+        async : false,
+        error : function(){
+            alert('통신실패!!');
+        },
+        success : function(data){
+            if(data == "adminLogout"){
+                alert("로그아웃 성공");
+
+                location.replace("/admin");
+            }else {
+                alert("로그아웃 실패");
+
+                location.replace("/admin");
+            }
+        }
+    });
+}
