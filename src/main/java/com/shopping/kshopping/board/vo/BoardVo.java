@@ -10,8 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardVo {
-    private String userId;
-    private String userPw;
-    private int status;
-    
+
+    private int boardSeq;
+    private String boardName;
+    private String boardTitle;
+    private String boardWriter;
+    private int boardLikes;
+    private int boardViews;
+    private String boardContents;
+    private String boardReply;
+    private String regDate;
+    private String modDate;
 }

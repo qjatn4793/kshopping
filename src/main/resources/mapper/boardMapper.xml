@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopping.kshopping.board.mapper.BoardMapper">
+
+    <select id="boardView" resultType="com.shopping.kshopping.board.vo.BoardVo">
+        SELECT * FROM board WHERE board_seq = #{boardSeq}
+    </select>
+
+    <select id="boardCount" resultType="integer">
+        SELECT max(board_seq) FROM board
+    </select>
+
+    <update id="updateView">
+        UPDATE board SET board_views = board_views+1 WHERE board_seq = #{boardSeq};
+
+    </update>
+</mapper>

@@ -13,9 +13,23 @@ public class BoardService {
 
     BoardMapper boardMapper;
 
-    public int loginCheck(BoardVo loginVo){
+    /*public int loginCheck(BoardVo loginVo){
 
         return boardMapper.loginCheck(loginVo);
+    }*/
+
+    public BoardVo boardView(int boardSeq) throws Exception{
+
+        return boardMapper.boardView(boardSeq);
+    }
+
+    public int boardCount() throws Exception{
+
+        return boardMapper.boardCount();
+    }
+
+    public void updateView(int boardSeq) throws Exception{
+        boardMapper.updateView(boardSeq);
     }
 
 }

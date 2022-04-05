@@ -31,6 +31,7 @@ function userLogin(){
 
     var userId = $("#userId").val();
     var userPw = $("#userPw").val();
+    var referrer = document.referrer;
 
     $.ajax({
         type : "POST",
@@ -48,7 +49,11 @@ function userLogin(){
         },
         success : function(data){
             if(data == "1"){
-                location.replace("/");
+                if(referrer != ""){
+                    location.replace(referrer);
+                }else {
+                    location.replace("/");
+                }
             }else{
                 alert('로그인을 실패하였습니다. ID 또는 PW를 확인해주세요');
                 location.replace("/login");
@@ -60,6 +65,9 @@ function userLogin(){
 
 //로그아웃
 function userLogout(){
+
+    var url = $(location).attr('href');
+
     $.ajax({
         type : "DELETE",
         url : "/login",
@@ -72,7 +80,11 @@ function userLogout(){
             if(data == "logout"){
                 alert("로그아웃 성공");
 
-                location.replace("/");
+                if(url != ""){
+                    location.replace(url);
+                }else {
+                    location.replace("/");
+                }
             }else {
                 alert("로그아웃 실패");
 

@@ -14,64 +14,10 @@
         <link href="/common/css/styles.css" rel="stylesheet" />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-        <script>
-
-            $(document).ready(function() {
-                $.ajax({
-                    type: "GET",
-                    url: "/product",
-                    dataType: "JSON",
-                    async: false,
-                    error: function () {
-                        alert('통신실패!!');
-                    },
-                    success: function (data) {
-                        var str = "";
-
-                        for (var i = 0; Object.keys(data).length > i; i++) {
-
-                            var productSeq = data[Object.keys(data)[i]].productSeq;
-                            var productName = data[Object.keys(data)[i]].productName;
-                            var productLikes = data[Object.keys(data)[i]].productLikes;
-                            var productViews = data[Object.keys(data)[i]].productViews;
-                            var regDate = data[Object.keys(data)[i]].regDate;
-                            var modDate = data[Object.keys(data)[i]].modDate;
-                            var productThumbImg = data[Object.keys(data)[i]].productThumbImg;
-
-                            if(productThumbImg == "" || productThumbImg == null || productThumbImg == 0){
-                                productThumbImg = "https://dummyimage.com/450x300/dee2e6/6c757d.jpg";
-                            }else {
-                                productThumbImg = productThumbImg.replace("\\", "/");
-                                productThumbImg = "common/img" + productThumbImg;
-                            }
-
-                            str += "<div class='col mb-5'>" +
-                                "<div class='card h-100'>" +
-                                "<img class='card-img-top' src='"+productThumbImg+"' alt='...' />" +
-                                "<div class='card-body p-4'>" +
-                                "<div class='text-center'>" +
-                                "<h5 class='fw-bolder'>" + productName + "</h5>" +
-                                "조회 수 : " + productViews +
-                                "</div>" +
-                                "</div>" +
-                                "<div class='card-footer p-4 pt-0 border-top-0 bg-transparent'>" +
-                                "<div class='text-center'><a class='btn btn-outline-dark mt-auto' href='/detailProduct/" + productSeq + "'>View options</a></div>" +
-                                "</div>" +
-                                "</div>" +
-                                "</div>";
-
-                            $("div.main-product").html(str);
-                        }
-                    }
-                });
-            });
-        </script>
-
     </head>
     <body>
         <!-- Navigation-->
-        <div th:replace="/common/nav.html :: common-nav"></div>
+        <div th:replace="/common/nav_product.html :: common-nav"></div>
         <!-- Header-->
         <div th:replace="/common/header.html :: common-header"></div>
         <!-- Section-->
@@ -283,6 +229,7 @@
         <!-- Core theme JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="/common/js/scripts.js"></script>
+        <script src="/common/js/product.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 

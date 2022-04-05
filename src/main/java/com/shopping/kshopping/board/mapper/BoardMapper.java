@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface BoardMapper {
 
-    int loginCheck(BoardVo loginVo);
+    //int loginCheck(BoardVo loginVo);
+
+    BoardVo boardView(int boardSeq);
+
+    int boardCount();
+
+    int updateView(int boardSeq);
     
 }

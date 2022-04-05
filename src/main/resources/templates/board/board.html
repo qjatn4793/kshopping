@@ -22,7 +22,46 @@
 <div th:replace="/common/header.html :: common-header"></div>
 <!-- Section-->
 <section class="py-5">
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Products Control
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                            <thead>
+                            <tr>
+                                <!--<th>글 번호</th>-->
+                                <th>제목</th>
+                                <th>좋아요 수</th>
+                                <th>조회 수</th>
+                                <th>생성일</th>
+                                <!--<th>수정일</th>-->
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <!--<th>글 번호</th>-->
+                                <th>>제목</th>
+                                <th>좋아요 수</th>
+                                <th>조회 수</th>
+                                <th>생성일</th>
+                                <!--<th>수정일</th>-->
+                            </tr>
+                            </tfoot>
+                            <tbody class="board">
 
+                            </tbody>
+                        </table>
+                        <a th:if="${session.loginCheck == 'success' && session.loginVo != null && session.loginVo != ''}" href="/createBoard" class="badge bg-secondary text-decoration-none link-light" style="float:right;">글 작성</a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
 </section>
 <!-- Footer-->
 <footer th:replace="/common/footer.html :: common-footer" class="py-5 bg-dark"></footer>
@@ -31,6 +70,6 @@
 <script src="/common/js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="/common/js/datatables-simple-demo.js"></script>
+<script src="/common/js/board.js"></script>
 </body>
 </html>
