@@ -14,42 +14,6 @@
     <link href="/common/css/styles.css" rel="stylesheet" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        function createBoard(){
-
-            var userId;
-            var userPw;
-
-            $.ajax({
-                type : "POST",
-                url : "/createBoard",
-                dataType : "text",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    "userId" : userId,
-                    "userPw" : userPw,
-                    "status" : 1
-                }),
-                async : false,
-                error : function(){
-                    alert('로그인을 실패하였습니다. ID 또는 PW를 확인해주세요');
-                },
-                success : function(data){
-                    if(data == "1"){
-                        if(referrer != ""){
-                            location.replace(referrer);
-                        }else {
-                            location.replace("/");
-                        }
-                    }else{
-                        alert('로그인을 실패하였습니다. ID 또는 PW를 확인해주세요');
-                        location.replace("/login");
-                    }
-                }
-            });
-        };
-    </script>
-
 </head>
 <body>
 <!-- Navigation-->
@@ -64,8 +28,6 @@
             <article>
                 <!-- Post header-->
                 <header class="mb-4">
-                    <!-- Post title-->
-                    <h1 id="boardTitle" class="fw-bolder mb-1"></h1>
                     <!-- Post meta content-->
                     <div id="regDate" class="text-muted fst-italic mb-2"></div>
 
@@ -78,12 +40,11 @@
                 <!--<figure class="mb-4"><img id="productImg" style="width:900px; height:400px;" class="img-fluid rounded" src="" alt="..." /></figure> 게시판 사진 영역-->
                 <!-- Post content-->
                 <section class="mb-5">
-                    <p id="boardContents" class="fs-5 mb-4">
-                        <form class="mb-4">
-                            <textarea class="form-control" rows="3" placeholder="댓글을 작성해 주세요."></textarea>
-                            <a type="button" onclick="createBoard()" class="badge bg-secondary text-decoration-none link-light" style="float:right;">글 작성</a>
-                            <a type="button" href="/mainBoard" class="badge bg-secondary text-decoration-none link-light" style="float:right;">글 작성 취소</a>
-                        </form>
+                    <p class="fs-5 mb-4">
+                        <textarea id="boardTitle" class="form-control" rows="3" placeholder="글 제목을 작성해 주세요."></textarea><br>
+                        <textarea id="boardContents" class="form-control" rows="3" placeholder="글 내용을 작성해 주세요."></textarea><br>
+                        <a type="button" onclick="createBoard()" class="badge bg-secondary text-decoration-none link-light" style="float:right;">글 작성</a>
+                        <a type="button" href="/mainBoard" class="badge bg-secondary text-decoration-none link-light" style="float:right;">글 작성 취소</a>
                     </p>
                 </section>
             </article>
@@ -138,5 +99,47 @@
 <script src="/common/js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script>
+    function createBoard(){
+
+        var boardTitle = $("#boardTitle").val();
+        var boardContents = $("#boardContents").val();
+
+        if (boardContents == "" || boardContents == null || boardTitle == "" || boardTitle == null){
+            alert("글 제목 또는 글 내용이 비어있습니다. 다시 한번 확인해 주세요");
+        }else {
+
+            var referrer = document.referrer;
+
+            $.ajax({
+                type : "POST",
+                url : "/board",
+                dataType : "text",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "boardTitle" : boardTitle,
+                    "boardContents" : boardContents
+                    //"boardWriter" : boardWriter
+                }),
+                async : false,
+                error : function(){
+                    alert('글 작성을 실패하였습니다. 로그인 상태를 확인해주세요!');
+                },
+                success : function(data){
+                    if(data == "1"){
+                        if(referrer != ""){
+                            alert("작성하신 글을 등록하였습니다.")
+                            location.replace(referrer);
+                        }else {
+                            location.replace("/");
+                        }
+                    }else{
+                        alert('글 작성을 실패하였습니다. 로그인 상태를 확인해주세요');
+                    }
+                }
+            });
+        }
+    };
+</script>
 </body>
 </html>

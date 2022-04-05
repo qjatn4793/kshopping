@@ -32,4 +32,13 @@ public class BoardService {
         boardMapper.updateView(boardSeq);
     }
 
+    public int boardCreate(BoardVo boardVo) throws Exception {
+
+        System.out.println(boardVo + "service VO");
+
+        boardMapper.boardCreate(boardVo);
+
+        return 1;
+    }
+
 }

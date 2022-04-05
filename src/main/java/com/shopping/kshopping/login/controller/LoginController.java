@@ -24,6 +24,7 @@ public class LoginController {
         if(loginCheck == 1){
             session.setAttribute("loginCheck", "success");
             session.setAttribute("loginVo", loginVo);
+            session.setAttribute("userId", loginVo.getUserId());
 
             return loginCheck;
         }else {
@@ -37,6 +38,7 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.removeAttribute("loginCheck");
         session.removeAttribute("loginVo");
+        session.removeAttribute("userId");
         session.invalidate();
 
         return "logout";

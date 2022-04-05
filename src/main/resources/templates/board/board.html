@@ -22,7 +22,8 @@
 <div th:replace="/common/header.html :: common-header"></div>
 <!-- Section-->
 <section class="py-5">
-    <div class="card mb-4">
+    <div class="container px-4 px-lg-5 mt-5">
+    <!--<div class="card mb-4">-->
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
             Products Control
@@ -34,22 +35,20 @@
                         <table id="datatablesSimple">
                             <thead>
                             <tr>
-                                <!--<th>글 번호</th>-->
                                 <th>제목</th>
                                 <th>좋아요 수</th>
-                                <th>조회 수</th>
+                                <th>조회수</th>
+                                <th>작성자</th>
                                 <th>생성일</th>
-                                <!--<th>수정일</th>-->
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <!--<th>글 번호</th>-->
-                                <th>>제목</th>
+                                <th>제목</th>
                                 <th>좋아요 수</th>
-                                <th>조회 수</th>
+                                <th>조회수</th>
+                                <th>작성자</th>
                                 <th>생성일</th>
-                                <!--<th>수정일</th>-->
                             </tr>
                             </tfoot>
                             <tbody class="board">

@@ -13,7 +13,11 @@
     </select>
 
     <update id="updateView">
-        UPDATE board SET board_views = board_views+1 WHERE board_seq = #{boardSeq};
+        UPDATE board SET board_views = board_views+1 WHERE board_seq = #{boardSeq}
 
     </update>
+    
+    <insert id="boardCreate" parameterType="com.shopping.kshopping.board.vo.BoardVo">
+        INSERT INTO board (board_title, board_contents, board_writer) VALUES (#{boardTitle}, #{boardContents}, #{boardWriter})
+    </insert>
 </mapper>

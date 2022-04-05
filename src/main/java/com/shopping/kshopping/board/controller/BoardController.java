@@ -3,11 +3,10 @@ package com.shopping.kshopping.board.controller;
 import com.shopping.kshopping.board.service.BoardService;
 import com.shopping.kshopping.board.vo.BoardVo;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 import static java.lang.String.valueOf;
@@ -33,6 +32,17 @@ public class BoardController {
         }
 
         return boardView;
+    }
+
+    @PostMapping("/board")
+    public int boardCreate(@RequestBody BoardVo boardVo, HttpServletRequest request) throws Exception{
+
+        HttpSession session = request.getSession();
+        Object O_userId = session.getAttribute("userId");
+        String userId = valueOf(O_userId);
+        boardVo.setBoardWriter(userId);
+
+        return boardService.boardCreate(boardVo);
     }
 
     @GetMapping("/board/{boardSeq}")

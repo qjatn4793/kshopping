@@ -15,5 +15,7 @@ public interface BoardMapper {
     int boardCount();
 
     int updateView(int boardSeq);
+
+    int boardCreate(BoardVo boardVo);
     
 }
