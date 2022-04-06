@@ -1,5 +1,6 @@
 package com.shopping.kshopping.login.controller;
 
+import com.shopping.kshopping.board.service.BoardService;
 import com.shopping.kshopping.configuration.SHA256;
 import com.shopping.kshopping.login.service.LoginService;
 import com.shopping.kshopping.login.vo.LoginVo;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 
+import static java.lang.String.valueOf;
+
 @AllArgsConstructor
 @RestController
 @ResponseBody
@@ -20,12 +23,11 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public int loginCheck(@RequestBody LoginVo loginVo, HttpServletRequest request) throws NoSuchAlgorithmException {
+    public int loginCheck(@RequestBody LoginVo loginVo, HttpServletRequest request, Model model) throws NoSuchAlgorithmException {
         SHA256 sha256 = new SHA256();
 
         int loginCheck = loginService.loginCheck(loginVo);
         String userPw = loginService.userSelectOne(loginVo.getUserId());
-
         String encryptUserPw = sha256.encrypt(userPw);
 
         HttpSession session = request.getSession();

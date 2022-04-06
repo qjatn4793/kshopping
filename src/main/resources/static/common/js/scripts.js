@@ -25,7 +25,6 @@ window.addEventListener('DOMContentLoaded', event => {
 
 });
 
-
 //로그인
 function userLogin(){
 
@@ -50,8 +49,10 @@ function userLogin(){
         success : function(data){
             if(data == "1"){
                 if(referrer != ""){
+                    localStorage.setItem("userId", userId);
                     location.replace(referrer);
                 }else {
+                    localStorage.setItem("userId", userId);
                     location.replace("/");
                 }
             }else{
@@ -81,8 +82,10 @@ function userLogout(){
                 alert("로그아웃 성공");
 
                 if(url != ""){
+                    sessionStorage.clear();
                     location.replace(url);
                 }else {
+                    sessionStorage.clear();
                     location.replace("/");
                 }
             }else {
