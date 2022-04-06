@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface LoginMapper {
 
     int loginCheck(LoginVo loginVo);
+
+    String userSelectOne(String userId);
     
 }

@@ -14,11 +14,11 @@
     <link href="/common/css/styles.css" rel="stylesheet" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            var pathname = $(location).attr('pathname');
-            var boardSeq = pathname.split("/");
+    <script type="text/javascript" th:inline="javascript">
+        var pathname = $(location).attr('pathname');
+        var boardSeq = pathname.split("/");
 
+        $(document).ready(function() {
             $.ajax({
                 type: "GET",
                 url: "/board/" + boardSeq[2],
@@ -53,12 +53,38 @@
                         boardImg = "/common/img" + boardImg;
                     }
 
-                    //alert(productImg);
-
                     $("#boardImg").attr("src", boardImg);
                 }
             });
         });
+
+        function deleteBoard(){
+            var boardWriter = $("#boardWriter").text();
+            var rBoardWriter = boardWriter.replace("작성자 : ", "");
+
+            $.ajax({
+                type: "DELETE",
+                url: "/board/" + boardSeq[2],
+                dataType: "text",
+                async: false,
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "boardWriter" : rBoardWriter
+                }),
+                error: function () {
+                    alert("게시글 삭제를 실패 하였습니다!");
+                },
+                success: function (data) {
+                    if (data == 1){
+                        alert("게시글을 삭제 하였습니다.");
+                        location.replace("/mainBoard");
+                    }else{
+                        alert("게시글 삭제를 실패 하였습니다.");
+                        location.replace("/mainBoard");
+                    }
+                }
+            });
+        }
     </script>
 
 </head>
@@ -90,6 +116,7 @@
                 <!-- Post content-->
                 <section class="mb-5">
                     <p id="boardContents" class="fs-5 mb-4"></p>
+                    <a id="deleteBoard" th:if="${session.loginCheck == 'success'}" href="javascript:deleteBoard()"type="button" class="badge bg-secondary text-decoration-none link-light" style="float:right;">게시글 삭제</a>
                     <a type="button" href="/mainBoard" class="badge bg-secondary text-decoration-none link-light" style="float:right;">목록 보기</a>
                     <h2 class="fw-bolder mb-4 mt-5">댓글</h2>
                     <p class="fs-5 mb-4">댓글을 남겨 작성자와 소통해 보세요!</p>
@@ -102,7 +129,7 @@
                     <div class="card-body">
                         <!-- Comment form-->
                         <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
-                            <button th:if="${session.loginCheck == 'success' && session.loginVo != null && session.loginVo != ''}" type="button" onclick="" class="btn-datatable" style="height: 30px !important; width: 100px !important; margin-right:5px; margin-top:5px; float:right; background-color:white;">댓글 작성</button>
+                            <button th:if="${session.loginCheck == 'success'}" type="button" onclick="" class="btn-datatable" style="height: 30px !important; width: 100px !important; margin-right:5px; margin-top:5px; float:right; background-color:white;">댓글 작성</button>
                         </form>
                         <!-- Comment with nested comments-->
                         <div class="d-flex mb-4">

@@ -20,4 +20,8 @@
     <insert id="boardCreate" parameterType="com.shopping.kshopping.board.vo.BoardVo">
         INSERT INTO board (board_title, board_contents, board_writer) VALUES (#{boardTitle}, #{boardContents}, #{boardWriter})
     </insert>
+
+    <delete id="boardDelete" parameterType="integer">
+        DELETE FROM board WHERE board_seq=#{boardSeq}
+    </delete>
 </mapper>

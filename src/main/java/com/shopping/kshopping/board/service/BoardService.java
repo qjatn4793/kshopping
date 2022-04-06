@@ -34,11 +34,12 @@ public class BoardService {
 
     public int boardCreate(BoardVo boardVo) throws Exception {
 
-        System.out.println(boardVo + "service VO");
+        return boardMapper.boardCreate(boardVo);
+    }
 
-        boardMapper.boardCreate(boardVo);
+    public int boardDelete(int boardSeq) throws Exception{
 
-        return 1;
+        return boardMapper.boardDelete(boardSeq);
     }
 
 }

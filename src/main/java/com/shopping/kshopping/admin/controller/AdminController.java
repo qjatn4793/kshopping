@@ -2,6 +2,7 @@ package com.shopping.kshopping.admin.controller;
 
 import com.shopping.kshopping.admin.service.AdminService;
 import com.shopping.kshopping.admin.vo.AdminVo;
+import com.shopping.kshopping.configuration.SHA256;
 import com.shopping.kshopping.product.vo.ProductVo;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 
@@ -26,17 +28,29 @@ public class AdminController {
     AdminService adminService;
 
     @PostMapping("/admin")
-    public int adminLoginCheck(@RequestBody AdminVo adminVo, HttpServletRequest request)throws Exception{
+    public int adminLoginCheck(@RequestBody AdminVo adminVo, HttpServletRequest request)throws NoSuchAlgorithmException {
+        SHA256 sha256 = new SHA256();
 
         int adminLoginCheck = adminService.adminLoginCheck(adminVo);
+        String adminPw = adminService.adminSelectOne(adminVo.getAdminId());
+
+        String encryptAdminPw = sha256.encrypt(adminPw);
+
         HttpSession session = request.getSession();
 
-        if(adminLoginCheck == 1){
-            session.setAttribute("adminLoginCheck", "success");
-            session.setAttribute("adminVo", adminVo);
+        if(encryptAdminPw.equals(sha256.encrypt(adminVo.getAdminPw()))) {
+            if (adminLoginCheck == 1) {
+                session.setAttribute("adminLoginCheck", "success");
+                session.setAttribute("adminId", adminVo.getAdminId());
+                session.setAttribute("adminPw", sha256.encrypt(adminVo.getAdminPw()));
 
-            return adminLoginCheck;
+                return adminLoginCheck;
+            } else {
+                adminLoginCheck = 0;
+                return adminLoginCheck;
+            }
         }else {
+            adminLoginCheck = 0;
             return adminLoginCheck;
         }
     }
@@ -46,7 +60,8 @@ public class AdminController {
     public String logout(HttpServletRequest request){
         HttpSession session = request.getSession();
         session.removeAttribute("adminLoginCheck");
-        session.removeAttribute("adminVo");
+        session.removeAttribute("adminId");
+        session.removeAttribute("adminPw");
         session.invalidate();
         return "adminLogout";
     }

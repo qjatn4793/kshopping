@@ -1,5 +1,6 @@
 package com.shopping.kshopping.configuration.interceptor;
 
+import com.shopping.kshopping.login.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -18,11 +19,14 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         boolean loginCheck =false;
 
         HttpSession session = request.getSession();
-
         if(!StringUtils.isEmpty(session.getAttribute("adminLoginCheck"))){
             if(session.getAttribute("adminLoginCheck").equals("success")){
-                loginCheck = true;
-
+                if(session.getAttribute("adminId") != null && session.getAttribute("adminId") != "" && session.getAttribute("adminPw") != null && session.getAttribute("adminPw") != "") {
+                    loginCheck = true;
+                }else {
+                    response.sendRedirect("/admin");
+                    session.invalidate();
+                }
             }else{
                 response.sendRedirect("/admin");
                 session.invalidate();

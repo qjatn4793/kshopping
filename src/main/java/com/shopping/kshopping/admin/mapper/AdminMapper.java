@@ -10,4 +10,6 @@ public interface AdminMapper {
 
     int adminLoginCheck(AdminVo adminVo);
 
+    String adminSelectOne(String adminId);
+
 }

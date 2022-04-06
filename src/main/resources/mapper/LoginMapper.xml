@@ -10,4 +10,8 @@
         AND status = 1
     </select>
 
+    <select id="userSelectOne" parameterType="string" resultType="string">
+        SELECT user_pw FROM USER WHERE user_id = #{userId}
+    </select>
+
 </mapper>

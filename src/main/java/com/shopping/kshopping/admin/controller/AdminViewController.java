@@ -21,7 +21,7 @@ public class AdminViewController {
     public String admin(HttpServletRequest request){
         HttpSession session = request.getSession();
 
-        if(session.getAttribute("adminLoginCheck")!=null && session.getAttribute("adminVo")!=null){
+        if(session.getAttribute("adminLoginCheck")!=null && session.getAttribute("adminId")!=null && session.getAttribute("adminPw")!=null){
             if(session.getAttribute("adminLoginCheck").equals("success")){
                 return "admin/admin.html";
             }

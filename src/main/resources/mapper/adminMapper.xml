@@ -10,4 +10,8 @@
         AND status = 1
     </select>
 
+    <select id="adminSelectOne" parameterType="String" resultType="String">
+        SELECT admin_pw FROM admin_user WHERE admin_id = #{adminId}
+    </select>
+
 </mapper>

@@ -45,6 +45,20 @@ public class BoardController {
         return boardService.boardCreate(boardVo);
     }
 
+    @DeleteMapping("/board/{boardSeq}")
+    public int boardDelete(@PathVariable("boardSeq") int boardSeq, @RequestBody BoardVo boardVo, HttpServletRequest request) throws Exception{
+
+        HttpSession session = request.getSession();
+        Object O_userId = session.getAttribute("userId");
+        String userId = valueOf(O_userId);
+
+        if (boardVo.getBoardWriter().equals(userId)) {
+            return boardService.boardDelete(boardSeq);
+        }else {
+            return 0;
+        }
+    }
+
     @GetMapping("/board/{boardSeq}")
     public BoardVo productSelectOne(@PathVariable("boardSeq") int boardSeq) throws Exception{
 

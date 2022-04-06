@@ -55,7 +55,7 @@
 
                             </tbody>
                         </table>
-                        <a th:if="${session.loginCheck == 'success' && session.loginVo != null && session.loginVo != ''}" href="/createBoard" class="badge bg-secondary text-decoration-none link-light" style="float:right;">글 작성</a>
+                        <a th:if="${session.loginCheck == 'success' && session.userId != null && session.userId != '' && session.userPw != null && session.userPw != ''}" href="/createBoard" class="badge bg-secondary text-decoration-none link-light" style="float:right;">글 작성</a>
                     </div>
                 </div>
             </main>

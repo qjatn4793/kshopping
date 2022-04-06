@@ -14,9 +14,14 @@ public class AdminService {
 
     AdminMapper adminMapper;
 
-    public int adminLoginCheck(AdminVo adminVo) throws Exception{
+    public int adminLoginCheck(AdminVo adminVo){
 
         return adminMapper.adminLoginCheck(adminVo);
+    }
+
+    public String adminSelectOne(String adminId){
+
+        return adminMapper.adminSelectOne(adminId);
     }
 
 }

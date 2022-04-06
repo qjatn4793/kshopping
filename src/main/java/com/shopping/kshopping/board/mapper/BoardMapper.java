@@ -17,5 +17,7 @@ public interface BoardMapper {
     int updateView(int boardSeq);
 
     int boardCreate(BoardVo boardVo);
+
+    int boardDelete(int boardSeq);
     
 }
