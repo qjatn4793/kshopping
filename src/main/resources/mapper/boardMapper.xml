@@ -14,7 +14,6 @@
 
     <update id="updateView">
         UPDATE board SET board_views = board_views+1 WHERE board_seq = #{boardSeq}
-
     </update>
     
     <insert id="boardCreate" parameterType="com.shopping.kshopping.board.vo.BoardVo">
@@ -23,5 +22,21 @@
 
     <delete id="boardDelete" parameterType="integer">
         DELETE FROM board WHERE board_seq=#{boardSeq}
+    </delete>
+
+    <select id="boardReply" resultType="com.shopping.kshopping.board.vo.ReplyVo">
+        SELECT * FROM board_reply WHERE reply_seq = #{replySeq}
+    </select>
+
+    <select id="boardReplyCount" resultType="integer">
+        SELECT COUNT(*) FROM board_reply WHERE board_seq = #{boardSeq}
+    </select>
+
+    <insert id="replyCreate" parameterType="com.shopping.kshopping.board.vo.BoardVo">
+        INSERT INTO board_reply (board_seq, reply_writer, reply_contents) VALUES (#{boardSeq}, #{replyWriter}, #{replyContents})
+    </insert>
+
+    <delete id="replyDelete" parameterType="integer">
+        DELETE FROM board_reply WHERE reply_seq=#{replySeq}
     </delete>
 </mapper>

@@ -1,6 +1,7 @@
 package com.shopping.kshopping.board.mapper;
 
 import com.shopping.kshopping.board.vo.BoardVo;
+import com.shopping.kshopping.board.vo.ReplyVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +20,13 @@ public interface BoardMapper {
     int boardCreate(BoardVo boardVo);
 
     int boardDelete(int boardSeq);
+
+    ReplyVo boardReply(int boardSeq);
+
+    int boardReplyCount(int boardSeq);
+
+    int replyCreate(ReplyVo replyVo);
+
+    int replyDelete(int replySeq);
     
 }

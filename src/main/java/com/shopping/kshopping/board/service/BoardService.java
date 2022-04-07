@@ -2,6 +2,7 @@ package com.shopping.kshopping.board.service;
 
 import com.shopping.kshopping.board.mapper.BoardMapper;
 import com.shopping.kshopping.board.vo.BoardVo;
+import com.shopping.kshopping.board.vo.ReplyVo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,5 +42,29 @@ public class BoardService {
 
         return boardMapper.boardDelete(boardSeq);
     }
+
+    public ReplyVo boardReply(int boardSeq) throws Exception{
+
+        return boardMapper.boardReply(boardSeq);
+    }
+
+    public int boardReplyCount(int boardSeq) throws Exception{
+
+        return boardMapper.boardReplyCount(boardSeq);
+    }
+
+    public int replyCreate(ReplyVo replyVo) throws Exception {
+
+        return boardMapper.replyCreate(replyVo);
+    }
+
+    public int replyDelete(int replySeq) throws Exception{
+
+        return boardMapper.replyDelete(replySeq);
+    }
+
+
+
+
 
 }

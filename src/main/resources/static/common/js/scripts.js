@@ -49,10 +49,10 @@ function userLogin(){
         success : function(data){
             if(data == "1"){
                 if(referrer != ""){
-                    localStorage.setItem("userId", userId);
+                    sessionStorage.setItem("userId", userId);
                     location.replace(referrer);
                 }else {
-                    localStorage.setItem("userId", userId);
+                    sessionStorage.setItem("userId", userId);
                     location.replace("/");
                 }
             }else{
