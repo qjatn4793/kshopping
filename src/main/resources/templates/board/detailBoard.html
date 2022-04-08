@@ -110,6 +110,7 @@
 <!-- Core theme JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="/common/js/scripts.js"></script>
+<script src="/common/js/board.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script type="text/javascript" th:inline="javascript">
@@ -133,6 +134,7 @@
                 var boardLikes = data.boardLikes;
                 var boardViews = data.boardViews;
                 var boardContents = data.boardContents;
+                var regDate = data.regDate;
 
                 $("#boardTitle").text(boardTitle);
                 $("#boardWriter").text("작성자 : " + boardWriter);
@@ -170,7 +172,6 @@
                 alert('통신실패!!');
             },
             success: function (data) {
-
                 for (var i = 0; Object.keys(data).length > i; i++) {
 
                     var replySeq = data[Object.keys(data)[i]].replySeq;
@@ -180,20 +181,15 @@
                     str +=  "<div class='d-flex mb-4'>" +
                             "<div class='flex-shrink-0'><img class='rounded-circle' src='https://dummyimage.com/50x50/ced4da/6c757d.jpg' alt='...' /></div>" +
                             "<div class='ms-3'>" +
-                            "<div id='replyWriter' class='fw-bold'> 작성자 : " + replyWriter +"</div>" +
+                            "<div id='replyWriter"+ replySeq +"' class='fw-bold'>작성자 : " + replyWriter +"</div>" +
                             "<p id='replyContents'>" + replyContents + "</p>" +
-                            "</div>" +
-                            "<a id='deleteReply' href='javascript:deleteReply()' type='button' class='badge bg-secondary text-decoration-none link-light' style='float:right; display: none;'>댓글 삭제" +
+                            "<a id='replySeq"+ replySeq +"' style='' href='javascript:deleteReply("+replySeq+")' type='button' class='badge bg-secondary text-decoration-none link-light'>댓글 삭제" +
                             "</a>"+
+                            "</div>" +
                             "</div>";
 
                     $("#boardReply").html(str);
 
-                    if(replyWriter == sessionStorage.getItem("userId")){
-                        $("#deleteReply").show();
-                    }else{
-                        $("#deleteReply").hide();
-                    }
                 }
             }
         });
@@ -232,51 +228,56 @@
     function createReply() {
 
         var replyContents = $("#replyContents").val();
-        var replyWriter = sessionStorage.getItem("userId").toString();
+        var replyWriter = sessionStorage.getItem("userId");
 
-        $.ajax({
-            type: "POST",
-            url: "/boardReply/" + boardSeq[2],
-            dataType: "JSON",
-            async: false,
-            contentType: "application/json",
-            data: JSON.stringify({
-                "replyWriter" : replyWriter,
-                "replyContents" : replyContents
-            }),
-            error: function () {
-                alert('통신실패!!');
-                location.reload();
-            },
-            success: function (data) {
-                if(data == 1) {
-                    alert("댓글이 작성되었습니다.");
+        if(replyContents != '' && replyContents != null) {
+            $.ajax({
+                type: "POST",
+                url: "/boardReply/" + boardSeq[2],
+                dataType: "JSON",
+                async: false,
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "replyWriter": replyWriter,
+                    "replyContents": replyContents
+                }),
+                error: function () {
+                    alert('통신실패!!');
                     location.reload();
-                }else{
-                    alert("통신실패");
-                    location.reload();
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        alert("댓글이 작성되었습니다.");
+                        location.reload();
+                    } else {
+                        alert("통신실패");
+                        location.reload();
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            alert("댓글 내용을 입력해 주세요");
+        }
     }
 
-    function deleteReply(){
-        var replyWriter = $("#replyWriter").text();
-        var rReplyWriter = replyWriter.replace("작성자 : ", "");
+    function deleteReply(replySeq){
+
+        var rReplyWriter = $("#replyWriter" + replySeq).text();
+        var replyWriter = rReplyWriter.replace("작성자 : ", "");
 
         $.ajax({
             type: "DELETE",
-            url: "/boardReply/" + replySeq,
+            url: "/boardReply/" + boardSeq[2],
             dataType: "text",
             async: false,
             contentType: "application/json",
             data: JSON.stringify({
-                "boardWriter" : rReplyWriter
+                "replyWriter" : replyWriter,
+                "replySeq" : replySeq
             }),
             error: function () {
                 alert("댓글 삭제를 실패 하였습니다!");
                 location.reload();
-                sessionStorage.clear();
             },
             success: function (data) {
                 if (data == 1){
@@ -285,7 +286,6 @@
                 }else{
                     alert("댓글 삭제를 실패 하였습니다.");
                     location.reload();
-                    sessionStorage.clear();
                 }
             }
         });

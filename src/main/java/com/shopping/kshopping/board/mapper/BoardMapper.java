@@ -21,7 +21,7 @@ public interface BoardMapper {
 
     int boardDelete(int boardSeq);
 
-    ReplyVo boardReply(int boardSeq);
+    ReplyVo boardReply(ReplyVo replyVo);
 
     int boardReplyCount(int boardSeq);
 

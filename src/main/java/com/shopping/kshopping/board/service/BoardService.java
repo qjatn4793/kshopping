@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+
 @AllArgsConstructor
 @Transactional
 @Service("boardService")
@@ -43,9 +46,14 @@ public class BoardService {
         return boardMapper.boardDelete(boardSeq);
     }
 
-    public ReplyVo boardReply(int boardSeq) throws Exception{
+    public ReplyVo boardReply(int boardSeq, int replySeq) throws Exception{
 
-        return boardMapper.boardReply(boardSeq);
+        ReplyVo replyVo = new ReplyVo();
+
+        replyVo.setBoardSeq(boardSeq);
+        replyVo.setReplySeq(replySeq);
+
+        return boardMapper.boardReply(replyVo);
     }
 
     public int boardReplyCount(int boardSeq) throws Exception{

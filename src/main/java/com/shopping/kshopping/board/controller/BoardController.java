@@ -43,7 +43,12 @@ public class BoardController {
         String userId = valueOf(O_userId);
         boardVo.setBoardWriter(userId);
 
-        return boardService.boardCreate(boardVo);
+        if (boardVo.getBoardContents() == null && boardVo.getBoardContents().isEmpty() && boardVo.getBoardTitle() == null && boardVo.getBoardTitle().isEmpty()) { // 글 내용, 제목이 없으면
+            return 0;
+        }else { // 글 내용이 있으면
+            return boardService.boardCreate(boardVo);
+        }
+
     }
 
     @DeleteMapping("/board/{boardSeq}")
@@ -72,15 +77,17 @@ public class BoardController {
     @GetMapping("/boardReply/{boardSeq}")
     public HashMap<String, ReplyVo> boardReply(@PathVariable("boardSeq") int boardSeq) throws Exception{
 
-        int boardReplyCount = boardService.boardReplyCount(boardSeq);
         HashMap<String, ReplyVo> boardReply = new HashMap<>();
 
-        for (int i=1; boardReplyCount >= i; i++) {
-            if(boardService.boardReply(i) != null){
-                boardReply.put(valueOf(i), boardService.boardReply(i));
+        int boardReplyCount = boardService.boardReplyCount(boardSeq);
+
+        if (boardReplyCount != 0) {
+            for (int i=1; boardReplyCount >= i; i++) {
+                if(boardService.boardReply(boardSeq, i) != null){
+                    boardReply.put(valueOf(i), boardService.boardReply(boardSeq, i));
+                }
             }
         }
-
         return boardReply;
     }
 
@@ -91,29 +98,30 @@ public class BoardController {
         Object O_userId = session.getAttribute("userId");
         String userId = valueOf(O_userId);
 
-        System.out.println(replyVo.getReplyWriter());
-        System.out.println(userId);
+        if (replyVo.getReplyWriter().equals(userId)){ //넘겨온 댓글 작성자와 세션 댓글 작성자가 같을 때
+            if (replyVo.getReplyContents() == null && replyVo.getReplyContents().isEmpty()) { //댓글 내용이 없으면
+                return 0;
+            }else { //댓글 내용이 있으면
+                replyVo.setBoardSeq(boardSeq);
+                return boardService.replyCreate(replyVo);
+            }
 
-        if (replyVo.getReplyWriter().equals(userId)){
-            replyVo.setBoardSeq(boardSeq);
-
-            return boardService.replyCreate(replyVo);
         }else {
             return 0;
         }
     }
 
     @DeleteMapping("/boardReply/{boardSeq}")
-    public int replyDelete(@PathVariable("boardSeq") int replySeq, @RequestBody BoardVo boardVo, HttpServletRequest request) throws Exception{
+    public int replyDelete(@PathVariable("boardSeq") int boardSeq, @RequestBody ReplyVo replyVo, HttpServletRequest request) throws Exception{
 
         HttpSession session = request.getSession();
         Object O_userId = session.getAttribute("userId");
         String userId = valueOf(O_userId);
 
-        if (boardVo.getBoardWriter().equals(userId)) {
-            //return boardService.replyDelete(replySeq);
-            return 0;
+        boardService.boardReply(boardSeq, replyVo.getReplySeq()).getReplyWriter();
 
+        if ((boardService.boardReply(boardSeq, replyVo.getReplySeq()).getReplyWriter()).equals(userId)) {
+            return boardService.replyDelete(replyVo.getReplySeq());
         }else {
             return 0;
         }

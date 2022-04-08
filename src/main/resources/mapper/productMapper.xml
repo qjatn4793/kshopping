@@ -24,4 +24,20 @@
         UPDATE product SET product_views = product_views+1 WHERE product_seq = #{productSeq};
 
     </update>
+
+    <select id="productReply" parameterType="com.shopping.kshopping.product.vo.ProductReplyVo" resultType="com.shopping.kshopping.product.vo.ProductReplyVo">
+        SELECT * FROM product_reply WHERE product_seq = #{productSeq} AND reply_seq = #{replySeq}
+    </select>
+
+    <select id="productReplyCount" resultType="integer">
+        SELECT ifnull(max(reply_seq),0) data FROM product_reply where product_seq = #{productSeq}
+    </select>
+
+    <insert id="replyCreate" parameterType="com.shopping.kshopping.product.vo.ProductReplyVo">
+        INSERT INTO product_reply (product_seq, reply_writer, reply_contents) VALUES (#{productSeq}, #{replyWriter}, #{replyContents})
+    </insert>
+
+    <delete id="replyDelete" parameterType="integer">
+        DELETE FROM product_reply WHERE reply_seq=#{replySeq}
+    </delete>
 </mapper>
