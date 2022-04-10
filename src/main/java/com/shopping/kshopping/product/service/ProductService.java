@@ -37,6 +37,11 @@ public class ProductService {
         return productMapper.productDelete(productSeq);
     }
 
+    public int productUpdate(ProductVo productVo) throws Exception{
+
+        return productMapper.productUpdate(productVo);
+    }
+
     public void updateView(int productSeq) throws Exception{
         productMapper.updateView(productSeq);
     }

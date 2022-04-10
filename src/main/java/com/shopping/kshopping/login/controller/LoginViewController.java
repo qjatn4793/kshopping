@@ -24,10 +24,10 @@ public class LoginViewController {
         HttpSession session = request.getSession();
 
         if(session.getAttribute("loginCheck") == "success"){
-            return "/";
+            return "/main/main.html";
         }else {
             session.removeAttribute("loginCheck");
-            session.removeAttribute("loginVo");
+            session.removeAttribute("userId");
             return "login/login.html";
         }
     }

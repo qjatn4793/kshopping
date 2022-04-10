@@ -115,9 +115,9 @@ public class ProductController {
     }
 
     @PutMapping("/product")
-    public String productUpdate(){
+    public int productUpdate(@RequestBody ProductVo productVo) throws Exception{
 
-        return null;
+        return productService.productUpdate(productVo);
     }
 
     @DeleteMapping("/product")

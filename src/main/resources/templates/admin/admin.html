@@ -127,6 +127,7 @@
                                     </tbody>
                                 </table>
                                 <button id="deletePopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">상품 삭제</button>
+                                <button id="updatePopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">상품 수정</button>
                                 <button id="createPopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">상품 등록</button>
                             </div>
                             <form id="productCreate" style="border:solid 1px gray;">
@@ -138,7 +139,7 @@
                                     <div style="margin: 20px 0;" class="selectImg"><img src="" /></div>
                                     <textarea id="productContents1" name="productContents1" class="productContents1" type="text" placeholder="상품 내용 1" maxlength="190" style="word-wrap: break-word;"></textarea><br>
                                     <textarea id="productContents2" name="productContents2" class="productContents2" type="text" placeholder="상품 내용 2" maxlength="190" style="word-wrap: break-word;"></textarea><br>
-                                    <textarea id="productContents3" name="productContents3" class="productContents3" type="text" placeholder="상품 내용 3" maxlength="190" style="word-wrap: break-word;"></textarea>
+                                    <textarea id="productContents3" name="productContents3" class="productContents3" type="text" placeholder="상품 내용 3" maxlength="190" style="word-wrap: break-word;"></textarea><br>
                                     <button style="float:right;" class="exit2 badge bg-secondary text-decoration-none link-light">닫기</button>
                                     <button style="float:right;" class="badge bg-secondary text-decoration-none link-light" onclick="productCreate()">등록</button>
                                 </div>
@@ -146,9 +147,21 @@
                             <div id="productDelete" style="border:solid 1px gray;">
                                 <div id="deleteMenu">
                                     <p>상품 삭제</p>
-                                    <input id="productSeq" name="productSeq" class="productSeq" type="number" placeholder="상품 번호">
+                                    <input id="productSeq" name="productSeq" class="productSeq" type="number" placeholder="상품 번호"><br>
                                     <button style="float:right;" class="exit1 badge bg-secondary text-decoration-none link-light">닫기</button>
                                     <button style="float:right;" class="badge bg-secondary text-decoration-none link-light" onclick="productDelete()">삭제</button>
+                                </div>
+                            </div>
+                            <div id="productUpdate" style="border:solid 1px gray;">
+                                <div id="updateMenu">
+                                    <p>상품 수정</p>
+                                    <input id="updateProductSeq" name="updateProductSeq" class="updateProductSeq" type="number" placeholder="상품 번호"><br><br>
+                                    <input name="productName" class="productName" type="text" placeholder="상품명"><br>
+                                    <textarea name="productContents1" class="productContents1" type="text" placeholder="상품 내용 1" maxlength="190" style="word-wrap: break-word;"></textarea><br>
+                                    <textarea name="productContents2" class="productContents2" type="text" placeholder="상품 내용 2" maxlength="190" style="word-wrap: break-word;"></textarea><br>
+                                    <textarea name="productContents3" class="productContents3" type="text" placeholder="상품 내용 3" maxlength="190" style="word-wrap: break-word;"></textarea><br>
+                                    <button style="float:right;" class="exit badge bg-secondary text-decoration-none link-light">닫기</button>
+                                    <button style="float:right;" class="badge bg-secondary text-decoration-none link-light" onclick="productUpdate()">수정</button>
                                 </div>
                             </div>
                         </div>
@@ -177,6 +190,7 @@
                 $("#deletePopup").click(function() {
                     $("#productDelete").fadeToggle();
                     $("#productCreate").fadeOut();
+                    $("#productUpdate").fadeOut();
 
                     $("#productName").val("");
                     $("#productSeq").val("");
@@ -197,6 +211,7 @@
                 $("#createPopup").click(function() {
                     $("#productCreate").fadeToggle();
                     $("#productDelete").fadeOut();
+                    $("#productUpdate").fadeOut();
 
                     $("#productName").val("");
                     $("#productSeq").val("");
@@ -207,6 +222,8 @@
                     $(".selectImg img").attr("src", "");
                 });
 
+                $("#productUpdate").fadeOut();
+
                 $(".exit2").click(function() {
                     $("#productCreate").fadeOut();
                     $("#productName").val("");
@@ -215,6 +232,27 @@
                     $("#productContents3").val("");
                     $("#productImg").val("");
                     $(".selectImg img").attr("src", "");
+                });
+
+                $(".exit").click(function() {
+                    $("#productUpdate").fadeOut();
+                    $("#updateMenu .productName").val("");
+                    $("#updateMenu .productSeq").val("");
+                    $("#updateMenu .productContents1").val("");
+                    $("#updateMenu .productContents2").val("");
+                    $("#updateMenu .productContents3").val("");
+                });
+
+                $("#updatePopup").click(function() {
+                    $("#productUpdate").fadeToggle();
+                    $("#productCreate").fadeOut();
+                    $("#productDelete").fadeOut();
+
+                    $("#updateMenu .productName").val("");
+                    $("#updateMenu .productSeq").val("");
+                    $("#updateMenu .productContents1").val("");
+                    $("#updateMenu .productContents2").val("");
+                    $("#updateMenu .productContents3").val("");
                 });
             });
 
@@ -304,6 +342,54 @@
                     alert('취소');
                 }
             }
+
+            function productUpdate(){
+                var productName = $("#updateMenu .productName").val();
+                var productSeq = $("#updateMenu .updateProductSeq").val();
+                var productContents1 = $("#updateMenu .productContents1").val();
+                var productContents2 = $("#updateMenu .productContents2").val();
+                var productContents3 = $("#updateMenu .productContents3").val();
+
+                if(productName == "" && productName == null){
+                    alert("수정할 상품 이름을 입력해주세요");
+                }else if (productSeq == "" && productSeq == null){
+                    alert("수정할 상품 번호를 입력해주세요");
+                }else {
+                    var result = confirm(productName + " (을)를 수정하시겠습니까?");
+
+                    if(result) {
+                        $.ajax({
+                            type : "PUT",
+                            url : "/product",
+                            dataType : "text",
+                            async : false,
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                "productName" : productName,
+                                "productSeq" : productSeq,
+                                "productContents1" : productContents1,
+                                "productContents2" : productContents2,
+                                "productContents3" : productContents3
+                            }),
+                            error : function(){
+                                alert('상품 수정 실패, 정상적인 값을 입력해 주세요!');
+                                location.reload();
+                            },
+                            success : function(data){
+                                if(data == 1){
+                                    alert('상품 수정 성공!!');
+                                }else {
+                                    alert('상품 수정 실패, 정상적인 값을 입력해 주세요!');
+                                }
+                                location.reload();
+                            }
+                        });
+                    }else {
+                        alert('취소');
+                    }
+                }
+            }
+
 
             $("#productImg").change(function(){
                 if(this.files && this.files[0]) {

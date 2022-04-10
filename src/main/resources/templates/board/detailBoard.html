@@ -54,7 +54,7 @@
             <!-- Comments section-->
             <section class="mb-5">
                 <div class="card bg-light">
-                    <form th:if="${session.loginCheck == 'success'}" class="mb-4"><textarea id="replyContents" class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                    <form th:if="${session.loginCheck == 'success'}" class="mb-4"><textarea id="replyContents" class="form-control" rows="3" placeholder="댓글 내용을 입력해 주세요!" maxlength="80"></textarea>
                         <button type="button" onclick="createReply()" class="badge bg-secondary text-decoration-none link-light" style="float:right;">댓글 작성</button>
                     </form>
                     <div id = "boardReply" class="card-body">
@@ -178,22 +178,38 @@
                     var replyWriter = data[Object.keys(data)[i]].replyWriter;
                     var replyContents = data[Object.keys(data)[i]].replyContents;
 
+                    var deleteBtnHide = "</div>";
+                    var deleteBtnShow = "<a id='replySeq"+ replySeq +"' style='visibility: visible; float:right; display:block; height:22px;' href='javascript:deleteReply("+replySeq+")' type='button' class='badge bg-secondary text-decoration-none link-light'>X</a></div>";
+
                     str +=  "<div class='d-flex mb-4'>" +
                             "<div class='flex-shrink-0'><img class='rounded-circle' src='https://dummyimage.com/50x50/ced4da/6c757d.jpg' alt='...' /></div>" +
                             "<div class='ms-3'>" +
-                            "<div id='replyWriter"+ replySeq +"' class='fw-bold'>작성자 : " + replyWriter +"</div>" +
-                            "<p id='replyContents'>" + replyContents + "</p>" +
-                            "<a id='replySeq"+ replySeq +"' style='' href='javascript:deleteReply("+replySeq+")' type='button' class='badge bg-secondary text-decoration-none link-light'>댓글 삭제" +
-                            "</a>"+
-                            "</div>" +
-                            "</div>";
+                            "<div id='replyWriter"+ replySeq +"' class='fw-bold'>작성자 : " + replyWriter +"</div>";
+
+                    /*if(replyContents.length > 80 ) { // 글자수 길이가 80을 넘으면 줄바꿈
+                        var replyContents1 = replyContents.substr(0, 80);
+                        var replyContents2 = replyContents.substr(80, 160);
+
+                        str += "<p id='replyContents'>" + replyContents1 + "</p>" +
+                                "<p id='replyContents'>" + replyContents2 + "</p></div>";
+                    }else {*/
+                        str += "<p id='replyContents'>" + replyContents + "</p></div>";
+                    //}
+
+
+                    if(replyWriter == sessionStorage.getItem("userId")){ // 세션 id 값과 글쓴이가 같으면 삭제 버튼 출력
+                        str += deleteBtnShow;
+                    }else {
+                        str += deleteBtnHide;
+                    }
 
                     $("#boardReply").html(str);
-
                 }
             }
         });
     });
+
+
 
     function deleteBoard(){
         var boardWriter = $("#boardWriter").text();
@@ -229,6 +245,21 @@
 
         var replyContents = $("#replyContents").val();
         var replyWriter = sessionStorage.getItem("userId");
+
+
+        // 특정 문자열 발견시 공백으로 치환
+        replyContents = replyContents.replace(/\</g,'');
+        replyContents = replyContents.replace(/\>/g,'');
+        replyContents = replyContents.replace(/\#/g,'');
+        replyContents = replyContents.replace(/\$/g,'');
+        replyContents = replyContents.replace(/\@/g,'');
+        replyContents = replyContents.replace(/\^/g,'');
+        replyContents = replyContents.replace(/\&/g,'');
+        replyContents = replyContents.replace(/\*/g,'');
+        replyContents = replyContents.replace(/\(/g,'');
+        replyContents = replyContents.replace(/\)/g,'');
+        replyContents = replyContents.replace(/\;/g,'');
+
 
         if(replyContents != '' && replyContents != null) {
             $.ajax({

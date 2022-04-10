@@ -33,8 +33,15 @@ public class AdminController {
 
         int adminLoginCheck = adminService.adminLoginCheck(adminVo);
         String adminPw = adminService.adminSelectOne(adminVo.getAdminId());
+        String encryptAdminPw = "";
 
-        String encryptAdminPw = sha256.encrypt(adminPw);
+        // nullpointexception 처리
+        try{
+            encryptAdminPw = sha256.encrypt(adminPw);
+        }catch (NullPointerException e) {
+            adminLoginCheck = 0;
+            return adminLoginCheck;
+        }
 
         HttpSession session = request.getSession();
 

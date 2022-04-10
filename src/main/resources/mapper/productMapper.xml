@@ -19,6 +19,10 @@
     <delete id="productDelete" parameterType="integer">
         DELETE FROM product WHERE product_seq=#{productSeq}
     </delete>
+
+    <update id="productUpdate" parameterType="com.shopping.kshopping.product.vo.ProductVo">
+        UPDATE product SET product_name = #{productName}, product_contents1 = #{productContents1}, product_contents2 = #{productContents2}, product_contents3 = #{productContents3} WHERE product_seq = #{productSeq};
+    </update>
     
     <update id="updateView">
         UPDATE product SET product_views = product_views+1 WHERE product_seq = #{productSeq};

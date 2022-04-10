@@ -20,6 +20,8 @@ public interface ProductMapper {
 
     int productDelete(int productSeq);
 
+    int productUpdate(ProductVo productVo);
+
     int updateView(int productSeq);
 
     ProductReplyVo productReply(ProductReplyVo productReplyVo);

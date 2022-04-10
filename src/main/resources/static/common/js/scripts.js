@@ -32,6 +32,23 @@ function userLogin(){
     var userPw = $("#userPw").val();
     var referrer = document.referrer;
 
+    // 특정 문자열 발견시 공백으로 치환 : userId
+    userId = userId.replace(/\</g,'');
+    userId = userId.replace(/\>/g,'');
+    userId = userId.replace(/\#/g,'');
+    userId = userId.replace(/\$/g,'');
+    userId = userId.replace(/\@/g,'');
+    userId = userId.replace(/\^/g,'');
+    userId = userId.replace(/\&/g,'');
+    userId = userId.replace(/\*/g,'');
+    userId = userId.replace(/\(/g,'');
+    userId = userId.replace(/\)/g,'');
+    userId = userId.replace(/\;/g,'');
+    userId = userId.replace(/\=/g,'');
+    userId = userId.replace(/\'/g,'');
+    userId = userId.replace(/\"/g,'');
+
+
     $.ajax({
         type : "POST",
         url : "/login",
@@ -102,6 +119,23 @@ function adminLogin(){
 
     var adminId = $("#adminId").val();
     var adminPw = $("#adminPw").val();
+
+    // 특정 문자열 발견시 공백으로 치환 : userId
+    adminId = adminId.replace(/\</g,'');
+    adminId = adminId.replace(/\>/g,'');
+    adminId = adminId.replace(/\#/g,'');
+    adminId = adminId.replace(/\$/g,'');
+    adminId = adminId.replace(/\@/g,'');
+    adminId = adminId.replace(/\^/g,'');
+    adminId = adminId.replace(/\&/g,'');
+    adminId = adminId.replace(/\*/g,'');
+    adminId = adminId.replace(/\(/g,'');
+    adminId = adminId.replace(/\)/g,'');
+    adminId = adminId.replace(/\;/g,'');
+    adminId = adminId.replace(/\=/g,'');
+    adminId = adminId.replace(/\'/g,'');
+    adminId = adminId.replace(/\"/g,'');
+
 
     $.ajax({
         type : "POST",

@@ -28,7 +28,15 @@ public class LoginController {
 
         int loginCheck = loginService.loginCheck(loginVo);
         String userPw = loginService.userSelectOne(loginVo.getUserId());
-        String encryptUserPw = sha256.encrypt(userPw);
+        String encryptUserPw = "";
+
+        // nullpointexception 처리
+        try{
+            encryptUserPw = sha256.encrypt(userPw);
+        }catch (NullPointerException e) {
+            loginCheck = 0;
+            return loginCheck;
+        }
 
         HttpSession session = request.getSession();
 

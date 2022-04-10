@@ -51,7 +51,7 @@
             <!-- Comments section-->
             <section class="mb-5">
                 <div class="card bg-light">
-                    <form th:if="${session.loginCheck == 'success'}" class="mb-4"><textarea id="replyContents" class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                    <form th:if="${session.loginCheck == 'success'}" class="mb-4"><textarea id="replyContents" class="form-control" rows="3" placeholder="댓글 내용을 입력해 주세요!" maxlength="80"></textarea>
                         <button type="button" onclick="createReply()" class="badge bg-secondary text-decoration-none link-light" style="float:right;">댓글 작성</button>
                     </form>
                     <div id = "productReply" class="card-body">
@@ -196,6 +196,21 @@
 
         var replyContents = $("#replyContents").val();
         var replyWriter = sessionStorage.getItem("userId");
+
+
+        // 특정 문자열 발견시 공백으로 치환
+        replyContents = replyContents.replace(/\</g,'');
+        replyContents = replyContents.replace(/\>/g,'');
+        replyContents = replyContents.replace(/\#/g,'');
+        replyContents = replyContents.replace(/\$/g,'');
+        replyContents = replyContents.replace(/\@/g,'');
+        replyContents = replyContents.replace(/\^/g,'');
+        replyContents = replyContents.replace(/\&/g,'');
+        replyContents = replyContents.replace(/\*/g,'');
+        replyContents = replyContents.replace(/\(/g,'');
+        replyContents = replyContents.replace(/\)/g,'');
+        replyContents = replyContents.replace(/\;/g,'');
+
 
         if(replyContents != '' && replyContents != null) {
             $.ajax({
