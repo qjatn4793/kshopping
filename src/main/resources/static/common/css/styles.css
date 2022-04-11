@@ -11834,3 +11834,13 @@ body {
   95% {margin-left: -200%}
   100% {margin-left: -300%}
 }
+
+/* 상단 배너 이미지 : 상품*/
+.bg-product {
+  background: url("/common/assets/img/productImg.jpg") no-repeat center center fixed;
+}
+
+/* 상단 배너 이미지 : 게시판*/
+.bg-board {
+  background: url("/common/assets/img/boardImg.jpg") no-repeat center center fixed;
+}

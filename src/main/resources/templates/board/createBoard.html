@@ -19,7 +19,7 @@
 <!-- Navigation-->
 <div th:replace="/common/nav_board.html :: common-nav"></div>
 <!-- Header-->
-<div th:replace="/common/header.html :: common-header"></div>
+<div th:replace="/common/header_board.html :: common-header"></div>
 <!-- Page content-->
 <div class="container mt-5">
     <div class="row">
@@ -104,6 +104,22 @@
 
         var boardTitle = $("#boardTitle").val();
         var boardContents = $("#boardContents").val();
+
+        // 특정 문자열 발견시 공백으로 치환 : boardContents
+        boardContents = boardContents.replace(/\</g,'');
+        boardContents = boardContents.replace(/\>/g,'');
+        boardContents = boardContents.replace(/\#/g,'');
+        boardContents = boardContents.replace(/\$/g,'');
+        boardContents = boardContents.replace(/\@/g,'');
+        boardContents = boardContents.replace(/\^/g,'');
+        boardContents = boardContents.replace(/\&/g,'');
+        boardContents = boardContents.replace(/\*/g,'');
+        boardContents = boardContents.replace(/\(/g,'');
+        boardContents = boardContents.replace(/\)/g,'');
+        boardContents = boardContents.replace(/\;/g,'');
+        boardContents = boardContents.replace(/\=/g,'');
+        boardContents = boardContents.replace(/\'/g,'');
+        boardContents = boardContents.replace(/\"/g,'');
 
         if (boardContents == "" || boardContents == null || boardTitle == "" || boardTitle == null){
             alert("글 제목 또는 글 내용이 비어있습니다. 다시 한번 확인해 주세요");

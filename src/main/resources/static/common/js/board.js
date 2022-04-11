@@ -16,6 +16,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
                 var boardSeq = data[Object.keys(data)[i]].boardSeq;
                 var boardTitle = data[Object.keys(data)[i]].boardTitle;
+                var boardContents = data[Object.keys(data)[i]].boardContents;
                 var boardWriter = data[Object.keys(data)[i]].boardWriter;
                 var boardLikes = data[Object.keys(data)[i]].boardLikes;
                 var boardViews = data[Object.keys(data)[i]].boardViews;
@@ -24,7 +25,8 @@ window.addEventListener('DOMContentLoaded', event => {
 
                 str += "<tr>" +
                     /*"<td>" + boardSeq + "</td>" +*/
-                    "<td onclick=location.href='/detailBoard/"+ boardSeq + "' style='width:50%;'>" + boardTitle + "</td>" +
+                    "<td onclick=location.href='/detailBoard/"+ boardSeq + "' style='width:20%;'>" + boardTitle + "</td>" +
+                    "<td onclick=location.href='/detailBoard/"+ boardSeq + "' style='width:30%;'>" + boardContents + "</td>" +
                     "<td>" + boardLikes + "</td>" +
                     "<td>" + boardViews + "</td>" +
                     "<td>" + boardWriter + "</td>" +

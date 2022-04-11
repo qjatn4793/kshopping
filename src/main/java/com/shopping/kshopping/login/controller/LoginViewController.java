@@ -31,4 +31,10 @@ public class LoginViewController {
             return "login/login.html";
         }
     }
+
+    @GetMapping("/userMypage")
+    public String userMypage(HttpServletRequest request){
+
+        return "login/userMypage.html";
+    }
 }

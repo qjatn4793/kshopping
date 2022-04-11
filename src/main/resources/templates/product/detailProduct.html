@@ -19,7 +19,7 @@
 <!-- Navigation-->
 <div th:replace="/common/nav_product.html :: common-nav"></div>
 <!-- Header-->
-<div th:replace="/common/header.html :: common-header"></div>
+<div th:replace="/common/header_product.html :: common-header"></div>
 <!-- Page content-->
 <div class="container mt-5">
     <div class="row">
@@ -175,15 +175,20 @@
                     var replyWriter = data[Object.keys(data)[i]].replyWriter;
                     var replyContents = data[Object.keys(data)[i]].replyContents;
 
+                    var deleteBtnHide = "</div>";
+                    var deleteBtnShow = "&nbsp;<a id='replySeq"+ replySeq +"' style='visibility: visible; float:right; display:block; height:22px;' href='javascript:deleteReply("+replySeq+")' type='button' class='badge bg-secondary text-decoration-none link-light'>X</a></div>";
+
                     str +=  "<div class='d-flex mb-4'>" +
                         "<div class='flex-shrink-0'><img class='rounded-circle' src='https://dummyimage.com/50x50/ced4da/6c757d.jpg' alt='...' /></div>" +
                         "<div class='ms-3'>" +
                         "<div id='replyWriter"+ replySeq +"' class='fw-bold'>작성자 : " + replyWriter +"</div>" +
-                        "<p id='replyContents'>" + replyContents + "</p>" +
-                        "<a id='replySeq"+ replySeq +"' style='' href='javascript:deleteReply("+replySeq+")' type='button' class='badge bg-secondary text-decoration-none link-light'>댓글 삭제" +
-                        "</a>"+
-                        "</div>" +
-                        "</div>";
+                        "<p id='replyContents'>" + replyContents + "</p></div>";
+
+                    if(replyWriter == sessionStorage.getItem("userId")){ // 세션 id 값과 글쓴이가 같으면 삭제 버튼 출력
+                        str += deleteBtnShow;
+                    }else {
+                        str += deleteBtnHide;
+                    }
 
                     $("#productReply").html(str);
 
