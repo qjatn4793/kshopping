@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 public class LoginVo {
     private String userId;
     private String userPw;
+    private String userName;
+    private String userProfile;
+    private String userBirth;
+    private String userPhone;
     private int status;
-    
 }

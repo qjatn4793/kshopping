@@ -23,4 +23,14 @@ public class LoginService {
         return loginMapper.userSelectOne(userId);
     }
 
+    public int userIdCheck(LoginVo loginVo){
+
+        return loginMapper.userIdCheck(loginVo);
+    }
+
+    public int userRegister(LoginVo loginVo){
+
+        return loginMapper.userRegister(loginVo);
+    }
+
 }

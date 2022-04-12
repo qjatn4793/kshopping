@@ -11,5 +11,9 @@ public interface LoginMapper {
     int loginCheck(LoginVo loginVo);
 
     String userSelectOne(String userId);
+
+    int userIdCheck(LoginVo loginVo);
+
+    int userRegister(LoginVo loginVo);
     
 }

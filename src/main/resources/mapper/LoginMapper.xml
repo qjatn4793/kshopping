@@ -14,4 +14,12 @@
         SELECT user_pw FROM USER WHERE user_id = #{userId}
     </select>
 
+    <select id="userIdCheck" parameterType="com.shopping.kshopping.login.vo.LoginVo" resultType="Integer">
+        SELECT COUNT(*) FROM USER WHERE user_id = #{userId}
+    </select>
+
+    <insert id="userRegister" parameterType="com.shopping.kshopping.login.vo.LoginVo">
+        INSERT INTO user (user_id, user_pw, user_name, user_birth, user_phone) VALUES (#{userId},#{userPw},#{userName},#{userBirth},#{userPhone})
+    </insert>
+
 </mapper>

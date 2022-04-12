@@ -35,6 +35,36 @@ public class LoginViewController {
     @GetMapping("/userMypage")
     public String userMypage(HttpServletRequest request){
 
+        HttpSession session = request.getSession();
+
+        if(session.getAttribute("loginCheck") != "success"){
+            return "/main/main.html";
+        }
+
         return "login/userMypage.html";
+    }
+
+    @GetMapping("/userRegister")
+    public String userRegister(HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+
+        if(session.getAttribute("loginCheck") == "success"){
+            return "/main/main.html";
+        }
+
+        return "login/userRegister.html";
+    }
+
+    @GetMapping("/userPassword")
+    public String userPassword(HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+
+        if(session.getAttribute("loginCheck") == "success"){
+            return "/main/main.html";
+        }
+
+        return "login/userPassword.html";
     }
 }

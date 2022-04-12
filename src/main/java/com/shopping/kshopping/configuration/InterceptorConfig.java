@@ -20,6 +20,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
                 .excludePathPatterns("/");
 
         registry.addInterceptor(userLoginCheckInterceptor)
+                .addPathPatterns("/userMypage")
                 .addPathPatterns("/createBoard")
                 .addPathPatterns("/createBoardReply")
                 .addPathPatterns("/createProductReply");

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.String.valueOf;
 
@@ -66,5 +68,49 @@ public class LoginController {
         session.invalidate();
 
         return "logout";
+    }
+
+    @PostMapping("/userIdCheck")
+    public int userIdCheck(HttpServletRequest request, @RequestBody LoginVo loginVo){
+
+        String userId = loginVo.getUserId();
+
+        final String checkString = "[a-zA-Z0-9ㄱ-힣\\s]"; // 특수문자 체크
+
+        Matcher matchTest2;
+        matchTest2 = Pattern.compile(checkString).matcher(userId); // ID 공백 포함 특수문자 없으면 true
+
+        if (matchTest2.find() == true) {
+            return loginService.userIdCheck(loginVo);
+        }else {
+            return 0;
+        }
+    }
+
+    @PostMapping("/userRegister")
+    public int userRegister(HttpServletRequest request, @RequestBody LoginVo loginVo){
+
+        String userId = loginVo.getUserId();
+        String userBirth = loginVo.getUserBirth();
+        String userName = loginVo.getUserName();
+        String userPhone = loginVo.getUserPhone();
+
+        final String checkNum = "[0-9]+"; // 숫자만 있는지 체크
+        final String checkString = "[a-zA-Z0-9ㄱ-힣\\s]"; // 특수문자 체크
+
+        Matcher matchTest;
+        Matcher matchTest2;
+        matchTest = Pattern.compile(checkString).matcher(userName); // 이름 공백 포함 특수문자가 없으면 true
+        matchTest2 = Pattern.compile(checkString).matcher(userId); // ID 공백 포함 특수문자 없으면 true
+
+        if (Pattern.matches(checkNum, userBirth) && Pattern.matches(checkNum, userPhone)) { // 생년월일 숫자만 있는지 체크 휴대폰번호 숫자만 있는지 체크
+            if (matchTest.find() == true && matchTest2.find() == true){ //이름 공백 포함 특수문자가 없으면 true ID 공백 포함 특수문자 없으면 true
+                return loginService.userRegister(loginVo);
+            }else {
+                return 0;
+            }
+        }else {
+            return 0;
+        }
     }
 }
