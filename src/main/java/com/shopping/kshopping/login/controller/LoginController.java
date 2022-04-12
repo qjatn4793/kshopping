@@ -25,28 +25,38 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public int loginCheck(@RequestBody LoginVo loginVo, HttpServletRequest request, Model model) throws NoSuchAlgorithmException {
+    public int loginCheck(@RequestBody LoginVo loginVo, HttpServletRequest request) throws NoSuchAlgorithmException {
         SHA256 sha256 = new SHA256();
-
-        int loginCheck = loginService.loginCheck(loginVo);
-        String userPw = loginService.userSelectOne(loginVo.getUserId());
         String encryptUserPw = "";
+        HttpSession session = request.getSession();
+        int loginCheck = 0;
+        String userPw = loginService.userSelectOne(loginVo.getUserId());
 
-        // nullpointexception 처리
-        try{
+
+        try{ // nullpointexception 처리
             encryptUserPw = sha256.encrypt(userPw);
         }catch (NullPointerException e) {
             loginCheck = 0;
             return loginCheck;
         }
 
-        HttpSession session = request.getSession();
-
         if(encryptUserPw.equals(sha256.encrypt(loginVo.getUserPw()))) {
+            loginCheck = loginService.loginCheck(loginVo);
+
             if (loginCheck == 1) {
+
+                loginVo = loginService.userInfo(loginVo.getUserId());
+
                 session.setAttribute("loginCheck", "success");
                 session.setAttribute("userId", loginVo.getUserId());
                 session.setAttribute("userPw", sha256.encrypt(loginVo.getUserPw()));
+                session.setAttribute("userName", loginVo.getUserName());
+
+                String userBirth = loginVo.getUserBirth();
+                userBirth = userBirth.replace("-", "");
+
+                session.setAttribute("userBirth", userBirth);
+                session.setAttribute("userPhone", loginVo.getUserPhone());
 
                 return loginCheck;
             } else {
@@ -106,6 +116,43 @@ public class LoginController {
         if (Pattern.matches(checkNum, userBirth) && Pattern.matches(checkNum, userPhone)) { // 생년월일 숫자만 있는지 체크 휴대폰번호 숫자만 있는지 체크
             if (matchTest.find() == true && matchTest2.find() == true){ //이름 공백 포함 특수문자가 없으면 true ID 공백 포함 특수문자 없으면 true
                 return loginService.userRegister(loginVo);
+            }else {
+                return 0;
+            }
+        }else {
+            return 0;
+        }
+    }
+
+    @PutMapping("/userRegister")
+    public int userUpdate(HttpServletRequest request, @RequestBody LoginVo loginVo){
+
+        String userId = loginVo.getUserId();
+        String userBirth = loginVo.getUserBirth();
+        String userName = loginVo.getUserName();
+        String userPhone = loginVo.getUserPhone();
+
+        final String checkNum = "[0-9]+"; // 숫자만 있는지 체크
+        final String checkString = "[a-zA-Z0-9ㄱ-힣\\s]"; // 특수문자 체크
+
+        Matcher matchTest;
+        Matcher matchTest2;
+        matchTest = Pattern.compile(checkString).matcher(userName); // 이름 공백 포함 특수문자가 없으면 true
+        matchTest2 = Pattern.compile(checkString).matcher(userId); // ID 공백 포함 특수문자 없으면 true
+
+        if (Pattern.matches(checkNum, userBirth) && Pattern.matches(checkNum, userPhone)) { // 생년월일 숫자만 있는지 체크 휴대폰번호 숫자만 있는지 체크
+            if (matchTest.find() == true && matchTest2.find() == true){ //이름 공백 포함 특수문자가 없으면 true ID 공백 포함 특수문자 없으면 true
+                int userUpdate = loginService.userUpdate(loginVo);
+
+                if(userUpdate == 1){
+                    HttpSession session = request.getSession();
+                    session.removeAttribute("loginCheck");
+                    session.removeAttribute("userId");
+                    session.invalidate();
+                    return userUpdate;
+                }else {
+                    return 0;
+                }
             }else {
                 return 0;
             }

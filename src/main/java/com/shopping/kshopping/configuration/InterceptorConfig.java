@@ -23,6 +23,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
                 .addPathPatterns("/userMypage")
                 .addPathPatterns("/createBoard")
                 .addPathPatterns("/createBoardReply")
-                .addPathPatterns("/createProductReply");
+                .addPathPatterns("/createProductReply")
+                .addPathPatterns("/boardReply");
     }
 }

@@ -15,5 +15,9 @@ public interface LoginMapper {
     int userIdCheck(LoginVo loginVo);
 
     int userRegister(LoginVo loginVo);
+
+    LoginVo userInfo(String userId);
+
+    int userUpdate(LoginVo loginVo);
     
 }

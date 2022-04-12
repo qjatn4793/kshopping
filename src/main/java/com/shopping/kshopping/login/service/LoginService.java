@@ -33,4 +33,14 @@ public class LoginService {
         return loginMapper.userRegister(loginVo);
     }
 
+    public LoginVo userInfo(String userId){
+
+        return loginMapper.userInfo(userId);
+    }
+
+    public int userUpdate(LoginVo loginVo){
+
+        return loginMapper.userUpdate(loginVo);
+    }
+
 }
