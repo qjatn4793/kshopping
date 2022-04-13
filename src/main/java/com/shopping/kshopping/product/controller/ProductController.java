@@ -49,7 +49,7 @@ public class ProductController {
 
 
         //배포시 경로
-        if(path != "" || path != null){
+        /*if(path != "" || path != null){
             path = path.replace("bin","webapps");
         }
 
@@ -68,9 +68,8 @@ public class ProductController {
             fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
         }else {
             fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
-        }
+        }*/
 
-        /*
         //개발시 경로
         String divPath = "\\src\\main\\resources\\static\\common\\img";
 
@@ -88,7 +87,6 @@ public class ProductController {
         }else {
             fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
         }
-        */
 
         productVo.setProductImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
         productVo.setProductThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);

@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', event => {
                 var modDate = data[Object.keys(data)[i]].modDate;
 
                 str += "<tr>" +
-                    /*"<td>" + boardSeq + "</td>" +*/
+                    "<td onclick=location.href='/detailBoard/"+ boardSeq + "'>" + boardSeq + "</td>" +
                     "<td onclick=location.href='/detailBoard/"+ boardSeq + "' style='width:20%;'>" + boardTitle + "</td>" +
                     "<td onclick=location.href='/detailBoard/"+ boardSeq + "' style='width:30%;'>" + boardContents + "</td>" +
                     "<td>" + boardLikes + "</td>" +

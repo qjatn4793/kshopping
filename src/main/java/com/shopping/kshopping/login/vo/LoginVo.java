@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginVo {
+    private int userSeq;
     private String userId;
     private String userPw;
     private String userName;

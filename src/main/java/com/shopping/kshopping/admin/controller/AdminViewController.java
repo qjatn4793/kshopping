@@ -30,10 +30,46 @@ public class AdminViewController {
         return "admin/adminLogin.html";
     }
 
-    @RequestMapping("/admin/createProduct")
-    public String createProduct(){
+    @GetMapping("/admin/adminProduct")
+    public String adminProduct(HttpServletRequest request){
 
-        return "admin/createProduct.html";
+        HttpSession session = request.getSession();
+
+        if(session.getAttribute("adminLoginCheck")!=null && session.getAttribute("adminId")!=null && session.getAttribute("adminPw")!=null){
+            if(session.getAttribute("adminLoginCheck").equals("success")){
+                return "admin/adminProduct.html";
+            }
+        }
+
+        return "admin/adminLogin.html";
+    }
+
+    @GetMapping("/admin/adminBoard")
+    public String adminBoard(HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+
+        if(session.getAttribute("adminLoginCheck")!=null && session.getAttribute("adminId")!=null && session.getAttribute("adminPw")!=null){
+            if(session.getAttribute("adminLoginCheck").equals("success")){
+                return "admin/adminBoard.html";
+            }
+        }
+
+        return "admin/adminLogin.html";
+    }
+
+    @GetMapping("/admin/adminUser")
+    public String adminUser(HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+
+        if(session.getAttribute("adminLoginCheck")!=null && session.getAttribute("adminId")!=null && session.getAttribute("adminPw")!=null){
+            if(session.getAttribute("adminLoginCheck").equals("success")){
+                return "admin/adminGetUser.html";
+            }
+        }
+
+        return "admin/adminLogin.html";
     }
 
     @RequestMapping("/admin/updateProduct")

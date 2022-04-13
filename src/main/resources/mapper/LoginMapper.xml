@@ -27,6 +27,6 @@
     </select>
 
     <update id="userUpdate" parameterType="com.shopping.kshopping.login.vo.LoginVo">
-        UPDATE user SET user_name = #{userName}, user_birth = #{userBirth}, user_phone = #{userPhone} WHERE user_id = #{userId} AND user_pw = #{userPw};
+        UPDATE user SET user_name = #{userName}, user_pw = #{userPw}, user_birth = #{userBirth}, user_phone = #{userPhone} WHERE user_id = #{userId}
     </update>
 </mapper>

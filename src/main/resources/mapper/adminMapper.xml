@@ -14,4 +14,16 @@
         SELECT admin_pw FROM admin_user WHERE admin_id = #{adminId}
     </select>
 
+    <select id="adminGetUser" resultType="com.shopping.kshopping.login.vo.LoginVo">
+        SELECT * FROM USER WHERE user_seq = #{userSeq}
+    </select>
+
+    <select id="adminGetUserCount" resultType="integer">
+        SELECT max(user_seq) FROM user
+    </select>
+
+    <delete id="adminUserDelete" parameterType="integer">
+        DELETE FROM USER WHERE user_seq=#{userSeq}
+    </delete>
+
 </mapper>

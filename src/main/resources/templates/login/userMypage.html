@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Register - SB Admin</title>
+        <title>Mypage - User</title>
         <link href="/common/css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     </head>
@@ -42,10 +42,21 @@
                                             <input th:value="${session.userId}" class="form-control" id="userId" type="text" maxlength="20" readonly/>
                                             <label for="userName">사용자 ID</label>
                                         </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="userPw" type="password" placeholder="회원정보 수정 시 패스워드가 사용자 ID와 일치하면 수정이 완료됩니다." minlength="10" maxlength="20" readonly/>
-                                            <label for="userPw">회원정보 수정 시 패스워드가 사용자 ID와 일치하면 수정이 완료됩니다.</label>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input style="display:none;" class="form-control" id="userPw" type="password" placeholder="패스워드를 입력해 주세요" minlength="10" maxlength="20" readonly/>
+                                                    <label style="display:none;" id="userPwLabel" for="userPw">변경하실 패스워드를 입력해 주세요</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input style="display:none;" class="form-control" id="userPwConfirm" type="password" placeholder="다시한번 패스워드를 입력해 주세요" minlength="10" maxlength="20" onkeyup="userPwCheck()" readonly/>
+                                                    <label style="display:none;" id="userPwConfirmLabel" for="userPwConfirm">다시한번 패스워드를 입력해 주세요</label>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <p id = "checkPw" size = "2"></p>
                                     </div>
                                     <div class="card-footer py-3"> <!-- text-center 클래스 제거함 -->
                                         <div class="small">
@@ -83,10 +94,10 @@
                 var userPwConfirm = $("#userPwConfirm").val();
 
                 if(userPw == userPwConfirm){
-                    $("#checkPw").html("비밀번호가 같습니다.");
+                    $("#checkPw").html("변경할 비밀번호가 같습니다.");
                     $("#checkPw").css("color", "green");
                 }else {
-                    $("#checkPw").html("비밀번호가 서로 다릅니다. 확인해 주세요.");
+                    $("#checkPw").html("변경할 비밀번호가 서로 다릅니다. 확인해 주세요.");
                     $("#checkPw").css("color", "red");
                 }
             }
@@ -97,54 +108,23 @@
 
                 $('#userUpdateToggle').css('display', 'none');
                 $('#userUpdate').css("display", "block");
+                $('#userPw').css("display", "block");
+                $('#userPwConfirm').css("display", "block");
+                $('#userPwLabel').css("display", "block");
+                $('#userPwConfirmLabel').css("display", "block");
 
                 $('#userName').prop('readonly', false);
                 $('#userPhone').prop('readonly', false);
                 $('#userBirth').prop('readonly', false);
                 $('#userPw').prop('readonly', false);
-            }
-
-            function userUpdate(){
-                var userName = $('#userName').val();
-                var userPhone = $('#userPhone').val();
-                var userBirth = $('#userBirth').val();
-                var userPw = $('#userPw').val();
-
-                $.ajax({
-                    type : "PUT",
-                    url : "/userRegister",
-                    dataType : "text",
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        "userId" : userId,
-                        "userPw" : userPw,
-                        "status" : 1
-                    }),
-                    async : false,
-                    error : function(){
-                        alert('로그인을 실패하였습니다. ID 또는 PW를 확인해주세요');
-                    },
-                    success : function(data){
-                        if(data == "1"){
-                            if(referrer != ""){
-                                sessionStorage.setItem("userId", userId);
-                                location.replace(referrer);
-                            }else {
-                                sessionStorage.setItem("userId", userId);
-                                location.replace("/");
-                            }
-                        }else{
-                            alert('로그인을 실패하였습니다. ID 또는 PW를 확인해주세요');
-                            location.replace("/login");
-                        }
-                    }
-                });
+                $('#userPwConfirm').prop('readonly', false);
             }
 
             function userUpdate(){
 
                 var userId = $("#userId").val();
                 var userPw = $("#userPw").val();
+                var userPwConfirm = $("#userPwConfirm").val();
                 var userName = $("#userName").val();
                 var userBirth = $("#userBirth").val();
                 var userPhone = $("#userPhone").val();
@@ -157,70 +137,73 @@
                 var now = new Date();
                 var year = now.getFullYear();
 
-                if(userId != null && userId != "" && userPw != null && userPw != "" && userName != null && userName != "" && userBirth != null && userBirth != "" && userPhone != null && userPhone != "") {
+                if(userId != null && userId != "" && userPw != null && userPw != "" && userPwConfirm != null && userPwConfirm != "" && userName != null && userName != "" && userBirth != null && userBirth != "" && userPhone != null && userPhone != "") {
                     if (numCheck.test(userBirth) && numCheck.test(userPhone)) { // userBirth, userPhone 이 숫자만 입력되었을 때
                         if (userBirthM < 13 && userBirthY < year && userBirth > 1900 && userBirth.length > 7) { // 생년월일에서 입력한 월이 13월을 넘지 않고 현재 년도 보다 낮을 경우 1900년생 보다 높을경우
+                            if (userPw == userPwConfirm) { // userPw 와 userPwConfirm 이 같을 때
+                                // 특정 문자열 발견시 공백으로 치환 : userId
+                                userId = userId.replace(/\</g, '');
+                                userId = userId.replace(/\>/g, '');
+                                userId = userId.replace(/\#/g, '');
+                                userId = userId.replace(/\$/g, '');
+                                userId = userId.replace(/\@/g, '');
+                                userId = userId.replace(/\^/g, '');
+                                userId = userId.replace(/\&/g, '');
+                                userId = userId.replace(/\*/g, '');
+                                userId = userId.replace(/\(/g, '');
+                                userId = userId.replace(/\)/g, '');
+                                userId = userId.replace(/\;/g, '');
+                                userId = userId.replace(/\=/g, '');
+                                userId = userId.replace(/\'/g, '');
+                                userId = userId.replace(/\"/g, '');
 
-                            // 특정 문자열 발견시 공백으로 치환 : userId
-                            userId = userId.replace(/\</g, '');
-                            userId = userId.replace(/\>/g, '');
-                            userId = userId.replace(/\#/g, '');
-                            userId = userId.replace(/\$/g, '');
-                            userId = userId.replace(/\@/g, '');
-                            userId = userId.replace(/\^/g, '');
-                            userId = userId.replace(/\&/g, '');
-                            userId = userId.replace(/\*/g, '');
-                            userId = userId.replace(/\(/g, '');
-                            userId = userId.replace(/\)/g, '');
-                            userId = userId.replace(/\;/g, '');
-                            userId = userId.replace(/\=/g, '');
-                            userId = userId.replace(/\'/g, '');
-                            userId = userId.replace(/\"/g, '');
-
-                            userName = userName.replace(/\</g, '');
-                            userName = userName.replace(/\>/g, '');
-                            userName = userName.replace(/\#/g, '');
-                            userName = userName.replace(/\$/g, '');
-                            userName = userName.replace(/\@/g, '');
-                            userName = userName.replace(/\^/g, '');
-                            userName = userName.replace(/\&/g, '');
-                            userName = userName.replace(/\*/g, '');
-                            userName = userName.replace(/\(/g, '');
-                            userName = userName.replace(/\)/g, '');
-                            userName = userName.replace(/\;/g, '');
-                            userName = userName.replace(/\=/g, '');
-                            userName = userName.replace(/\'/g, '');
-                            userName = userName.replace(/\"/g, '');
+                                userName = userName.replace(/\</g, '');
+                                userName = userName.replace(/\>/g, '');
+                                userName = userName.replace(/\#/g, '');
+                                userName = userName.replace(/\$/g, '');
+                                userName = userName.replace(/\@/g, '');
+                                userName = userName.replace(/\^/g, '');
+                                userName = userName.replace(/\&/g, '');
+                                userName = userName.replace(/\*/g, '');
+                                userName = userName.replace(/\(/g, '');
+                                userName = userName.replace(/\)/g, '');
+                                userName = userName.replace(/\;/g, '');
+                                userName = userName.replace(/\=/g, '');
+                                userName = userName.replace(/\'/g, '');
+                                userName = userName.replace(/\"/g, '');
 
 
-                            $.ajax({
-                                type: "PUT",
-                                url: "/userRegister",
-                                dataType: "text",
-                                async: false,
-                                contentType: "application/json",
-                                data: JSON.stringify({
-                                    "userId": userId,
-                                    "userPw": userPw,
-                                    "userName": userName,
-                                    "userBirth": userBirth,
-                                    "userPhone": userPhone,
-                                    "status": 1
-                                }),
-                                async: false,
-                                error: function () {
-                                    alert('회원수정을 실패 하였습니다. \n입력하신 정보를 확인해주세요.');
-                                },
-                                success: function (data) {
-                                    if (data == "1") {
-                                        alert(userName + '님 ' + '회원수정을 성공 하였습니다. \n다시 로그인 해주세요!');
-                                        location.replace("/login");
-                                    } else {
+                                $.ajax({
+                                    type: "PUT",
+                                    url: "/userRegister",
+                                    dataType: "text",
+                                    async: false,
+                                    contentType: "application/json",
+                                    data: JSON.stringify({
+                                        "userId": userId,
+                                        "userPw": userPw,
+                                        "userName": userName,
+                                        "userBirth": userBirth,
+                                        "userPhone": userPhone,
+                                        "status": 1
+                                    }),
+                                    async: false,
+                                    error: function () {
                                         alert('회원수정을 실패 하였습니다. \n입력하신 정보를 확인해주세요.');
-                                        location.replace("/userMypage");
+                                    },
+                                    success: function (data) {
+                                        if (data == "1") {
+                                            alert(userName + '님 ' + '회원수정을 성공 하였습니다. \n다시 로그인 해주세요!');
+                                            location.replace("/login");
+                                        } else {
+                                            alert('회원수정을 실패 하였습니다. \n입력하신 정보를 확인해주세요.');
+                                            location.replace("/userMypage");
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else { // userPw 와 userPwConfirm 이 같지 않을 때
+                                alert("변경할 비밀번호와 변경할 비밀번호 재입력 값이 서로 같지 않습니다. \n다시한번 확인해주세요.");
+                            }
                         } else { // 생년월일에서 입력한 월이 13월을 넘지 않고 현재 년도 보다 낮지 않을 경우
                             alert("생년월일을 확인해 주세요!");
                         }

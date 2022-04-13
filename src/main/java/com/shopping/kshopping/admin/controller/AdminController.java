@@ -3,6 +3,7 @@ package com.shopping.kshopping.admin.controller;
 import com.shopping.kshopping.admin.service.AdminService;
 import com.shopping.kshopping.admin.vo.AdminVo;
 import com.shopping.kshopping.configuration.SHA256;
+import com.shopping.kshopping.login.vo.LoginVo;
 import com.shopping.kshopping.product.vo.ProductVo;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import static java.lang.String.valueOf;
 
 
 @AllArgsConstructor
@@ -63,7 +67,7 @@ public class AdminController {
     }
 
 
-    @RequestMapping("/admin")
+    @DeleteMapping("/admin")
     public String logout(HttpServletRequest request){
         HttpSession session = request.getSession();
         session.removeAttribute("adminLoginCheck");
@@ -71,5 +75,28 @@ public class AdminController {
         session.removeAttribute("adminPw");
         session.invalidate();
         return "adminLogout";
+    }
+
+    @GetMapping("/admin/adminGetUser") // 관리자 - 사용자 관리
+    public HashMap<String, LoginVo> adminGetUser(HttpServletRequest request) throws Exception{
+        HashMap<String, LoginVo> adminGetUser = new HashMap<>();
+
+        int boardCount = adminService.adminGetUserCount();
+
+        for (int i=1; boardCount >= i; i++) {
+            if(adminService.adminGetUser(i) != null){
+                adminGetUser.put(valueOf(i), adminService.adminGetUser(i));
+            }
+        }
+        return adminGetUser;
+    }
+
+    @DeleteMapping("/admin/adminUserDelete") // 관리자 - 사용자 삭제
+    public int adminUserDelete(@RequestBody LoginVo LoginVo) throws Exception{
+        if (LoginVo == null){
+            return 0;
+        }else {
+            return adminService.adminUserDelete(LoginVo.getUserSeq());
+        }
     }
 }
