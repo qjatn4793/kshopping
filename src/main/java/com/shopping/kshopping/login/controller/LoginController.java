@@ -42,26 +42,29 @@ public class LoginController {
 
         if(encryptUserPw.equals(sha256.encrypt(loginVo.getUserPw()))) {
             loginCheck = loginService.loginCheck(loginVo);
+            loginVo = loginService.userInfo(loginVo.getUserId());
+            int status = loginVo.getStatus();
 
-            if (loginCheck == 1) {
+            if (status == 1) { // 일반 사용자 일경우
+                if (loginCheck == 1) {
+                    session.setAttribute("loginCheck", "success");
+                    session.setAttribute("userId", loginVo.getUserId());
+                    session.setAttribute("userPw", sha256.encrypt(loginVo.getUserPw()));
+                    session.setAttribute("userName", loginVo.getUserName());
 
-                loginVo = loginService.userInfo(loginVo.getUserId());
+                    String userBirth = loginVo.getUserBirth();
+                    userBirth = userBirth.replace("-", "");
 
-                session.setAttribute("loginCheck", "success");
-                session.setAttribute("userId", loginVo.getUserId());
-                session.setAttribute("userPw", sha256.encrypt(loginVo.getUserPw()));
-                session.setAttribute("userName", loginVo.getUserName());
+                    session.setAttribute("userBirth", userBirth);
+                    session.setAttribute("userPhone", loginVo.getUserPhone());
 
-                String userBirth = loginVo.getUserBirth();
-                userBirth = userBirth.replace("-", "");
-
-                session.setAttribute("userBirth", userBirth);
-                session.setAttribute("userPhone", loginVo.getUserPhone());
-
-                return loginCheck;
-            } else {
-                loginCheck = 0;
-                return loginCheck;
+                    return loginCheck;
+                } else {
+                    loginCheck = 0;
+                    return loginCheck;
+                }
+            }else { // 블랙 리스트 일경우
+                return 2;
             }
         }else {
             loginCheck = 0;

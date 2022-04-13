@@ -72,6 +72,9 @@ function userLogin(){
                     sessionStorage.setItem("userId", userId);
                     location.replace("/");
                 }
+            }else if(data == "2") {
+                alert('블랙리스트로 등록된 사용자 입니다. \n고객센터로 연락주시길 바랍니다.');
+                location.replace("/login");
             }else{
                 alert('로그인을 실패하였습니다. ID 또는 PW를 확인해주세요');
                 location.replace("/login");

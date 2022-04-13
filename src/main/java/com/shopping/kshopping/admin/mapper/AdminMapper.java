@@ -19,4 +19,8 @@ public interface AdminMapper {
 
     int adminUserDelete(int userSeq);
 
+    int adminUserUpdate(LoginVo loginVo);
+
+    int passwordReset(LoginVo loginVo);
+
 }

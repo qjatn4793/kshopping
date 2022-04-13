@@ -51,7 +51,7 @@
                                     <th>이름</th>
                                     <th>휴대폰</th>
                                     <th>생년월일</th>
-                                    <th>상태</th>
+                                    <th>상태 (0 : 블랙 / 1 : 일반)</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -61,7 +61,7 @@
                                     <th>이름</th>
                                     <th>휴대폰</th>
                                     <th>생년월일</th>
-                                    <th>상태</th>
+                                    <th>상태 (0 : 블랙 / 1 : 일반)</th>
                                 </tr>
                                 </tfoot>
                                 <tbody class="user">
@@ -69,6 +69,8 @@
                                 </tbody>
                             </table>
                             <button id="deletePopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">사용자 삭제</button>
+                            <button id="updatePopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">블랙리스트 등록/해제</button>
+                            <button id="resetPopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">패스워드 초기화</button>
                             <div id="userDelete" style="border:solid 1px gray;">
                                 <div id="deleteMenu">
                                     <p>사용자 삭제</p>
@@ -77,7 +79,25 @@
                                     <button style="float:right;" class="badge bg-secondary text-decoration-none link-light" onclick="userDelete()">삭제</button>
                                 </div>
                             </div>
+                            <div id="userUpdate" style="border:solid 1px gray;">
+                                <div id="updateMenu">
+                                    <p>블랙리스트 등록/해제</p>
+                                    <input id="userBlackSeq" name="userBlackSeq" class="userBlackSeq" type="number" placeholder="사용자 순번"><br>
+                                    <input id="status" name="userBlackSeq" class="userBlackSeq" type="number" placeholder="상태코드 (0 : 블랙 / 1 : 일반 사용자)"><br>
+                                    <button style="float:right;" class="exit2 badge bg-secondary text-decoration-none link-light">닫기</button>
+                                    <button style="float:right;" class="badge bg-secondary text-decoration-none link-light" onclick="userUpdate()">등록</button>
+                                </div>
+                            </div>
+                            <div id="userReset" style="border:solid 1px gray;">
+                                <div id="resetMenu">
+                                    <p>패스워드 초기화</p>
+                                    <input id="userResetSeq" name="userResetSeq" class="userResetSeq" type="number" placeholder="사용자 순번"><br>
+                                    <button style="float:right;" class="exit3 badge bg-secondary text-decoration-none link-light">닫기</button>
+                                    <button style="float:right;" class="badge bg-secondary text-decoration-none link-light" onclick="passwordReset()">초기화</button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
@@ -121,6 +141,12 @@
                         var userPhone = data[Object.keys(data)[i]].userPhone;
                         var status = data[Object.keys(data)[i]].status;
 
+                        if (status == 1) {
+                            status = "일반 사용자 : 1"
+                        }else {
+                            status = "블랙리스트 사용자 : 0"
+                        }
+
                         str += "<tr>" +
                             "<td>" + userSeq + "</td>" +
                             "<td>" + userId + "</td>" +
@@ -163,17 +189,137 @@
                 });
             }
 
+            function userUpdate(){
+                var userBlackSeq = $("#userBlackSeq").val();
+                var status = $("#status").val();
+
+                $.ajax({
+                    type: "PUT",
+                    url: "/admin/adminUserUpdate",
+                    dataType: "text",
+                    async: false,
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        "userSeq" : userBlackSeq,
+                        "status" : status
+                    }),
+                    error: function () {
+                        alert("사용자 상태 수정을 실패 하였습니다!");
+                        location.reload();
+                    },
+                    success: function (data) {
+                        if (data == 1){
+                            alert("사용자 상태 수정을 성공 하였습니다!");
+                            location.reload();
+                        }else{
+                            alert("사용자 상태 수정을 실패 하였습니다!");
+                            location.reload();
+                        }
+                    }
+                });
+            }
+
+            function passwordReset(){
+                var userResetSeq = $("#userResetSeq").val();
+                var userPw = 'securus11!';
+
+                $.ajax({
+                    type: "PUT",
+                    url: "/admin/passwordReset",
+                    dataType: "text",
+                    async: false,
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        "userSeq" : userResetSeq,
+                        "userPw" : userPw
+                    }),
+                    error: function () {
+                        alert("사용자 패스워드 초기화를 실패 하였습니다!");
+                        location.reload();
+                    },
+                    success: function (data) {
+                        if (data == 1){
+                            alert("사용자 패스워드 초기화를 성공 하였습니다!");
+                            location.reload();
+                        }else{
+                            alert("사용자 패스워드 초기화를 실패 하였습니다!");
+                            location.reload();
+                        }
+                    }
+                });
+            }
+
             $("#userDelete").fadeOut();
 
             $("#deletePopup").click(function() {
                 $("#userDelete").fadeToggle();
+                $("#userUpdate").fadeOut();
+                $("#userReset").fadeOut();
 
                 $("#userSeq").val("");
+                $("#status").val("");
+                $("#userBlackSeq").val("");
+                $("#userResetSeq").val("");
             });
 
             $(".exit1").click(function() {
+                $("#userUpdate").fadeOut();
                 $("#userDelete").fadeOut();
+                $("#userReset").fadeOut();
+
                 $("#userSeq").val("");
+                $("#status").val("");
+                $("#userBlackSeq").val("");
+                $("#userResetSeq").val("");
+            });
+
+            $("#userUpdate").fadeOut();
+
+            $("#updatePopup").click(function() {
+                $("#userUpdate").fadeToggle();
+                $("#userDelete").fadeOut();
+                $("#userReset").fadeOut();
+
+                $("#userSeq").val("");
+                $("#status").val("");
+                $("#userBlackSeq").val("");
+                $("#userResetSeq").val("");
+            });
+
+            $(".exit2").click(function() {
+                $("#userUpdate").fadeOut();
+                $("#userDelete").fadeOut();
+                $("#userReset").fadeOut();
+
+                $("#userSeq").val("");
+                $("#status").val("");
+                $("#userBlackSeq").val("");
+                $("#userResetSeq").val("");
+            });
+
+            $("#userReset").fadeOut();
+
+            $("#resetPopup").click(function() {
+
+                $("#userReset").fadeToggle();
+                $("#userUpdate").fadeOut();
+                $("#userDelete").fadeOut();
+
+                $("#userSeq").val("");
+                $("#status").val("");
+                $("#userBlackSeq").val("");
+                $("#userResetSeq").val("");
+            });
+
+            $(".exit3").click(function() {
+                $("#userUpdate").fadeOut();
+                $("#userDelete").fadeOut();
+                $("#userReset").fadeOut();
+
+                $("#userSeq").val("");
+                $("#status").val("");
+                $("#userBlackSeq").val("");
+                $("#userResetSeq").val("");
             });
         </script>
     </body>

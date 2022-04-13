@@ -92,11 +92,32 @@ public class AdminController {
     }
 
     @DeleteMapping("/admin/adminUserDelete") // 관리자 - 사용자 삭제
-    public int adminUserDelete(@RequestBody LoginVo LoginVo) throws Exception{
-        if (LoginVo == null){
+    public int adminUserDelete(@RequestBody LoginVo loginVo) throws Exception{
+        if (loginVo == null){
             return 0;
         }else {
-            return adminService.adminUserDelete(LoginVo.getUserSeq());
+            return adminService.adminUserDelete(loginVo.getUserSeq());
+        }
+    }
+
+    @PutMapping("/admin/adminUserUpdate") // 관리자 - 사용자 수정
+    public int adminUserUpdate(@RequestBody LoginVo loginVo) throws Exception{
+        if (loginVo == null){
+            return 0;
+        }else {
+            return adminService.adminUserUpdate(loginVo);
+        }
+    }
+
+    @PutMapping("/admin/passwordReset") // 관리자 - 패스워드 초기화
+    public int passwordReset(@RequestBody LoginVo loginVo) throws Exception{
+        System.out.println(loginVo.getUserPw());
+        System.out.println(loginVo.getUserSeq());
+
+        if (loginVo == null){
+            return 0;
+        }else {
+            return adminService.passwordReset(loginVo);
         }
     }
 }

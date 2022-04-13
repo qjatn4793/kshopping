@@ -115,7 +115,11 @@ public class ProductController {
     @PutMapping("/product")
     public int productUpdate(@RequestBody ProductVo productVo) throws Exception{
 
-        return productService.productUpdate(productVo);
+        if (productVo == null){
+            return 0;
+        }else {
+            return productService.productUpdate(productVo);
+        }
     }
 
     @DeleteMapping("/product")

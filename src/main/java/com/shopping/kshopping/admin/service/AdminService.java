@@ -40,4 +40,14 @@ public class AdminService {
         return adminMapper.adminUserDelete(userSeq);
     }
 
+    public int adminUserUpdate(LoginVo loginVo) throws Exception{
+
+        return adminMapper.adminUserUpdate(loginVo);
+    }
+
+    public int passwordReset(LoginVo loginVo) throws Exception{
+
+        return adminMapper.passwordReset(loginVo);
+    }
+
 }
