@@ -137,7 +137,7 @@
         <script>
             $(document).ready(function() {
 
-                $("#productDelete").fadeOut();
+                $("#productDelete").fadeOut("fast");
 
                 $("#deletePopup").click(function() {
                     $("#productDelete").fadeToggle();
@@ -158,7 +158,7 @@
                     $("#productSeq").val("");
                 });
 
-                $("#productCreate").fadeOut();
+                $("#productCreate").fadeOut("fast");
 
                 $("#createPopup").click(function() {
                     $("#productCreate").fadeToggle();
@@ -174,7 +174,7 @@
                     $(".selectImg img").attr("src", "");
                 });
 
-                $("#productUpdate").fadeOut();
+                $("#productUpdate").fadeOut("fast");
 
                 $(".exit2").click(function() {
                     $("#productCreate").fadeOut();

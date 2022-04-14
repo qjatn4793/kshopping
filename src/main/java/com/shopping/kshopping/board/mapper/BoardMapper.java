@@ -15,6 +15,8 @@ public interface BoardMapper {
 
     int boardCount();
 
+    int boardMinCount();
+
     int updateView(int boardSeq);
 
     int boardCreate(BoardVo boardVo);
@@ -24,6 +26,8 @@ public interface BoardMapper {
     ReplyVo boardReply(ReplyVo replyVo);
 
     int boardReplyCount(int boardSeq);
+
+    int boardReplyMinCount(int boardSeq);
 
     int replyCreate(ReplyVo replyVo);
 

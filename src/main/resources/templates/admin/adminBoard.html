@@ -102,7 +102,6 @@
         <script src="/common/js/scripts.js"></script>
         <script src="/common/js/board.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="/common/js/datatables-simple-demo.js"></script>
         <script>
             function boardDelete(){
                 var boardWriter = $("#boardWriter").text();
@@ -136,7 +135,7 @@
                 });
             }
 
-            $("#boardDelete").fadeOut();
+            $("#boardDelete").fadeOut("fast");
 
             $("#deletePopup").click(function() {
                 $("#boardDelete").fadeToggle();

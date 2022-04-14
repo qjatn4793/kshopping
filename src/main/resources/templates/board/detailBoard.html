@@ -36,7 +36,7 @@
 
                     <!-- Post categories-->
                     <a id="boardWriter" class="badge bg-secondary text-decoration-none link-light" href="">작성자</a>
-                    <a id="boardViews" class="badge bg-secondary text-decoration-none link-light" href="">Web Design</a>
+                    <p id="boardViews" class="badge bg-secondary text-decoration-none link-light" href="">Web Design</p>
                     <!--<a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>-->
                 </header>
                 <!-- Preview image figure-->
@@ -54,7 +54,7 @@
             <!-- Comments section-->
             <section class="mb-5">
                 <div class="card bg-light">
-                    <form th:if="${session.loginCheck == 'success'}" class="mb-4"><textarea id="replyContents" class="form-control" rows="3" placeholder="댓글 내용을 입력해 주세요!" maxlength="80"></textarea>
+                    <form class="mb-4"><textarea id="replyContents" class="form-control" rows="3" placeholder="댓글 내용을 입력해 주세요!" maxlength="80"></textarea>
                         <button type="button" onclick="createReply()" class="badge bg-secondary text-decoration-none link-light" style="float:right;">댓글 작성</button>
                     </form>
                     <div id = "boardReply" class="card-body">
@@ -141,15 +141,6 @@
                 $("#regDate").text("작성 시간 : " + regDate);
                 $("#boardViews").text("조회 수 : " + boardViews);
                 $("#boardContents").text(boardContents);
-
-                /*if (boardImg == "" || boardImg == null){
-                    boardImg = "";
-                }else {
-                    boardImg = boardImg.replace("\\", "/");
-                    boardImg = "/common/img" + boardImg;
-                }*/
-
-                //$("#boardImg").attr("src", boardImg);
 
                 var rBoardWriter = boardWriter.replace("작성자 : ", "");
 
@@ -251,7 +242,7 @@
         replyContents = replyContents.replace(/\;/g,'');
 
 
-        if(replyContents != '' && replyContents != null) {
+        /*if(replyContents != '' && replyContents != null) {*/
             $.ajax({
                 type: "POST",
                 url: "/boardReply/" + boardSeq[2],
@@ -270,15 +261,18 @@
                     if (data == 1) {
                         alert("댓글이 작성되었습니다.");
                         location.reload();
-                    } else {
+                    } else if (data == 2) {
+                        alert("로그인 후 이용해 주세요!");
+                        /*location.replace("/login");*/
+                    } else{
                         alert("통신실패");
                         location.reload();
                     }
                 }
             });
-        }else {
+        /*}else {
             alert("댓글 내용을 입력해 주세요");
-        }
+        }*/
     }
 
     function deleteReply(replySeq){

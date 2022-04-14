@@ -111,8 +111,6 @@ public class AdminController {
 
     @PutMapping("/admin/passwordReset") // 관리자 - 패스워드 초기화
     public int passwordReset(@RequestBody LoginVo loginVo) throws Exception{
-        System.out.println(loginVo.getUserPw());
-        System.out.println(loginVo.getUserSeq());
 
         if (loginVo == null){
             return 0;

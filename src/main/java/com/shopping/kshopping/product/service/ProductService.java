@@ -27,6 +27,11 @@ public class ProductService {
         return productMapper.productCount();
     }
 
+    public int productMinCount() throws Exception{
+
+        return productMapper.productMinCount();
+    }
+
     public int productCreate(HashMap<String, String> product) throws Exception{
 
         return productMapper.productCreate(product);
@@ -59,6 +64,11 @@ public class ProductService {
     public int productReplyCount(int productSeq) throws Exception{
 
         return productMapper.productReplyCount(productSeq);
+    }
+
+    public int productReplyMinCount(int productSeq) throws Exception{
+
+        return productMapper.productReplyMinCount(productSeq);
     }
 
     public int replyCreate(ProductReplyVo productReplyVo) throws Exception {

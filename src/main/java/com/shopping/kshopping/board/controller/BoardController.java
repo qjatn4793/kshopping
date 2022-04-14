@@ -24,8 +24,9 @@ public class BoardController {
         HashMap<String, BoardVo> boardView = new HashMap<>();
 
         int boardCount = boardService.boardCount();
+        int boardMinCount = boardService.boardMinCount();
 
-        for (int i=1; boardCount >= i; i++) {
+        for (int i=boardMinCount; boardCount >= i; i++) {
 
             if(boardService.boardView(i) != null){
                 boardView.put(valueOf(i), boardService.boardView(i));
@@ -80,9 +81,10 @@ public class BoardController {
         HashMap<String, ReplyVo> boardReply = new HashMap<>();
 
         int boardReplyCount = boardService.boardReplyCount(boardSeq);
+        int boardReplyMinCount = boardService.boardReplyMinCount(boardSeq);
 
         if (boardReplyCount != 0) {
-            for (int i=1; boardReplyCount >= i; i++) {
+            for (int i=boardReplyMinCount; boardReplyCount >= i; i++) {
                 if(boardService.boardReply(boardSeq, i) != null){
                     boardReply.put(valueOf(i), boardService.boardReply(boardSeq, i));
                 }
@@ -98,16 +100,19 @@ public class BoardController {
         Object O_userId = session.getAttribute("userId");
         String userId = valueOf(O_userId);
 
-        if (replyVo.getReplyWriter().equals(userId)){ //넘겨온 댓글 작성자와 세션 댓글 작성자가 같을 때
-            if (replyVo.getReplyContents() == null && replyVo.getReplyContents().isEmpty()) { //댓글 내용이 없으면
-                return 0;
-            }else { //댓글 내용이 있으면
-                replyVo.setBoardSeq(boardSeq);
-                return boardService.replyCreate(replyVo);
+        try {
+            if (replyVo.getReplyWriter().equals(userId)) { //넘겨온 댓글 작성자와 세션 댓글 작성자가 같을 때
+                if (replyVo.getReplyContents() == null && replyVo.getReplyContents().isEmpty()) { //댓글 내용이 없으면
+                    return 0;
+                } else { //댓글 내용이 있으면
+                    replyVo.setBoardSeq(boardSeq);
+                    return boardService.replyCreate(replyVo);
+                }
+            } else {
+                return 2;
             }
-
-        }else {
-            return 0;
+        }catch (NullPointerException e) {
+            return 2;
         }
     }
 

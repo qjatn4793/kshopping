@@ -16,6 +16,8 @@ public interface ProductMapper {
 
     int productCount();
 
+    int productMinCount();
+
     int productCreate(HashMap<String, String> product);
 
     int productDelete(int productSeq);
@@ -27,6 +29,8 @@ public interface ProductMapper {
     ProductReplyVo productReply(ProductReplyVo productReplyVo);
 
     int productReplyCount(int productSeq);
+
+    int productReplyMinCount(int productSeq);
 
     int replyCreate(ProductReplyVo productReplyVo);
 

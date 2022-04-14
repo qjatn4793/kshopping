@@ -31,9 +31,11 @@ public class ProductController {
 
         HashMap<String, ProductVo> productView = new HashMap<>();
 
-        int productCount = productService.productCount();
+        int productMaxCount = productService.productCount();
+        int productMinCount = productService.productMinCount();
 
-        for (int i=1; productCount >= i; i++) {
+        for (int i=productMinCount; productMaxCount >= i; i++) {
+
             if(productService.productView(i) != null){
                 productView.put(valueOf(i), productService.productView(i));
             }
@@ -147,9 +149,10 @@ public class ProductController {
         HashMap<String, ProductReplyVo> boardReply = new HashMap<>();
 
         int productReplyCount = productService.productReplyCount(productSeq);
+        int productReplyMinCount = productService.productReplyMinCount(productSeq);
 
         if(productReplyCount != 0) {
-            for (int i = 1; productReplyCount >= i; i++) {
+            for (int i = productReplyMinCount; productReplyCount >= i; i++) {
                 if (productService.productReply(productSeq, i) != null) {
                     boardReply.put(valueOf(i), productService.productReply(productSeq, i));
                 }
@@ -166,16 +169,19 @@ public class ProductController {
         Object O_userId = session.getAttribute("userId");
         String userId = valueOf(O_userId);
 
-        if (productReplyVo.getReplyWriter().equals(userId)){ //넘겨온 댓글 작성자와 세션 댓글 작성자가 같을 때
-            if (productReplyVo.getReplyContents() == null && productReplyVo.getReplyContents().isEmpty()) { //댓글 내용이 없으면
+        try {
+            if (productReplyVo.getReplyWriter().equals(userId)) { //넘겨온 댓글 작성자와 세션 댓글 작성자가 같을 때
+                if (productReplyVo.getReplyContents() == null && productReplyVo.getReplyContents().isEmpty()) { //댓글 내용이 없으면
+                    return 0;
+                } else { //댓글 내용이 있으면
+                    productReplyVo.setProductSeq(productSeq);
+                    return productService.replyCreate(productReplyVo);
+                }
+            } else {
                 return 0;
-            }else { //댓글 내용이 있으면
-                productReplyVo.setProductSeq(productSeq);
-                return productService.replyCreate(productReplyVo);
             }
-
-        }else {
-            return 0;
+        }catch (NullPointerException e) {
+            return 2;
         }
     }
 

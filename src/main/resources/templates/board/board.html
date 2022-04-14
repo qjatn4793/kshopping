@@ -59,7 +59,8 @@
 
                             </tbody>
                         </table>
-                        <a th:if="${session.loginCheck == 'success' && session.userId != null && session.userId != '' && session.userPw != null && session.userPw != ''}" href="/createBoard" class="badge bg-secondary text-decoration-none link-light" style="float:right;">글 작성</a>
+                        <!--<a th:if="${session.loginCheck == 'success' && session.userId != null && session.userId != '' && session.userPw != null && session.userPw != ''}" href="/createBoard" class="badge bg-secondary text-decoration-none link-light" style="float:right;">글 작성</a>-->
+                        <button onclick="createBoardView()" class="badge bg-secondary text-decoration-none link-light" style="float:right;">글 작성</button>
                     </div>
                 </div>
             </main>
@@ -74,5 +75,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="/common/js/board.js"></script>
+<script>
+    function createBoardView(){
+        if (sessionStorage.getItem("userId") != null) {
+            location.replace("/createBoard");
+        }else {
+            alert("로그인 후 이용 가능합니다");
+        }
+    }
+
+</script>
 </body>
 </html>

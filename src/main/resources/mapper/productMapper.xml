@@ -12,6 +12,10 @@
         SELECT max(product_seq) FROM product
     </select>
 
+    <select id="productMinCount" resultType="integer">
+        SELECT min(product_seq) FROM product
+    </select>
+
     <insert id="productCreate" parameterType="hashmap">
         INSERT INTO product (product_name, product_contents1, product_contents2, product_contents3, product_img, product_thumb_img) VALUES (#{productName}, #{productContents1}, #{productContents2}, #{productContents3}, #{productImg}, #{productThumbImg})
     </insert>
@@ -35,6 +39,10 @@
 
     <select id="productReplyCount" resultType="integer">
         SELECT ifnull(max(reply_seq),0) data FROM product_reply where product_seq = #{productSeq}
+    </select>
+
+    <select id="productReplyMinCount" resultType="integer">
+        SELECT ifnull(min(reply_seq),0) data FROM product_reply where product_seq = #{productSeq}
     </select>
 
     <insert id="replyCreate" parameterType="com.shopping.kshopping.product.vo.ProductReplyVo">

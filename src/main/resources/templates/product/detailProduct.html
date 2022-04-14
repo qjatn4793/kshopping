@@ -33,7 +33,7 @@
                     <!-- Post meta content-->
                     <div id="regDate" class="text-muted fst-italic mb-2"></div>
                     <!-- Post categories-->
-                    <a id="productViews" class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
+                    <p id="productViews" class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</p>
                     <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
                 </header>
                 <!-- Preview image figure-->
@@ -45,13 +45,13 @@
                     <p id="productContents3" class="fs-5 mb-4">If you get asteroids about a kilometer in size, those are large enough and carry enough energy into our system to disrupt transportation, communication, the food chains, and that can be a really bad day on Earth.</p>
                     <a type="button" href="/mainProduct" class="badge bg-secondary text-decoration-none link-light" style="float:right;">목록 보기</a>
                     <h2 class="fw-bolder mb-4 mt-5">상품 후기</h2>
-                    <p class="fs-5 mb-4">상품 후기를 남겨 다른 사람들에게 공유해 주세요!</p>
+                    <p class="fs-5 mb-4">상품 후기를 남겨 다른 사람들에게 공유해 주세요</p>
                 </section>
             </article>
             <!-- Comments section-->
             <section class="mb-5">
                 <div class="card bg-light">
-                    <form th:if="${session.loginCheck == 'success'}" class="mb-4"><textarea id="replyContents" class="form-control" rows="3" placeholder="댓글 내용을 입력해 주세요!" maxlength="80"></textarea>
+                    <form class="mb-4"><textarea id="replyContents" class="form-control" rows="3" placeholder="댓글 내용을 입력해 주세요!" maxlength="80"></textarea>
                         <button type="button" onclick="createReply()" class="badge bg-secondary text-decoration-none link-light" style="float:right;">댓글 작성</button>
                     </form>
                     <div id = "productReply" class="card-body">
@@ -217,7 +217,7 @@
         replyContents = replyContents.replace(/\;/g,'');
 
 
-        if(replyContents != '' && replyContents != null) {
+        /*if(replyContents != '' && replyContents != null) {*/
             $.ajax({
                 type: "POST",
                 url: "/productReply/" + productSeq[2],
@@ -236,15 +236,18 @@
                     if (data == 1) {
                         alert("댓글이 작성되었습니다.");
                         location.reload();
-                    } else {
+                    } else if (data == 2) {
+                        alert("로그인 후 이용해 주세요!");
+                        /*location.replace("/login");*/
+                    }else {
                         alert("통신실패");
                         location.reload();
                     }
                 }
             });
-        }else {
+        /*}else {
             alert("댓글 내용을 입력해 주세요");
-        }
+        }*/
     }
 
     function deleteReply(replySeq){

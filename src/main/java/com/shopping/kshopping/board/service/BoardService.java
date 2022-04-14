@@ -32,6 +32,11 @@ public class BoardService {
         return boardMapper.boardCount();
     }
 
+    public int boardMinCount() throws Exception{
+
+        return boardMapper.boardMinCount();
+    }
+
     public void updateView(int boardSeq) throws Exception{
         boardMapper.updateView(boardSeq);
     }
@@ -59,6 +64,11 @@ public class BoardService {
     public int boardReplyCount(int boardSeq) throws Exception{
 
         return boardMapper.boardReplyCount(boardSeq);
+    }
+
+    public int boardReplyMinCount(int boardSeq) throws Exception{
+
+        return boardMapper.boardReplyMinCount(boardSeq);
     }
 
     public int replyCreate(ReplyVo replyVo) throws Exception {

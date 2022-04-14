@@ -12,6 +12,10 @@
         SELECT max(board_seq) FROM board
     </select>
 
+    <select id="boardMinCount" resultType="integer">
+        SELECT min(board_seq) FROM board
+    </select>
+
     <update id="updateView">
         UPDATE board SET board_views = board_views+1 WHERE board_seq = #{boardSeq}
     </update>
@@ -29,7 +33,11 @@
     </select>
 
     <select id="boardReplyCount" resultType="integer">
-        SELECT ifnull(max(reply_seq),0) data FROM board_reply where board_seq = #{boardSeq}
+        SELECT ifnull(max(reply_seq),0) data FROM board_reply WHERE board_seq = #{boardSeq}
+    </select>
+
+    <select id="boardReplyMinCount" resultType="integer">
+        SELECT ifnull(min(reply_seq),0) data FROM board_reply WHERE board_seq = #{boardSeq}
     </select>
 
     <insert id="replyCreate" parameterType="com.shopping.kshopping.board.vo.ReplyVo">
