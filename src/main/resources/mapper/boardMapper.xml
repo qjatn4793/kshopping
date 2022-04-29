@@ -9,11 +9,11 @@
     </select>
 
     <select id="boardCount" resultType="integer">
-        SELECT max(board_seq) FROM board
+        SELECT ifnull(max(board_seq),0) data FROM board
     </select>
 
     <select id="boardMinCount" resultType="integer">
-        SELECT min(board_seq) FROM board
+        SELECT ifnull(min(board_seq),0) data FROM board
     </select>
 
     <update id="updateView">

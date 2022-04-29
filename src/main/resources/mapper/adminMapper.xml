@@ -19,7 +19,7 @@
     </select>
 
     <select id="adminGetUserCount" resultType="integer">
-        SELECT max(user_seq) FROM user
+        SELECT ifnull(max(user_seq),0) data FROM user
     </select>
 
     <delete id="adminUserDelete" parameterType="integer">

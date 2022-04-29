@@ -9,11 +9,11 @@
     </select>
 
     <select id="productCount" resultType="integer">
-        SELECT max(product_seq) FROM product
+        SELECT ifnull(max(product_seq),0) data FROM product
     </select>
 
     <select id="productMinCount" resultType="integer">
-        SELECT min(product_seq) FROM product
+        SELECT ifnull(min(product_seq),0) data FROM product
     </select>
 
     <insert id="productCreate" parameterType="hashmap">
