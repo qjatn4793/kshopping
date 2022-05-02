@@ -84,7 +84,7 @@ public class LoginController {
     }
 
     @PostMapping("/userIdCheck")
-    public int userIdCheck(HttpServletRequest request, @RequestBody LoginVo loginVo){
+    public int userIdCheck(@RequestBody LoginVo loginVo){
 
         String userId = loginVo.getUserId();
 
@@ -101,7 +101,7 @@ public class LoginController {
     }
 
     @PostMapping("/userRegister")
-    public int userRegister(HttpServletRequest request, @RequestBody LoginVo loginVo){
+    public int userRegister(@RequestBody LoginVo loginVo){
 
         String userId = loginVo.getUserId();
         String userBirth = loginVo.getUserBirth();
@@ -110,16 +110,23 @@ public class LoginController {
 
         final String checkNum = "[0-9]+"; // 숫자만 있는지 체크
         final String checkString = "[a-zA-Z0-9ㄱ-힣\\s]"; // 특수문자 체크
+        final String checkString2 = "[A-Za-z0-9]"; // 숫자 문자 포함 체크
 
         Matcher matchTest;
         Matcher matchTest2;
+        Matcher matchTest3;
         matchTest = Pattern.compile(checkString).matcher(userName); // 이름 공백 포함 특수문자가 없으면 true
         matchTest2 = Pattern.compile(checkString).matcher(userId); // ID 공백 포함 특수문자 없으면 true
+        matchTest3 = Pattern.compile(checkString2).matcher(userId); // ID 에 문자 숫자 포함일경우 true
 
-        if (Pattern.matches(checkNum, userBirth) && Pattern.matches(checkNum, userPhone)) { // 생년월일 숫자만 있는지 체크 휴대폰번호 숫자만 있는지 체크
-            if (matchTest.find() == true && matchTest2.find() == true){ //이름 공백 포함 특수문자가 없으면 true ID 공백 포함 특수문자 없으면 true
-                return loginService.userRegister(loginVo);
-            }else {
+        if (loginService.userIdCheck(loginVo) == 0) { // 유저 중복 체크 0 일경우 없음
+            if (Pattern.matches(checkNum, userBirth) && Pattern.matches(checkNum, userPhone)) { // 생년월일 숫자만 있는지 체크 휴대폰번호 숫자만 있는지 체크
+                if (matchTest.find() == true && matchTest2.find() == true && matchTest3.find() == true) { //이름 공백 포함 특수문자가 없으면 true, ID 공백 포함 특수문자 없으면 true, ID 에 문자 숫자 포함일경우 true
+                    return loginService.userRegister(loginVo);
+                } else {
+                    return 0;
+                }
+            } else {
                 return 0;
             }
         }else {
@@ -130,6 +137,8 @@ public class LoginController {
     @PutMapping("/userRegister")
     public int userUpdate(HttpServletRequest request, @RequestBody LoginVo loginVo){
 
+        HttpSession session = request.getSession();
+
         String userId = loginVo.getUserId();
         String userBirth = loginVo.getUserBirth();
         String userName = loginVo.getUserName();
@@ -137,26 +146,32 @@ public class LoginController {
 
         final String checkNum = "[0-9]+"; // 숫자만 있는지 체크
         final String checkString = "[a-zA-Z0-9ㄱ-힣\\s]"; // 특수문자 체크
+        final String checkString2 = "[A-Za-z0-9]"; // 숫자 문자 포함 체크
 
         Matcher matchTest;
         Matcher matchTest2;
+        Matcher matchTest3;
         matchTest = Pattern.compile(checkString).matcher(userName); // 이름 공백 포함 특수문자가 없으면 true
         matchTest2 = Pattern.compile(checkString).matcher(userId); // ID 공백 포함 특수문자 없으면 true
+        matchTest3 = Pattern.compile(checkString2).matcher(userId); // ID 에 문자 숫자 포함일경우 true
 
-        if (Pattern.matches(checkNum, userBirth) && Pattern.matches(checkNum, userPhone)) { // 생년월일 숫자만 있는지 체크 휴대폰번호 숫자만 있는지 체크
-            if (matchTest.find() == true && matchTest2.find() == true){ //이름 공백 포함 특수문자가 없으면 true ID 공백 포함 특수문자 없으면 true
-                int userUpdate = loginService.userUpdate(loginVo);
+        if (loginService.userIdCheck(loginVo) == 1 && userId.equals(session.getAttribute(userId))) { // 유저 중복 체크 1 일경우 있음, userId 와 세션의 userId 체크
+            if (Pattern.matches(checkNum, userBirth) && Pattern.matches(checkNum, userPhone)) { // 생년월일 숫자만 있는지 체크 휴대폰번호 숫자만 있는지 체크
+                if (matchTest.find() == true && matchTest2.find() == true && matchTest3.find() == true) { //이름 공백 포함 특수문자가 없으면 true ID 공백 포함 특수문자 없으면 true
+                    int userUpdate = loginService.userUpdate(loginVo);
 
-                if(userUpdate == 1){
-                    HttpSession session = request.getSession();
-                    session.removeAttribute("loginCheck");
-                    session.removeAttribute("userId");
-                    session.invalidate();
-                    return userUpdate;
-                }else {
+                    if (userUpdate == 1) {
+                        session.removeAttribute("loginCheck");
+                        session.removeAttribute("userId");
+                        session.invalidate();
+                        return userUpdate;
+                    } else {
+                        return 0;
+                    }
+                } else {
                     return 0;
                 }
-            }else {
+            } else {
                 return 0;
             }
         }else {

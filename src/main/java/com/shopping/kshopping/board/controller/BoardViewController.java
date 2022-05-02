@@ -19,7 +19,7 @@ public class BoardViewController {
     BoardService boardService;
 
     @GetMapping("/mainBoard")
-    public String login(){
+    public String mainBoard(){
 
         return "board/board.html";
     }

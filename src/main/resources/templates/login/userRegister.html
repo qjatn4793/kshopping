@@ -93,33 +93,38 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
 
-            function userIdCheck(){
-               var userId = $("#userId").val();
+            function userIdCheck() {
+                var userId = $("#userId").val();
 
-               $.ajax({
-                   type: "POST",
-                   url: "/userIdCheck",
-                   dataType: "text",
-                   async: false,
-                   contentType: "application/json",
-                   data: JSON.stringify({
-                       "userId": userId
-                   }),
-                   async: false,
-                   error: function () {
-                       $("#checkId").html("사용할 수 없는 ID 입니다.");
-                       $("#checkId").attr("color", "red");
-                   },
-                   success: function (data) {
-                       if (data == "0"){
-                           $("#checkId").html("사용할 수 있는 ID 입니다.");
-                           $("#checkId").css("color", "green");
-                       }else {
-                           $("#checkId").html("사용할 수 없는 ID 입니다.");
-                           $("#checkId").css("color", "red");
-                       }
-                   }
-               });
+                $.ajax({
+                    type: "POST",
+                    url: "/userIdCheck",
+                    dataType: "text",
+                    async: false,
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        "userId": userId
+                    }),
+                    async: false,
+                    error: function () {
+                        $("#checkId").html("사용할 수 없는 ID 입니다.");
+                        $("#checkId").attr("color", "red");
+                    },
+                    success: function (data) {
+                        if (userId.length > 5 && userId.match(/[A-Za-z0-9]/) != null) {
+                            if (data == "0") {
+                                $("#checkId").html("사용할 수 있는 ID 입니다.");
+                                $("#checkId").css("color", "green");
+                            } else {
+                                $("#checkId").html("사용할 수 없는 ID 입니다.");
+                                $("#checkId").css("color", "red");
+                            }
+                        }else {
+                            $("#checkId").html("ID 는 숫자 포함 5자리 이상이어야 합니다.");
+                            $("#checkId").css("color", "red");
+                        }
+                    }
+                });
             }
 
             function userPwCheck(){

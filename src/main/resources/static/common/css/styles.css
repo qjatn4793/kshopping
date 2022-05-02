@@ -11844,3 +11844,27 @@ body {
 .bg-board {
   background: url("/common/assets/img/boardImg.jpg") no-repeat center center fixed;
 }
+
+/* 상단 배너 이미지 : Craw*/
+.bg-craw {
+  background: url("/common/assets/img/crawImg.jpg") no-repeat center center fixed;
+}
+
+/*디자인 관리 - 사이드바*/
+.design-side {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  float:left;
+  width:17%;
+  height:620px;
+}
+
+.design-side a:hover{
+  color:#fff;
+}

@@ -37,11 +37,11 @@ public class AdminViewController {
 
         if(session.getAttribute("adminLoginCheck")!=null && session.getAttribute("adminId")!=null && session.getAttribute("adminPw")!=null){
             if(session.getAttribute("adminLoginCheck").equals("success")){
-                return "admin/adminProduct.html";
+                return "admin/control/adminProduct.html";
             }
         }
 
-        return "admin/adminLogin.html";
+        return "admin/control/adminLogin.html";
     }
 
     @GetMapping("/admin/adminBoard")
@@ -51,11 +51,11 @@ public class AdminViewController {
 
         if(session.getAttribute("adminLoginCheck")!=null && session.getAttribute("adminId")!=null && session.getAttribute("adminPw")!=null){
             if(session.getAttribute("adminLoginCheck").equals("success")){
-                return "admin/adminBoard.html";
+                return "admin/control/adminBoard.html";
             }
         }
 
-        return "admin/adminLogin.html";
+        return "admin/control/adminLogin.html";
     }
 
     @GetMapping("/admin/adminUser")
@@ -65,23 +65,25 @@ public class AdminViewController {
 
         if(session.getAttribute("adminLoginCheck")!=null && session.getAttribute("adminId")!=null && session.getAttribute("adminPw")!=null){
             if(session.getAttribute("adminLoginCheck").equals("success")){
-                return "admin/adminGetUser.html";
+                return "admin/control/adminGetUser.html";
             }
         }
 
-        return "admin/adminLogin.html";
+        return "admin/control/adminLogin.html";
     }
 
-    @RequestMapping("/admin/updateProduct")
-    public String updateProduct(){
+    @GetMapping("/admin/adminDesign")
+    public String adminDesign(HttpServletRequest request){
 
-        return "admin/updateProduct.html";
-    }
+        HttpSession session = request.getSession();
 
-    @RequestMapping("/admin/deleteProduct")
-    public String deleteProduct(){
+        if(session.getAttribute("adminLoginCheck")!=null && session.getAttribute("adminId")!=null && session.getAttribute("adminPw")!=null){
+            if(session.getAttribute("adminLoginCheck").equals("success")){
+                return "admin/control/adminDesign.html";
+            }
+        }
 
-        return "admin/deleteProduct.html";
+        return "admin/adminDesign.html";
     }
 
 }
