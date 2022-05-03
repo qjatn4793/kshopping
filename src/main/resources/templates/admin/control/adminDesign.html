@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
+        <meta http-equiv="Pragma" content="no-cache"> <!--캐시 x-->
+        <meta http-equiv="Cache-Control" content="no-cache"> <!--캐시 x-->
         <title>Product - Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="/common/css/styles.css" rel="stylesheet" />
@@ -94,10 +96,10 @@
 
             function viewMainDesign(){
                 $(".selectImg").children().remove();
-                let mainImg1 = "<input id='mainImg1' type='file' onclick='' class='file-style' accept='image/png'/><label for='mainImg1' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg1.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
-                let mainImg2 = "<input id='mainImg2' type='file' onclick='' class='file-style' accept='image/png'/><label for='mainImg2' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg2.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
-                let mainImg3 = "<input id='mainImg3' type='file' onclick='' class='file-style' accept='image/png'/><label for='mainImg3' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg3.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
-                let mainImg4 = "<input id='mainImg4' type='file' onclick='' class='file-style' accept='image/png'/><label for='mainImg4' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg4.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
+                let mainImg1 = "<input id='mainImg1' type='file' onchange='adminDesign(this.id, this.value)' class='file-style' accept='image/png'/><label for='mainImg1' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg1.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
+                let mainImg2 = "<input id='mainImg2' type='file' onchange='adminDesign(this.id, this.value)' class='file-style' accept='image/png'/><label for='mainImg2' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg2.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
+                let mainImg3 = "<input id='mainImg3' type='file' onchange='adminDesign(this.id, this.value)' class='file-style' accept='image/png'/><label for='mainImg3' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg3.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
+                let mainImg4 = "<input id='mainImg4' type='file' onchange='adminDesign(this.id, this.value)' class='file-style' accept='image/png'/><label for='mainImg4' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg4.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
 
                 $(".selectImg").append(mainImg1);
                 $(".selectImg").append(mainImg2);
@@ -108,23 +110,52 @@
             function viewProductDesign(){
                 $(".selectImg").children().remove();
 
-                let productImg = "<input id='productImg' type='file' onclick='' class='file-style' accept='image/png' value='이미지 수정'/><label for='productImg' class='btn-style'>이미지 수정</label><img src='/common/assets/img/productImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
+                let productImg = "<input id='productImg' type='file' onchange='adminDesign(this.id, this.value)' class='file-style' accept='image/png' value='이미지 수정'/><label for='productImg' class='btn-style'>이미지 수정</label><img src='/common/assets/img/productImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
 
                 $(".selectImg").append(productImg);
             }
             function viewBoardDesign(){
                 $(".selectImg").children().remove();
 
-                let boardImg = "<input id='boardImg' type='file' onclick='' class='file-style' accept='image/png' value='이미지 수정'/><label for='boardImg' class='btn-style'>이미지 수정</label><img src='/common/assets/img/boardImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
+                let boardImg = "<input id='boardImg' type='file' onchange='adminDesign(this.id, this.value)' class='file-style' accept='image/png' value='이미지 수정'/><label for='boardImg' class='btn-style'>이미지 수정</label><img src='/common/assets/img/boardImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
 
                 $(".selectImg").append(boardImg);
             }
             function viewCrawDesign(){
                 $(".selectImg").children().remove();
 
-                let crawImg = "<input id='crawImg' type='file' onclick='' class='file-style' accept='image/png' value='이미지 수정'/><label for='crawImg' class='btn-style'>이미지 수정</label><img src='/common/assets/img/crawImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
+                let crawImg = "<input id='crawImg' type='file' onchange='adminDesign(this.id, this.value)' class='file-style' accept='image/png' value='이미지 수정'/><label for='crawImg' class='btn-style'>이미지 수정</label><img src='/common/assets/img/crawImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
 
                 $(".selectImg").append(crawImg);
+            }
+
+            function adminDesign(fileName, uploadPath) {
+
+                uploadPath = uploadPath.replace("fakepath", "uploadPath"); // C:\uploadPath\토마토.png
+
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/adminDesign/" + fileName,
+                    dataType: "text",
+                    async: false,
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        "uploadPath" : uploadPath
+                    }),
+                    error: function () {
+                        alert("이미지 수정을 실패 하였습니다!");
+                    },
+                    success: function (data) {
+                        if (data == 1) {
+                            alert("이미지를 수정하였습니다.");
+                            //location.replace("/admin/adminDesign");
+                            window.location.reload(true);
+                        } else {
+                            alert("이미지 수정을 실패 하였습니다!");
+                            location.replace("/admin/adminDesign");
+                        }
+                    }
+                });
             }
         </script>
     </body>

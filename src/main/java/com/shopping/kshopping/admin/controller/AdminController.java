@@ -5,12 +5,19 @@ import com.shopping.kshopping.admin.vo.AdminVo;
 import com.shopping.kshopping.configuration.SHA256;
 import com.shopping.kshopping.login.vo.LoginVo;
 import com.shopping.kshopping.product.vo.ProductVo;
+import com.shopping.kshopping.util.UploadFileUtils;
 import lombok.AllArgsConstructor;
+import org.apache.commons.io.IOUtils;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,5 +124,41 @@ public class AdminController {
         }else {
             return adminService.passwordReset(loginVo);
         }
+    }
+
+    @PostMapping("/admin/adminDesign/{fileName}")
+    public int adminDesign(@PathVariable("fileName") String fileName, @RequestBody HashMap<String, String> uploadPath) throws Exception{
+
+        System.out.println(uploadPath.get("uploadPath"));
+        System.out.println(fileName);
+
+        String uploadRealPath = uploadPath.get("uploadPath");
+        String realFileName = fileName + ".jpg";
+
+        String path = System.getProperty("user.dir"); // 현재 경로 > C:\Users\PHS-SECURUS\Desktop\kshopping // C:\Users\kimbeomsoo\Desktop\apache-tomcat-9.0.60\bin
+        /*개발시*/
+        String divPath = "\\src\\main\\resources\\static\\common\\assets\\img\\";
+        /*끝*/
+        /*배포시*/
+        //path = path.replace("bin", "webapps");
+        //String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\assets\\img\\";
+        /*끝*/
+        String realPath = path + divPath;
+
+        //File to Multipartfile
+        File file = new File(uploadRealPath); // String to File
+        FileInputStream input = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile("file", fileName, "text/plain", IOUtils.toByteArray(input));
+        //여기까지
+
+        if(multipartFile != null){
+            File target = new File(realPath, realFileName);
+            FileCopyUtils.copy(multipartFile.getBytes(), target);
+
+            return 1;
+        }else {
+            return 0;
+        }
+
     }
 }
