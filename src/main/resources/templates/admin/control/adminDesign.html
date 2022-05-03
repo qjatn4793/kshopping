@@ -68,19 +68,8 @@
                                 <img src=""/>
                             </div>
                         </div>
-                        <button id="updatePopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">이미지 수정</button>
                     </div>
                 </main>
-                <div id="imgUpdate" style="border:solid 1px gray; width:96%; border: 1px solid rgba(0, 0, 0, 0.125); border-radius: 0.25rem; margin:auto">
-                    <div id="updateMenu">
-                        <p>이미지 수정</p>
-                        <input id="imgSeq1" name="imgSeq" class="imgSeq" type="number" placeholder="첫번째 이미지" readonly><button id="imgBtn1" style="" class="badge bg-secondary text-decoration-none link-light" onclick="">수정</button><br>
-                        <input id="imgSeq2" name="imgSeq" class="imgSeq" type="number" placeholder="두번째 이미지" readonly><button id="imgBtn2" style="" class="badge bg-secondary text-decoration-none link-light" onclick="">수정</button><br>
-                        <input id="imgSeq3" name="imgSeq" class="imgSeq" type="number" placeholder="세번째 이미지" readonly><button id="imgBtn3" style="" class="badge bg-secondary text-decoration-none link-light" onclick="">수정</button><br>
-                        <input id="imgSeq4" name="imgSeq" class="imgSeq" type="number" placeholder="네번째 이미지" readonly><button id="imgBtn4" style="" class="badge bg-secondary text-decoration-none link-light" onclick="">수정</button><br>
-                        <button style="float:right;" class="exit badge bg-secondary text-decoration-none link-light">닫기</button>
-                    </div>
-                </div>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -105,90 +94,38 @@
 
             function viewMainDesign(){
                 $(".selectImg").children().remove();
-
-                let mainImg1 = "<img src='/common/assets/img/mainImg1.jpg' style='width:24.5%; height:"+ imgHeight +";'/>";
-                let mainImg2 = "<img src='/common/assets/img/mainImg2.jpg' style='width:24.5%; height:"+ imgHeight +";'/>";
-                let mainImg3 = "<img src='/common/assets/img/mainImg3.jpg' style='width:24.5%; height:"+ imgHeight +";'/>";
-                let mainImg4 = "<img src='/common/assets/img/mainImg4.jpg' style='width:24.5%; height:"+ imgHeight +";'/>";
+                let mainImg1 = "<input id='mainImg1' type='file' onclick='' class='file-style' accept='image/png'/><label for='mainImg1' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg1.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
+                let mainImg2 = "<input id='mainImg2' type='file' onclick='' class='file-style' accept='image/png'/><label for='mainImg2' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg2.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
+                let mainImg3 = "<input id='mainImg3' type='file' onclick='' class='file-style' accept='image/png'/><label for='mainImg3' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg3.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
+                let mainImg4 = "<input id='mainImg4' type='file' onclick='' class='file-style' accept='image/png'/><label for='mainImg4' class='btn-style'>이미지 수정</label><img src='/common/assets/img/mainImg4.jpg' style='width:24.9%; height:"+ imgHeight +";'/>";
 
                 $(".selectImg").append(mainImg1);
                 $(".selectImg").append(mainImg2);
                 $(".selectImg").append(mainImg3);
                 $(".selectImg").append(mainImg4);
 
-                $("#imgSeq1").show();
-                $("#imgSeq2").show();
-                $("#imgSeq3").show();
-                $("#imgSeq4").show();
-                $("#imgBtn1").show();
-                $("#imgBtn2").show();
-                $("#imgBtn3").show();
-                $("#imgBtn4").show();
-
             }
             function viewProductDesign(){
                 $(".selectImg").children().remove();
 
-                let productImg = "<img src='/common/assets/img/productImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
+                let productImg = "<input id='productImg' type='file' onclick='' class='file-style' accept='image/png' value='이미지 수정'/><label for='productImg' class='btn-style'>이미지 수정</label><img src='/common/assets/img/productImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
 
                 $(".selectImg").append(productImg);
-
-                $("#imgSeq1").show();
-                $("#imgSeq2").hide();
-                $("#imgSeq3").hide();
-                $("#imgSeq4").hide();
-                $("#imgBtn1").show();
-                $("#imgBtn2").hide();
-                $("#imgBtn3").hide();
-                $("#imgBtn4").hide();
-
             }
             function viewBoardDesign(){
                 $(".selectImg").children().remove();
 
-                let boardImg = "<img src='/common/assets/img/boardImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
+                let boardImg = "<input id='boardImg' type='file' onclick='' class='file-style' accept='image/png' value='이미지 수정'/><label for='boardImg' class='btn-style'>이미지 수정</label><img src='/common/assets/img/boardImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
 
                 $(".selectImg").append(boardImg);
-
-                $("#imgSeq1").show();
-                $("#imgSeq2").hide();
-                $("#imgSeq3").hide();
-                $("#imgSeq4").hide();
-                $("#imgBtn1").show();
-                $("#imgBtn2").hide();
-                $("#imgBtn3").hide();
-                $("#imgBtn4").hide();
-
             }
             function viewCrawDesign(){
                 $(".selectImg").children().remove();
 
-                let crawImg = "<img src='/common/assets/img/crawImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
+                let crawImg = "<input id='crawImg' type='file' onclick='' class='file-style' accept='image/png' value='이미지 수정'/><label for='crawImg' class='btn-style'>이미지 수정</label><img src='/common/assets/img/crawImg.jpg' style='width:100%; height:"+ imgHeight +";'/>";
 
                 $(".selectImg").append(crawImg);
-
-                $("#imgSeq1").show();
-                $("#imgSeq2").hide();
-                $("#imgSeq3").hide();
-                $("#imgSeq4").hide();
-                $("#imgBtn1").show();
-                $("#imgBtn2").hide();
-                $("#imgBtn3").hide();
-                $("#imgBtn4").hide();
-
             }
-
-            $("#imgUpdate").fadeOut("fast");
-
-            $("#updatePopup").click(function() {
-                $("#imgUpdate").fadeToggle();
-                $("#imgSeq").val("");
-            });
-
-            $(".exit").click(function() {
-                $("#imgUpdate").fadeOut();
-                $("#imgSeq").val("");
-            });
         </script>
     </body>
 </html>

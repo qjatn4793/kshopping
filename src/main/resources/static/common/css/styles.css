@@ -11868,3 +11868,17 @@ body {
 .design-side a:hover{
   color:#fff;
 }
+
+/*버튼 스타일*/
+.btn-style{
+  position:absolute;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color:white;
+}
+/*파일 스타일*/
+.file-style{
+  position:absolute;
+  visibility: hidden;
+  margin: 10px auto;
+}
