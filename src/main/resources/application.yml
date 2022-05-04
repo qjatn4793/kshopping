@@ -12,6 +12,9 @@ spring :
   devtools:
     livereload:
       enabled: true
+    remote:
+      restart:
+        enabled: true
 
   freemarker:
     cache: false

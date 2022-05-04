@@ -6,8 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <meta http-equiv="Pragma" content="no-cache"> <!--캐시 x-->
-        <meta http-equiv="Cache-Control" content="no-cache"> <!--캐시 x-->
         <title>Product - Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="/common/css/styles.css" rel="stylesheet" />
@@ -152,7 +150,7 @@
                             window.location.reload(true);
                         } else {
                             alert("이미지 수정을 실패 하였습니다!");
-                            location.replace("/admin/adminDesign");
+                            window.location.reload(true);
                         }
                     }
                 });

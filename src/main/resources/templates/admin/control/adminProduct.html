@@ -250,8 +250,10 @@
                             success : function(data){
                                 if(data == 1){
                                     alert('상품 등록 성공!!');
+                                    window.location.reload(true);
                                 }else {
                                     alert('상품 등록 실패, 정상적인 값을 입력해 주세요!');
+                                    window.location.reload(true);
                                 }
                                 location.reload();
                             }
@@ -284,8 +286,10 @@
                         success : function(data){
                             if (data == 1){
                                 alert('상품 삭제 성공!!');
+                                window.location.reload(true);
                             }else {
                                 alert('상품 삭제 실패, 정상적인 값을 입력해 주세요!');
+                                window.location.reload(true);
                             }
                             location.reload();
                         }
@@ -330,8 +334,10 @@
                             success : function(data){
                                 if(data == 1){
                                     alert('상품 수정 성공!!');
+                                    window.location.reload(true);
                                 }else {
                                     alert('상품 수정 실패, 정상적인 값을 입력해 주세요!');
+                                    window.location.reload(true);
                                 }
                                 location.reload();
                             }

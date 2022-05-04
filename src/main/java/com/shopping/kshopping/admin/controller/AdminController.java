@@ -129,19 +129,16 @@ public class AdminController {
     @PostMapping("/admin/adminDesign/{fileName}")
     public int adminDesign(@PathVariable("fileName") String fileName, @RequestBody HashMap<String, String> uploadPath) throws Exception{
 
-        System.out.println(uploadPath.get("uploadPath"));
-        System.out.println(fileName);
-
         String uploadRealPath = uploadPath.get("uploadPath");
         String realFileName = fileName + ".jpg";
 
         String path = System.getProperty("user.dir"); // 현재 경로 > C:\Users\PHS-SECURUS\Desktop\kshopping // C:\Users\kimbeomsoo\Desktop\apache-tomcat-9.0.60\bin
         /*개발시*/
-        String divPath = "\\src\\main\\resources\\static\\common\\assets\\img\\";
+        //String divPath = "\\src\\main\\resources\\static\\common\\assets\\img\\";
         /*끝*/
         /*배포시*/
-        //path = path.replace("bin", "webapps");
-        //String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\assets\\img\\";
+        path = path.replace("bin", "webapps");
+        String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\assets\\img\\";
         /*끝*/
         String realPath = path + divPath;
 

@@ -51,7 +51,7 @@ public class ProductController {
 
 
         //배포시 경로
-        /*if(path != "" || path != null){
+        if(path != "" || path != null){
             path = path.replace("bin","webapps");
         }
 
@@ -70,10 +70,11 @@ public class ProductController {
             fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
         }else {
             fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
-        }*/
+        }
+        /*여기까지*/
 
         //개발시 경로
-        String divPath = "\\src\\main\\resources\\static\\common\\img";
+        /*String divPath = "\\src\\main\\resources\\static\\common\\img";
 
         //File to Multipartfile
         File file = new File(productVo.getProductImg()); // String to File
@@ -88,7 +89,8 @@ public class ProductController {
             fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
         }else {
             fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
-        }
+        }*/
+        /*여기까지*/
 
         productVo.setProductImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
         productVo.setProductThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
