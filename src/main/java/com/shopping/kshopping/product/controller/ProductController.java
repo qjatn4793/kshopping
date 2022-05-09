@@ -1,6 +1,8 @@
 package com.shopping.kshopping.product.controller;
 
 import com.shopping.kshopping.board.vo.ReplyVo;
+import com.shopping.kshopping.main.controller.MainController;
+import com.shopping.kshopping.main.vo.MainVo;
 import com.shopping.kshopping.product.service.ProductService;
 import com.shopping.kshopping.product.vo.ProductReplyVo;
 import com.shopping.kshopping.product.vo.ProductVo;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.HashMap;
 
+import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
 
 @AllArgsConstructor
@@ -26,7 +29,7 @@ public class ProductController {
 
     ProductService productService;
 
-    @GetMapping("/product")
+    @GetMapping("/productView")
     public HashMap<String, ProductVo> productView() throws Exception{
 
         HashMap<String, ProductVo> productView = new HashMap<>();
@@ -35,105 +38,12 @@ public class ProductController {
         int productMinCount = productService.productMinCount();
 
         for (int i=productMinCount; productMaxCount >= i; i++) {
-
             if(productService.productView(i) != null){
                 productView.put(valueOf(i), productService.productView(i));
             }
         }
+
         return productView;
-    }
-
-    @PostMapping("/product")
-    public int productCreate(@RequestBody ProductVo productVo) throws Exception{
-
-        String path = System.getProperty("user.dir"); // 현재 경로 > C:\Users\PHS-SECURUS\Desktop\kshopping
-        // TODO : 프로젝트 경로가 바뀌면 상기 경로 확인 후 변경해줘야함
-
-
-        //배포시 경로
-        if(path != "" || path != null){
-            path = path.replace("bin","webapps");
-        }
-
-        String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\img\\";
-
-        //File to Multipartfile
-        File file = new File(productVo.getProductImg()); // String to File
-        FileInputStream input = new FileInputStream(file);
-        MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
-        //여기까지
-        String imgUploadPath = path + divPath + File.separator + "imgUpload";
-        String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
-        String fileName = null;
-
-        if(multipartFile != null){
-            fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
-        }else {
-            fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
-        }
-        /*여기까지*/
-
-        //개발시 경로
-        /*String divPath = "\\src\\main\\resources\\static\\common\\img";
-
-        //File to Multipartfile
-        File file = new File(productVo.getProductImg()); // String to File
-        FileInputStream input = new FileInputStream(file);
-        MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
-        //여기까지
-        String imgUploadPath = path + divPath + File.separator + "imgUpload";
-        String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
-        String fileName = null;
-
-        if(multipartFile != null){
-            fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
-        }else {
-            fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
-        }*/
-        /*여기까지*/
-
-        productVo.setProductImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
-        productVo.setProductThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-
-        if (productVo == null){
-            return 0;
-        }else {
-
-            HashMap<String, String> product = new HashMap<>();
-
-            if (productVo.getProductContents1().length() > 199 && productVo.getProductContents2().length() > 199 && productVo.getProductContents3().length() > 199) {
-                return 0;
-            }else {
-                product.put("productName", productVo.getProductName());
-                product.put("productContents1", productVo.getProductContents1());
-                product.put("productContents2", productVo.getProductContents2());
-                product.put("productContents3", productVo.getProductContents3());
-                product.put("productImg", productVo.getProductImg());
-                product.put("productThumbImg", productVo.getProductThumbImg());
-            }
-
-            return productService.productCreate(product);
-        }
-    }
-
-    @PutMapping("/product")
-    public int productUpdate(@RequestBody ProductVo productVo) throws Exception{
-
-        if (productVo == null){
-            return 0;
-        }else {
-            return productService.productUpdate(productVo);
-        }
-    }
-
-    @DeleteMapping("/product")
-    public int productDelete(@RequestBody ProductVo productVo) throws Exception{
-
-        if (productVo == null){
-            return 0;
-        }else {
-            return productService.productDelete(productVo.getProductSeq());
-        }
     }
 
     @GetMapping("/product/{productSeq}")

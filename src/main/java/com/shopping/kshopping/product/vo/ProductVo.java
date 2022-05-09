@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductVo {
 
-    public int productSeq;
+    private int productSeq;
     private String productName;
     private int productLikes;
     private int productViews;

@@ -4,6 +4,7 @@ import com.shopping.kshopping.admin.service.AdminService;
 import com.shopping.kshopping.admin.vo.AdminVo;
 import com.shopping.kshopping.configuration.SHA256;
 import com.shopping.kshopping.login.vo.LoginVo;
+import com.shopping.kshopping.product.service.ProductService;
 import com.shopping.kshopping.product.vo.ProductVo;
 import com.shopping.kshopping.util.UploadFileUtils;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,7 @@ public class AdminController {
     }*/
 
     AdminService adminService;
+    ProductService productService;
 
     @PostMapping("/admin")
     public int adminLoginCheck(@RequestBody AdminVo adminVo, HttpServletRequest request)throws NoSuchAlgorithmException {
@@ -132,6 +134,7 @@ public class AdminController {
         String uploadRealPath = uploadPath.get("uploadPath");
         String realFileName = fileName + ".jpg";
 
+        // TODO : 프로젝트 경로가 바뀌면 상기 경로 확인 후 변경해줘야함
         String path = System.getProperty("user.dir"); // 현재 경로 > C:\Users\PHS-SECURUS\Desktop\kshopping // C:\Users\kimbeomsoo\Desktop\apache-tomcat-9.0.60\bin
         /*개발시*/
         //String divPath = "\\src\\main\\resources\\static\\common\\assets\\img\\";
@@ -157,5 +160,126 @@ public class AdminController {
             return 0;
         }
 
+    }
+
+    @GetMapping("/admin/product")
+    public HashMap<String, ProductVo> productViewAdmin() throws Exception{
+
+        HashMap<String, ProductVo> productView = new HashMap<>();
+
+        int productMaxCount = productService.productCount();
+        int productMinCount = productService.productMinCount();
+
+        for (int i=productMinCount; productMaxCount >= i; i++) {
+            if(productService.productView(i) != null){
+                productView.put(valueOf(i), productService.productView(i));
+            }
+        }
+
+        return productView;
+    }
+
+    @PostMapping("/admin/product")
+    public int productCreate(@RequestBody ProductVo productVo) throws Exception{
+
+        String path = System.getProperty("user.dir"); // 현재 경로 > C:\Users\PHS-SECURUS\Desktop\kshopping
+        // TODO : 프로젝트 경로가 바뀌면 상기 경로 확인 후 변경해줘야함
+
+
+        //배포시 경로
+        /*if(path != "" || path != null){
+            path = path.replace("bin","webapps");
+        }
+
+        String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\img\\";
+
+        //File to Multipartfile
+        File file = new File(productVo.getProductImg()); // String to File
+        try {
+            FileInputStream input = new FileInputStream(file);
+            MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
+            //여기까지
+            String imgUploadPath = path + divPath + File.separator + "imgUpload";
+            String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+            String fileName = null;
+
+            if (multipartFile != null) {
+                fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
+            } else {
+                fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
+            }
+
+            productVo.setProductImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+            productVo.setProductThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+        }catch (Exception e){
+
+        }*/
+        /*여기까지*/
+
+        //개발시 경로
+        String divPath = "\\src\\main\\resources\\static\\common\\img";
+
+        //File to Multipartfile
+        File file = new File(productVo.getProductImg()); // String to File
+        try {
+            FileInputStream input = new FileInputStream(file);
+            MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
+            //여기까지
+            String imgUploadPath = path + divPath + File.separator + "imgUpload";
+            String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+            String fileName = null;
+
+            if (multipartFile != null) {
+                fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
+            } else {
+                fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
+            }
+
+            productVo.setProductImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+            productVo.setProductThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+        }catch (Exception e){
+
+        }
+        /*여기까지*/
+
+        if (productVo == null){
+            return 0;
+        }else {
+
+            HashMap<String, String> product = new HashMap<>();
+
+            if (productVo.getProductContents1().length() > 199 && productVo.getProductContents2().length() > 199 && productVo.getProductContents3().length() > 199) {
+                return 0;
+            }else {
+                product.put("productName", productVo.getProductName());
+                product.put("productContents1", productVo.getProductContents1());
+                product.put("productContents2", productVo.getProductContents2());
+                product.put("productContents3", productVo.getProductContents3());
+                product.put("productImg", productVo.getProductImg());
+                product.put("productThumbImg", productVo.getProductThumbImg());
+            }
+
+            return productService.productCreate(product);
+        }
+    }
+
+    @PutMapping("/admin/product")
+    public int productUpdate(@RequestBody ProductVo productVo) throws Exception{
+
+        if (productVo == null){
+            return 0;
+        }else {
+            return productService.productUpdate(productVo);
+        }
+    }
+
+    @DeleteMapping("/admin/product")
+    public int productDelete(@RequestBody ProductVo productVo) throws Exception{
+
+        if (productVo == null){
+            return 0;
+        }else {
+            return productService.productDelete(productVo.getProductSeq());
+        }
     }
 }
