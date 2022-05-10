@@ -23,20 +23,10 @@ window.addEventListener('DOMContentLoaded', event => {
             },
             success: function (data) {
                 let str = "";
-                let paging = "";
+                var paging = "";
 
-                let totalProduct = Object.keys(data).length;
-                let endPage = Math.ceil(totalProduct / productSelect);
-
-                for (let j = 1; endPage + 1> j; j++) {
-                    if(j == currentPage) {
-                        paging += '<li class="active"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
-                    }else {
-                        paging += '<li class=""><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
-                    }
-                }
-
-                $(".dataTable-pagination-list").html(paging);
+                var totalProduct = Object.keys(data).length;
+                var endPage = Math.ceil(totalProduct / productSelect);
 
                 var endNum = productSelect * currentPage; // 현재 페이지 상품 끝
                 var prevNum = endNum - productSelect; // 현재 페이지 상품 시작
@@ -84,18 +74,105 @@ window.addEventListener('DOMContentLoaded', event => {
 
                     }
                 }
+
+                paging += '<li class="prev"><a href="#" data-page="<"><</a></li>'; // 이전 버튼 생성 영역
+
+                // 페이징 버튼 생성 영역 시작
+                if ( (currentPage + 3) > endPage ) {
+                    for (let j = currentPage - ((currentPage + 5) - endPage); currentPage - 1 > j; j++){
+                        paging += '<li class="paging"><a href="#" data-page="' + (j + 1) + '">' + (j + 1) + '</a></li>';
+                    }
+                    for (let j = currentPage; endPage + 1> j; j++) {
+                        if (j == currentPage) {
+                            paging += '<li class="active paging"><a href="#" data-page="' + j + '">' + j + '</a></li>';
+                        } else {
+                            paging += '<li class="paging"><a href="#" data-page="' + j + '">' + j + '</a></li>';
+                        }
+                    }
+                }else {
+                    if (currentPage < 3 ) {
+                        if ((currentPage - 1) > 1) {
+                            for (let j = currentPage - 3; currentPage - 1 > j; j++){
+                                paging += '<li class="paging"><a href="#" data-page="' + (j + 1) + '">' + (j + 1) + '</a></li>';
+                            }
+                        }else {
+                            if (currentPage > 1){
+                                for (let j = currentPage - 2; currentPage - 1 > j; j++){
+                                    paging += '<li class="paging"><a href="#" data-page="' + (j + 1) + '">' + (j + 1) + '</a></li>';
+                                }
+                            }
+                        }
+                        if (currentPage != 2) {
+                            for (let j = currentPage; currentPage + 5> j; j++) { 
+                                if(j == currentPage) {
+                                    paging += '<li class="active paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
+                                }else {
+                                    paging += '<li class="paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
+                                }
+                            }
+                        }else {
+                            for (let j = currentPage; currentPage + 4> j; j++) { 
+                                if(j == currentPage) {
+                                    paging += '<li class="active paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
+                                }else {
+                                    paging += '<li class="paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
+                                }
+                            }
+                        }
+                    }else {
+                        for (let j = currentPage - 3; currentPage - 1 > j; j++){
+                            paging += '<li class="paging"><a href="#" data-page="' + (j + 1) + '">' + (j + 1) + '</a></li>';
+                        }
+
+                        for (let j = currentPage; currentPage + 3> j; j++) { 
+                            if(j == currentPage) {
+                                paging += '<li class="active paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
+                            }else {
+                                paging += '<li class="paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
+                            }
+                        }
+                    }
+                }
+                // 페이징 버튼 생성 영역 끝
+
+                paging += '<li class="next"><a href="#" data-page=">">></a></li>'; // 다음 버튼 생성 영역
+
+                $(".dataTable-pagination-list").html(paging);
+
+                $(".dataTable-pagination-list li.paging").click(function(){ // 페이징 번호 클릭 시
+
+                    $(".dataTable-pagination-list li.active").removeClass("active");
+                    $(this).addClass("active");
+
+                    currentPage = $(".dataTable-pagination-list li.active a").text();
+                    currentPage = parseInt(currentPage);
+                    product();
+                });
+
+                $(".dataTable-pagination-list li.next").click(function(){ // 다음 버튼 클릭 시
+
+                    $(".dataTable-pagination-list li.active").removeClass("active");
+                    $(this).addClass("active");
+
+                    if(endPage != currentPage){
+                        currentPage += 1;
+                    }
+                    product();
+                });
+
+                $(".dataTable-pagination-list li.prev").click(function(){ // 이전 버튼 클릭 시
+
+                    $(".dataTable-pagination-list li.active").removeClass("active");
+                    $(this).addClass("active");
+
+                    if(currentPage != 1) {
+                        currentPage -= 1;
+                    }
+                    product();
+                });
             }
         });
     }
-
-    $(".dataTable-pagination-list li").click(function(){
-
-        $(".dataTable-pagination-list li.active").removeClass("active");
-        $(this).addClass("active");
-
-        currentPage = $(".dataTable-pagination-list li.active a").text();
-        product();
-    });
 
     const datatablesSimple = document.getElementById('datatablesSimple');
     if (datatablesSimple) {
