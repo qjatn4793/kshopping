@@ -13,11 +13,12 @@ window.addEventListener('DOMContentLoaded', event => {
         product();
     });
 
-    $(".dataTable-input").text().change(function() {
-        console.log("?");
+    $(".dataTable-input").keyup(function() { // 검색 기능
+        product($(".dataTable-input").val());
     });
 
-    function product(){
+    function product(searchItem){
+
         $.ajax({
             type: "GET",
             url: "/productView",
@@ -54,24 +55,47 @@ window.addEventListener('DOMContentLoaded', event => {
                             productThumbImg = "common/img" + productThumbImg;
                         }
 
-                        str += "<div class='col mb-5'>" +
-                            "<div class='card h-100'>" +
-                            "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
-                            "<img class='card-img-top' src='" + productThumbImg + "' alt='...' />" +
-                            "</a>" +
-                            "<div class='card-body p-4'>" +
-                            "<div class='text-center'>" +
-                            "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
-                            "<h5 class='fw-bolder'>" + productName + "</h5>" +
-                            "</a><br>" +
-                            "조회 수 : " + productViews +
-                            "</div>" +
-                            "</div>" +
-                            "<div class='card-footer p-4 pt-0 border-top-0 bg-transparent'>" +
-                            "<div class='text-center'><a class='btn btn-outline-dark mt-auto' href='/detailProduct/" + productSeq + "'>View options</a></div>" +
-                            "</div>" +
-                            "</div>" +
-                            "</div>";
+                        if (searchItem == undefined || searchItem == "" || searchItem == null) {
+                            str += "<div class='col mb-5'>" +
+                                "<div class='card h-100'>" +
+                                "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
+                                "<img class='card-img-top' src='" + productThumbImg + "' alt='...' />" +
+                                "</a>" +
+                                "<div class='card-body p-4'>" +
+                                "<div class='text-center'>" +
+                                "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
+                                "<h5 class='fw-bolder'>" + productName + "</h5>" +
+                                "</a><br>" +
+                                "조회 수 : " + productViews +
+                                "</div>" +
+                                "</div>" +
+                                "<div class='card-footer p-4 pt-0 border-top-0 bg-transparent'>" +
+                                "<div class='text-center'><a class='btn btn-outline-dark mt-auto' href='/detailProduct/" + productSeq + "'>View options</a></div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>";
+                        }else {
+                            if (productName.indexOf(searchItem) != -1) {
+                                str += "<div class='col mb-5'>" +
+                                    "<div class='card h-100'>" +
+                                    "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
+                                    "<img class='card-img-top' src='" + productThumbImg + "' alt='...' />" +
+                                    "</a>" +
+                                    "<div class='card-body p-4'>" +
+                                    "<div class='text-center'>" +
+                                    "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
+                                    "<h5 class='fw-bolder'>" + productName + "</h5>" +
+                                    "</a><br>" +
+                                    "조회 수 : " + productViews +
+                                    "</div>" +
+                                    "</div>" +
+                                    "<div class='card-footer p-4 pt-0 border-top-0 bg-transparent'>" +
+                                    "<div class='text-center'><a class='btn btn-outline-dark mt-auto' href='/detailProduct/" + productSeq + "'>View options</a></div>" +
+                                    "</div>" +
+                                    "</div>" +
+                                    "</div>";
+                            }
+                        }
 
                         $("div.main-product").html(str);
 
@@ -84,9 +108,11 @@ window.addEventListener('DOMContentLoaded', event => {
 
                 // 페이징 버튼 생성 영역 시작
                 if ( (currentPage + 3) >= endPage ) {
+
                     if (currentPage > 1){
                         for (let j = currentPage - ((currentPage + 5) - endPage); currentPage - 1 > j; j++){
-                            if (j != -1) {
+                            if (j > -1) {
+                            /*if (j != -1) {*/
                                 paging += '<li class="paging"><a href="#" data-page="' + (j + 1) + '">' + (j + 1) + '</a></li>';
                             }
                         }
@@ -99,6 +125,7 @@ window.addEventListener('DOMContentLoaded', event => {
                         }
                     }
                 }else {
+                    console.log("2");
                     if (currentPage < 3 ) {
                         if ((currentPage - 1) > 1) {
                             for (let j = currentPage - 3; currentPage - 1 > j; j++){
@@ -112,7 +139,7 @@ window.addEventListener('DOMContentLoaded', event => {
                             }
                         }
                         if (currentPage != 2) {
-                            for (let j = currentPage; currentPage + 5> j; j++) {
+                            for (let j = currentPage; currentPage + 5 > j; j++) {
                                 if(j == currentPage) {
                                     paging += '<li class="active paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
                                 }else {
@@ -120,8 +147,8 @@ window.addEventListener('DOMContentLoaded', event => {
                                 }
                             }
                         }else {
-                            for (let j = currentPage; currentPage + 4> j; j++) {
-                                if(j == currentPage) {
+                            for (let j = currentPage; currentPage + 4 > j; j++) {
+                                if( j == currentPage ) {
                                     paging += '<li class="active paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
                                 }else {
                                     paging += '<li class="paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
@@ -133,7 +160,7 @@ window.addEventListener('DOMContentLoaded', event => {
                             paging += '<li class="paging"><a href="#" data-page="' + (j + 1) + '">' + (j + 1) + '</a></li>';
                         }
 
-                        for (let j = currentPage; currentPage + 3> j; j++) {
+                        for (let j = currentPage; currentPage + 3 > j; j++) {
                             if(j == currentPage) {
                                 paging += '<li class="active paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
                             }else {
