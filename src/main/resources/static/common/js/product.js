@@ -9,7 +9,12 @@ window.addEventListener('DOMContentLoaded', event => {
 
     $("#product-select").change(function(){
         productSelect = $("#product-select option:selected").val(); // 한 페이지에 나타낼 글 수
+        currentPage = 1;
         product();
+    });
+
+    $(".dataTable-input").text().change(function() {
+        console.log("?");
     });
 
     function product(){
@@ -78,9 +83,13 @@ window.addEventListener('DOMContentLoaded', event => {
                 paging += '<li class="prev"><a href="#" data-page="<"><</a></li>'; // 이전 버튼 생성 영역
 
                 // 페이징 버튼 생성 영역 시작
-                if ( (currentPage + 3) > endPage ) {
-                    for (let j = currentPage - ((currentPage + 5) - endPage); currentPage - 1 > j; j++){
-                        paging += '<li class="paging"><a href="#" data-page="' + (j + 1) + '">' + (j + 1) + '</a></li>';
+                if ( (currentPage + 3) >= endPage ) {
+                    if (currentPage > 1){
+                        for (let j = currentPage - ((currentPage + 5) - endPage); currentPage - 1 > j; j++){
+                            if (j != -1) {
+                                paging += '<li class="paging"><a href="#" data-page="' + (j + 1) + '">' + (j + 1) + '</a></li>';
+                            }
+                        }
                     }
                     for (let j = currentPage; endPage + 1> j; j++) {
                         if (j == currentPage) {
@@ -103,7 +112,7 @@ window.addEventListener('DOMContentLoaded', event => {
                             }
                         }
                         if (currentPage != 2) {
-                            for (let j = currentPage; currentPage + 5> j; j++) { 
+                            for (let j = currentPage; currentPage + 5> j; j++) {
                                 if(j == currentPage) {
                                     paging += '<li class="active paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
                                 }else {
@@ -111,7 +120,7 @@ window.addEventListener('DOMContentLoaded', event => {
                                 }
                             }
                         }else {
-                            for (let j = currentPage; currentPage + 4> j; j++) { 
+                            for (let j = currentPage; currentPage + 4> j; j++) {
                                 if(j == currentPage) {
                                     paging += '<li class="active paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
                                 }else {
@@ -124,7 +133,7 @@ window.addEventListener('DOMContentLoaded', event => {
                             paging += '<li class="paging"><a href="#" data-page="' + (j + 1) + '">' + (j + 1) + '</a></li>';
                         }
 
-                        for (let j = currentPage; currentPage + 3> j; j++) { 
+                        for (let j = currentPage; currentPage + 3> j; j++) {
                             if(j == currentPage) {
                                 paging += '<li class="active paging"><a href="#" data-page="'+ j +'">'+ j +'</a></li>';
                             }else {
