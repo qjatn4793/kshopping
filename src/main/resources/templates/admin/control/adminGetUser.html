@@ -45,42 +45,43 @@
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
-                                <tr>
-                                    <th>순번</th>
-                                    <th>ID</th>
-                                    <th>이름</th>
-                                    <th>휴대폰</th>
-                                    <th>생년월일</th>
-                                    <th>상태 (0 : 블랙 / 1 : 일반)</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>순번</th>
-                                    <th>ID</th>
-                                    <th>이름</th>
-                                    <th>휴대폰</th>
-                                    <th>생년월일</th>
-                                    <th>상태 (0 : 블랙 / 1 : 일반)</th>
-                                </tr>
-                                </tfoot>
-                                <tbody class="user">
+                                        <tr>
+                                            <th>순번</th>
+                                            <th>ID</th>
+                                            <th>이름</th>
+                                            <th>휴대폰</th>
+                                            <th>생년월일</th>
+                                            <th>상태 (0 : 블랙 / 1 : 일반)</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>순번</th>
+                                            <th>ID</th>
+                                            <th>이름</th>
+                                            <th>휴대폰</th>
+                                            <th>생년월일</th>
+                                            <th>상태 (0 : 블랙 / 1 : 일반)</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody class="user">
 
-                                </tbody>
-                            </table>
-                            <button id="deletePopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">사용자 삭제</button>
-                            <button id="updatePopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">블랙리스트 등록/해제</button>
-                            <button id="resetPopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">패스워드 초기화</button>
-                            <div id="userDelete" style="border:solid 1px gray;">
-                                <div id="deleteMenu">
+                                    </tbody>
+                                </table>
+                                <button id="deletePopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">사용자 삭제</button>
+                                <button id="updatePopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">블랙리스트 등록/해제</button>
+                                <button id="resetPopup" type="button" onclick="" class="badge bg-secondary text-decoration-none link-light btn_open" style="float:right;">패스워드 초기화</button>
+                            </div>
+                            <div id="userDelete" style="width:30%; margin-left:auto" class="card">
+                                <div id="deleteMenu" class="card-body">
                                     <p>사용자 삭제</p>
                                     <input id="userSeq" name="userSeq" class="userSeq" type="number" placeholder="사용자 순번"><br>
                                     <button style="float:right;" class="exit1 badge bg-secondary text-decoration-none link-light">닫기</button>
                                     <button style="float:right;" class="badge bg-secondary text-decoration-none link-light" onclick="userDelete()">삭제</button>
                                 </div>
                             </div>
-                            <div id="userUpdate" style="border:solid 1px gray;">
-                                <div id="updateMenu">
+                            <div id="userUpdate" style="width:30%; margin-left:auto" class="card">
+                                <div id="updateMenu" class="card-body">
                                     <p>블랙리스트 등록/해제</p>
                                     <input id="userBlackSeq" name="userBlackSeq" class="userBlackSeq" type="number" placeholder="사용자 순번"><br>
                                     <input id="status" name="userBlackSeq" class="userBlackSeq" type="number" placeholder="상태코드 (0 : 블랙 / 1 : 일반 사용자)"><br>
@@ -88,8 +89,8 @@
                                     <button style="float:right;" class="badge bg-secondary text-decoration-none link-light" onclick="userUpdate()">등록</button>
                                 </div>
                             </div>
-                            <div id="userReset" style="border:solid 1px gray;">
-                                <div id="resetMenu">
+                            <div id="userReset" style="width:30%; margin-left:auto" class="card">
+                                <div id="resetMenu" class="card-body">
                                     <p>패스워드 초기화</p>
                                     <input id="userResetSeq" name="userResetSeq" class="userResetSeq" type="number" placeholder="사용자 순번"><br>
                                     <button style="float:right;" class="exit3 badge bg-secondary text-decoration-none link-light">닫기</button>
@@ -97,7 +98,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">

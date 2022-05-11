@@ -44,9 +44,14 @@ window.addEventListener('DOMContentLoaded', event => {
                         let productName = data[Object.keys(data)[i]].productName;
                         let productLikes = data[Object.keys(data)[i]].productLikes;
                         let productViews = data[Object.keys(data)[i]].productViews;
+                        let productCategory = data[Object.keys(data)[i]].productCategory;
                         let regDate = data[Object.keys(data)[i]].regDate;
                         let modDate = data[Object.keys(data)[i]].modDate;
                         let productThumbImg = data[Object.keys(data)[i]].productThumbImg;
+
+                        if(productCategory == null){
+                            productCategory = "";
+                        }
 
                         if (productThumbImg == "" || productThumbImg == null || productThumbImg == 0) {
                             productThumbImg = "https://dummyimage.com/450x300/dee2e6/6c757d.jpg";
@@ -55,9 +60,10 @@ window.addEventListener('DOMContentLoaded', event => {
                             productThumbImg = "common/img" + productThumbImg;
                         }
 
-                        if (searchItem == undefined || searchItem == "" || searchItem == null) {
+                        if (searchItem == undefined || searchItem == "" || searchItem == null) { // 검색어가 없을 경우
                             str += "<div class='col mb-5'>" +
                                 "<div class='card h-100'>" +
+                                "<div class='badge bg-dark text-white position-absolute' style='top:0.5rem; right:0.5rem'>"+ productCategory +"</div>" +
                                 "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
                                 "<img class='card-img-top' src='" + productThumbImg + "' alt='...' />" +
                                 "</a>" +
@@ -75,9 +81,10 @@ window.addEventListener('DOMContentLoaded', event => {
                                 "</div>" +
                                 "</div>";
                         }else {
-                            if (productName.indexOf(searchItem) != -1) {
+                            if (productName.indexOf(searchItem) != -1) { // 검색어가 있을 경우
                                 str += "<div class='col mb-5'>" +
                                     "<div class='card h-100'>" +
+                                    "<div class='badge bg-dark text-white position-absolute' style='top:0.5rem; right:0.5rem'>"+ productCategory +"</div>" +
                                     "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
                                     "<img class='card-img-top' src='" + productThumbImg + "' alt='...' />" +
                                     "</a>" +
@@ -125,7 +132,6 @@ window.addEventListener('DOMContentLoaded', event => {
                         }
                     }
                 }else {
-                    console.log("2");
                     if (currentPage < 3 ) {
                         if ((currentPage - 1) > 1) {
                             for (let j = currentPage - 3; currentPage - 1 > j; j++){

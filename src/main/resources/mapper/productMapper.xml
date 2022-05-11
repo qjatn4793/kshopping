@@ -17,7 +17,7 @@
     </select>
 
     <insert id="productCreate" parameterType="hashmap">
-        INSERT INTO product (product_name, product_contents1, product_contents2, product_contents3, product_img, product_thumb_img) VALUES (#{productName}, #{productContents1}, #{productContents2}, #{productContents3}, #{productImg}, #{productThumbImg})
+        INSERT INTO product (product_name, product_contents1, product_contents2, product_contents3, product_img, product_thumb_img, product_category) VALUES (#{productName}, #{productContents1}, #{productContents2}, #{productContents3}, #{productImg}, #{productThumbImg}, #{productCategory})
     </insert>
 
     <delete id="productDelete" parameterType="integer">
@@ -25,12 +25,11 @@
     </delete>
 
     <update id="productUpdate" parameterType="com.shopping.kshopping.product.vo.ProductVo">
-        UPDATE product SET product_name = #{productName}, product_contents1 = #{productContents1}, product_contents2 = #{productContents2}, product_contents3 = #{productContents3} WHERE product_seq = #{productSeq};
+        UPDATE product SET product_name = #{productName}, product_category = #{productCategory}, product_contents1 = #{productContents1}, product_contents2 = #{productContents2}, product_contents3 = #{productContents3} WHERE product_seq = #{productSeq};
     </update>
     
     <update id="updateView">
         UPDATE product SET product_views = product_views+1 WHERE product_seq = #{productSeq};
-
     </update>
 
     <select id="productReply" parameterType="com.shopping.kshopping.product.vo.ProductReplyVo" resultType="com.shopping.kshopping.product.vo.ProductReplyVo">

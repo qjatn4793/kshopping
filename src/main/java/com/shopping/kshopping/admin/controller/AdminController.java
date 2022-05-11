@@ -181,7 +181,6 @@ public class AdminController {
 
     @PostMapping("/admin/product")
     public int productCreate(@RequestBody ProductVo productVo) throws Exception{
-
         String path = System.getProperty("user.dir"); // 현재 경로 > C:\Users\PHS-SECURUS\Desktop\kshopping
         // TODO : 프로젝트 경로가 바뀌면 상기 경로 확인 후 변경해줘야함
 
@@ -257,6 +256,7 @@ public class AdminController {
                 product.put("productContents3", productVo.getProductContents3());
                 product.put("productImg", productVo.getProductImg());
                 product.put("productThumbImg", productVo.getProductThumbImg());
+                product.put("productCategory", productVo.getProductCategory());
             }
 
             return productService.productCreate(product);

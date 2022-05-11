@@ -34,7 +34,7 @@
                     <div id="regDate" class="text-muted fst-italic mb-2"></div>
                     <!-- Post categories-->
                     <p id="productViews" class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</p>
-                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                    <a id="productCategory" class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
                 </header>
                 <!-- Preview image figure-->
                 <figure class="mb-4"><img id="productImg" style="width:900px; height:400px;" class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
@@ -125,16 +125,21 @@
                 alert('통신실패!!');
             },
             success: function (data) {
-                var productSeq = data.productSeq;
-                var productName = data.productName;
-                var productLikes = data.productLikes;
-                var productViews = data.productViews;
-                var productContents1 = data.productContents1;
-                var productContents2 = data.productContents2;
-                var productContents3 = data.productContents3;
-                var regDate = data.regDate;
-                var modDate = data.modDate;
-                var productImg = data.productImg;
+                let productSeq = data.productSeq;
+                let productName = data.productName;
+                let productLikes = data.productLikes;
+                let productViews = data.productViews;
+                let productContents1 = data.productContents1;
+                let productContents2 = data.productContents2;
+                let productContents3 = data.productContents3;
+                let regDate = data.regDate;
+                let modDate = data.modDate;
+                let productImg = data.productImg;
+                let productCategory = data.productCategory;
+
+                if(productCategory == null){
+                    productCategory = "";
+                }
 
                 $("#productName").text(productName);
                 $("#regDate").text("작성 시간 : " + regDate);
@@ -142,13 +147,12 @@
                 $("#productContents1").text(productContents1);
                 $("#productContents2").text(productContents2);
                 $("#productContents3").text(productContents3);
+                $("#productCategory").text(productCategory);
 
                 if (productImg == "" || productImg == null){
                     productImg = "https://dummyimage.com/900x400/ced4da/6c757d.jpg";
                 }else {
-
                     productImg = productImg.replace("\\", "/");
-
                     productImg = "/common/img" + productImg;
                 }
 
