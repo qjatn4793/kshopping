@@ -35,4 +35,10 @@ public interface ProductMapper {
     int replyCreate(ProductReplyVo productReplyVo);
 
     int replyDelete(int replySeq);
+
+    ProductVo productSearch(ProductVo productVo);
+
+    int searchCount(ProductVo productVo);
+
+    ProductVo categorySearch(ProductVo productVo);
 }

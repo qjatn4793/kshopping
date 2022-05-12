@@ -51,4 +51,21 @@
     <delete id="replyDelete" parameterType="integer">
         DELETE FROM product_reply WHERE reply_seq=#{replySeq}
     </delete>
+
+    <select id="productSearch" parameterType="com.shopping.kshopping.product.vo.ProductVo" resultType="com.shopping.kshopping.product.vo.ProductVo">
+        SELECT * FROM product WHERE product_name rlike #{searchItem} limit #{rowNum},1
+    </select>
+
+    <select id="searchCount" parameterType="com.shopping.kshopping.product.vo.ProductVo" resultType="integer">
+        <if test='searchItem != null'>
+          SELECT COUNT(*) FROM product WHERE product_name rlike #{searchItem} AND product_category = #{productCategory}
+        </if>
+        <if test='searchItem == null'>
+          SELECT COUNT(*) FROM product WHERE product_category = #{productCategory}
+        </if>
+    </select>
+
+    <select id="categorySearch" parameterType="com.shopping.kshopping.product.vo.ProductVo" resultType="com.shopping.kshopping.product.vo.ProductVo">
+        SELECT * FROM product WHERE product_category = #{productCategory} limit #{rowNum},1
+    </select>
 </mapper>

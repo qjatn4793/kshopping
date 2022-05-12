@@ -13,22 +13,47 @@ window.addEventListener('DOMContentLoaded', event => {
         product();
     });
 
-    $(".dataTable-input").keyup(function() { // 검색 기능
+    /*$(".dataTable-input").keyup(function() { // 실시간 검색 기능
         product($(".dataTable-input").val());
-    });
+    });*/
 
-    function product(searchItem){
+    function product(searchItem, selectCategory){
+        var str = "";
+        var ajaxType = "";
+
+        if(searchItem == undefined){
+            searchItem = "";
+        }
+
+        if(selectCategory == undefined){
+            selectCategory = "선택";
+        }
+
+        if (searchItem != "" || selectCategory != "선택"){
+            ajaxType = "POST";
+            var param;
+
+            if(searchItem == ""){
+                param = {"productCategory":selectCategory}
+            }else {
+                param = {"searchItem":searchItem, "productCategory":selectCategory};
+            }
+
+        }else {
+            ajaxType = "GET";
+        }
 
         $.ajax({
-            type: "GET",
+            type: ajaxType,
             url: "/productView",
             dataType: "JSON",
+            contentType: "application/json",
+            data: JSON.stringify(param),
             async: false,
             error: function () {
                 alert('통신실패!!');
             },
             success: function (data) {
-                let str = "";
                 var paging = "";
 
                 var totalProduct = Object.keys(data).length;
@@ -59,11 +84,10 @@ window.addEventListener('DOMContentLoaded', event => {
                             productThumbImg = productThumbImg.replace("\\", "/");
                             productThumbImg = "common/img" + productThumbImg;
                         }
-
-                        if (searchItem == undefined || searchItem == "" || searchItem == null) { // 검색어가 없을 경우
+                        if(productName != null) { // 검색 결과가 있으면
                             str += "<div class='col mb-5'>" +
                                 "<div class='card h-100'>" +
-                                "<div class='badge bg-dark text-white position-absolute' style='top:0.5rem; right:0.5rem'>"+ productCategory +"</div>" +
+                                "<a href='#' class='badge bg-dark text-white position-absolute' style='top:0.5rem; right:0.5rem'>"+ productCategory +"</a>" +
                                 "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
                                 "<img class='card-img-top' src='" + productThumbImg + "' alt='...' />" +
                                 "</a>" +
@@ -80,37 +104,20 @@ window.addEventListener('DOMContentLoaded', event => {
                                 "</div>" +
                                 "</div>" +
                                 "</div>";
-                        }else {
-                            if (productName.indexOf(searchItem) != -1) { // 검색어가 있을 경우
-                                str += "<div class='col mb-5'>" +
-                                    "<div class='card h-100'>" +
-                                    "<div class='badge bg-dark text-white position-absolute' style='top:0.5rem; right:0.5rem'>"+ productCategory +"</div>" +
-                                    "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
-                                    "<img class='card-img-top' src='" + productThumbImg + "' alt='...' />" +
-                                    "</a>" +
-                                    "<div class='card-body p-4'>" +
-                                    "<div class='text-center'>" +
-                                    "<a class='btn mt-auto' href='/detailProduct/" + productSeq + "'>" +
-                                    "<h5 class='fw-bolder'>" + productName + "</h5>" +
-                                    "</a><br>" +
-                                    "조회 수 : " + productViews +
-                                    "</div>" +
-                                    "</div>" +
-                                    "<div class='card-footer p-4 pt-0 border-top-0 bg-transparent'>" +
-                                    "<div class='text-center'><a class='btn btn-outline-dark mt-auto' href='/detailProduct/" + productSeq + "'>View options</a></div>" +
-                                    "</div>" +
-                                    "</div>" +
-                                    "</div>";
-                            }
+
+                            $(".dataTable-info").text("Showing " + (prevNum + 1) + " to " + endNum + " of"+ " entries");
+                        }else { // 검색 결과가 없으면
+                            str += "<div>검색결과가 없습니다.</div>"
+
+                            $(".dataTable-info").text("");
                         }
 
-                        $("div.main-product").html(str);
-
-                        $(".dataTable-info").text("Showing " + (prevNum + 1) + " to " + endNum + " of"+ " entries");
+                        $("div.main-product").html(str); // 상품들 실제로 뿌려주는 부분
 
                     }
                 }
 
+                paging += '<li class="start"><a href="#" data-page="<"><<</a></li>'; // 처음 버튼 생성 영역
                 paging += '<li class="prev"><a href="#" data-page="<"><</a></li>'; // 이전 버튼 생성 영역
 
                 // 페이징 버튼 생성 영역 시작
@@ -178,8 +185,15 @@ window.addEventListener('DOMContentLoaded', event => {
                 // 페이징 버튼 생성 영역 끝
 
                 paging += '<li class="next"><a href="#" data-page=">">></a></li>'; // 다음 버튼 생성 영역
+                paging += '<li class="end"><a href="#" data-page="<">>></a></li>'; // 마지막 버튼 생성 영역
 
-                $(".dataTable-pagination-list").html(paging);
+                if(endPage != 1){
+                    $(".dataTable-pagination-list").html(paging); // 페이징 버튼 실제로 뿌려주는 부분
+                }else if(endPage == 1){
+                    paging = "";
+                    $(".dataTable-pagination-list").html(paging); // 페이징 버튼 실제로 뿌려주는 부분
+                }
+
 
                 $(".dataTable-pagination-list li.paging").click(function(){ // 페이징 번호 클릭 시
 
@@ -212,9 +226,32 @@ window.addEventListener('DOMContentLoaded', event => {
                     }
                     product();
                 });
+
+                $(".dataTable-pagination-list li.start").click(function(){ // 처음 버튼 클릭 시
+
+                    $(".dataTable-pagination-list li.active").removeClass("active");
+                    $(this).addClass("active");
+
+                    currentPage = 1;
+                    product();
+                });
+
+                $(".dataTable-pagination-list li.end").click(function(){ // 마지막 버튼 클릭 시
+
+                    $(".dataTable-pagination-list li.active").removeClass("active");
+                    $(this).addClass("active");
+
+                    currentPage = endPage;
+                    product();
+                });
             }
         });
     }
+
+    $("#searchBtn").click(function (){ // 검색 버튼 클릭 시
+        product($(".dataTable-input").val(), $("#productCategory option:selected").val());
+
+    });
 
     const datatablesSimple = document.getElementById('datatablesSimple');
     if (datatablesSimple) {

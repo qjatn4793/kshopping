@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
@@ -31,19 +33,119 @@ public class ProductController {
 
     @GetMapping("/productView")
     public HashMap<String, ProductVo> productView() throws Exception{
-
         HashMap<String, ProductVo> productView = new HashMap<>();
 
         int productMaxCount = productService.productCount();
         int productMinCount = productService.productMinCount();
 
-        for (int i=productMinCount; productMaxCount >= i; i++) {
-            if(productService.productView(i) != null){
+        for (int i = productMinCount; productMaxCount >= i; i++) {
+            if (productService.productView(i) != null) {
                 productView.put(valueOf(i), productService.productView(i));
             }
         }
-
         return productView;
+    }
+
+    /*@GetMapping("/productView/{searchItem}")
+    public HashMap<String, ProductVo> productSearchView(@PathVariable String searchItem, @RequestBody ProductVo productVo) throws Exception{
+        HashMap<String, ProductVo> productView = new HashMap<>();
+        int searchCount = productService.searchCount(searchItem);
+
+        System.out.println(productVo);
+
+        final String checkString = "[a-zA-Z0-9ㄱ-힣\\s]"; // 특수문자 체크
+        Matcher matchTest;
+        matchTest = Pattern.compile(checkString).matcher(searchItem); // 검색값에 공백 포함 특수문자 없으면 true
+
+        if (searchCount > 0) {
+            if (matchTest.find() == true) {
+                for (int i = 0; searchCount > i; i++) {
+                    if (productService.productSearch(searchItem, 0) != null) {
+                        productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                    } else {
+                        //System.out.println("검색결과 없음");
+                    }
+                }
+                return productView;
+            } else {
+                return null;
+            }
+        }else {
+            ProductVo clearVo = new ProductVo();
+            productView.put("0", clearVo);
+
+            return productView;
+        }
+    }*/
+
+    @PostMapping("/productView")
+    public HashMap<String, ProductVo> productSearchView(@RequestBody ProductVo productVo) throws Exception{
+        HashMap<String, ProductVo> productView = new HashMap<>();
+
+        String searchItem = productVo.getSearchItem();
+        String productCategory = productVo.getProductCategory();
+
+        System.out.println(searchItem);
+        System.out.println(productCategory);
+
+        int searchCount = productService.searchCount(searchItem, productCategory);
+
+        System.out.println(searchCount);
+
+        final String checkString = "[a-zA-Z0-9ㄱ-힣]"; // 특수문자 체크
+        Matcher matchTest;
+        Matcher matchTest2;
+        /*if (searchItem != "" || searchItem != null) {
+            matchTest = Pattern.compile(checkString).matcher(searchItem); // 검색값에 특수문자 없으면 true
+        }else {
+            matchTest.find() = true;
+        }*/
+        matchTest2 = Pattern.compile(checkString).matcher(productCategory); // 카테고리 값에 특수문자 없으면 true
+
+        if (searchCount > 0) {
+            if (matchTest2.find() == true) {
+                for (int i = 0; searchCount > i; i++) {
+                    if (productService.productSearch(searchItem, 0) != null) {
+                        if(productCategory.equals("선택") && searchItem.equals("")){
+                            productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                        }else if(productCategory.equals("과일") && searchItem.equals("")){
+                            if(productService.productSearch(searchItem, i).getProductCategory().equals("과일")){
+                                productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                            }
+                        }else if(productCategory.equals("의류") && searchItem.equals("")){
+                            if(productService.productSearch(searchItem, i).getProductCategory().equals("의류")){
+                                productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                            }
+                        }else if(productCategory.equals("가구") && searchItem.equals("")){
+                            if(productService.productSearch(searchItem, i).getProductCategory().equals("가구")){
+                                productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                            }
+                        }else if(productCategory.equals("잡화") && searchItem.equals("")){
+                            if(productService.productSearch(searchItem, i).getProductCategory().equals("잡화")){
+                                productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                            }
+                        }else if(productCategory.equals("기타") && searchItem.equals("")){
+                            if(productService.productSearch(searchItem, i).getProductCategory().equals("기타")){
+                                productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                            }
+                        }else {
+                            productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                        }
+                    } else {
+
+                        //System.out.println("검색결과 없음");
+                    }
+                }
+                return productView;
+            } else {
+                return null;
+            }
+        }else {
+            ProductVo clearVo = new ProductVo();
+            productView.put("0", clearVo);
+
+            return productView;
+        }
     }
 
     @GetMapping("/product/{productSeq}")

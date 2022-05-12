@@ -24,4 +24,7 @@ public class ProductVo {
 
     private String productImg;
     private String productThumbImg;
+
+    private String searchItem;
+    private int rowNum;
 }

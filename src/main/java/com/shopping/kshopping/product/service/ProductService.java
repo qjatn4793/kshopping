@@ -81,4 +81,28 @@ public class ProductService {
         return productMapper.replyDelete(replySeq);
     }
 
+    public ProductVo productSearch(String searchItem, int rowNum) throws Exception{
+        ProductVo productVo = new ProductVo();
+        productVo.setSearchItem(searchItem);
+        productVo.setRowNum(rowNum);
+
+        return productMapper.productSearch(productVo);
+    }
+
+    public int searchCount(String searchItem, String productCategory) throws Exception{
+        ProductVo productVo = new ProductVo();
+        productVo.setSearchItem(searchItem);
+        productVo.setProductCategory(productCategory);
+
+        return productMapper.searchCount(productVo);
+    }
+
+    public ProductVo categorySearch(String productCategory, int rowNum) throws Exception{
+        ProductVo productVo = new ProductVo();
+        productVo.setProductCategory(productCategory);
+        productVo.setRowNum(rowNum);
+
+        return productMapper.categorySearch(productVo);
+    }
+
 }
