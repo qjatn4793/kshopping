@@ -46,38 +46,6 @@ public class ProductController {
         return productView;
     }
 
-    /*@GetMapping("/productView/{searchItem}")
-    public HashMap<String, ProductVo> productSearchView(@PathVariable String searchItem, @RequestBody ProductVo productVo) throws Exception{
-        HashMap<String, ProductVo> productView = new HashMap<>();
-        int searchCount = productService.searchCount(searchItem);
-
-        System.out.println(productVo);
-
-        final String checkString = "[a-zA-Z0-9ㄱ-힣\\s]"; // 특수문자 체크
-        Matcher matchTest;
-        matchTest = Pattern.compile(checkString).matcher(searchItem); // 검색값에 공백 포함 특수문자 없으면 true
-
-        if (searchCount > 0) {
-            if (matchTest.find() == true) {
-                for (int i = 0; searchCount > i; i++) {
-                    if (productService.productSearch(searchItem, 0) != null) {
-                        productView.put(valueOf(i), productService.productSearch(searchItem, i));
-                    } else {
-                        //System.out.println("검색결과 없음");
-                    }
-                }
-                return productView;
-            } else {
-                return null;
-            }
-        }else {
-            ProductVo clearVo = new ProductVo();
-            productView.put("0", clearVo);
-
-            return productView;
-        }
-    }*/
-
     @PostMapping("/productView")
     public HashMap<String, ProductVo> productSearchView(@RequestBody ProductVo productVo) throws Exception{
         HashMap<String, ProductVo> productView = new HashMap<>();

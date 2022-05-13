@@ -13,10 +13,6 @@ window.addEventListener('DOMContentLoaded', event => {
         product();
     });
 
-    /*$(".dataTable-input").keyup(function() { // 실시간 검색 기능
-        product($(".dataTable-input").val());
-    });*/
-
     function product(searchItem, selectCategory){
         var str = "";
         var ajaxType = "";
@@ -28,6 +24,8 @@ window.addEventListener('DOMContentLoaded', event => {
         if(selectCategory == undefined){
             selectCategory = "선택";
         }
+
+
 
         if (searchItem != "" || selectCategory != "선택"){
             ajaxType = "POST";
