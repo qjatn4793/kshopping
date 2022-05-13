@@ -83,5 +83,14 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="/common/js/scripts.js"></script>
         <script src="/common/js/product.js"></script>
+        <script>
+            $(document).ready(function() {
+                $(".dataTable-input").keyup(function (keyNum) { // 엔터키 입력 감지
+                    if (keyNum.keyCode == 13) {
+                        $("#searchBtn").click();
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

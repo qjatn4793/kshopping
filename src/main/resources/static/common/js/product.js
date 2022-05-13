@@ -38,7 +38,6 @@ window.addEventListener('DOMContentLoaded', event => {
             }else {
                 param = {"searchItem":searchItem, "productCategory":selectCategory};
             }
-
         }else {
             ajaxType = "GET";
         }
@@ -202,7 +201,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
                     currentPage = $(".dataTable-pagination-list li.active a").text();
                     currentPage = parseInt(currentPage);
-                    product();
+                    product(searchItem, selectCategory);
                 });
 
                 $(".dataTable-pagination-list li.next").click(function(){ // 다음 버튼 클릭 시
@@ -213,7 +212,7 @@ window.addEventListener('DOMContentLoaded', event => {
                     if(endPage != currentPage){
                         currentPage += 1;
                     }
-                    product();
+                    product(searchItem, selectCategory);
                 });
 
                 $(".dataTable-pagination-list li.prev").click(function(){ // 이전 버튼 클릭 시
@@ -224,7 +223,7 @@ window.addEventListener('DOMContentLoaded', event => {
                     if(currentPage != 1) {
                         currentPage -= 1;
                     }
-                    product();
+                    product(searchItem, selectCategory);
                 });
 
                 $(".dataTable-pagination-list li.start").click(function(){ // 처음 버튼 클릭 시
@@ -233,7 +232,7 @@ window.addEventListener('DOMContentLoaded', event => {
                     $(this).addClass("active");
 
                     currentPage = 1;
-                    product();
+                    product(searchItem, selectCategory);
                 });
 
                 $(".dataTable-pagination-list li.end").click(function(){ // 마지막 버튼 클릭 시
@@ -242,15 +241,18 @@ window.addEventListener('DOMContentLoaded', event => {
                     $(this).addClass("active");
 
                     currentPage = endPage;
-                    product();
+                    product(searchItem, selectCategory);
                 });
             }
         });
     }
 
     $("#searchBtn").click(function (){ // 검색 버튼 클릭 시
-        product($(".dataTable-input").val(), $("#productCategory option:selected").val());
-
+        if($(".dataTable-input").val() == ""){
+            alert("검색어를 입력해주세요");
+        }else {
+            product($(".dataTable-input").val(), $("#productCategory option:selected").val());
+        }
     });
 
     const datatablesSimple = document.getElementById('datatablesSimple');

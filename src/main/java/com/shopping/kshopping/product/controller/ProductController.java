@@ -85,12 +85,7 @@ public class ProductController {
         String searchItem = productVo.getSearchItem();
         String productCategory = productVo.getProductCategory();
 
-        System.out.println(searchItem);
-        System.out.println(productCategory);
-
         int searchCount = productService.searchCount(searchItem, productCategory);
-
-        System.out.println(searchCount);
 
         final String checkString = "[a-zA-Z0-9ㄱ-힣]"; // 특수문자 체크
         Matcher matchTest;
@@ -105,39 +100,72 @@ public class ProductController {
         if (searchCount > 0) {
             if (matchTest2.find() == true) {
                 for (int i = 0; searchCount > i; i++) {
-                    if (productService.productSearch(searchItem, 0) != null) {
-                        if(productCategory.equals("선택") && searchItem.equals("")){
-                            productView.put(valueOf(i), productService.productSearch(searchItem, i));
-                        }else if(productCategory.equals("과일") && searchItem.equals("")){
-                            if(productService.productSearch(searchItem, i).getProductCategory().equals("과일")){
-                                productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                    if(searchItem == null) { // 검색 키워드가 없을 경우
+                        if (productService.categorySearch(productCategory, 0) != null) { // 검색결과가 있을 경우
+                            if (productCategory.equals("선택")) {
+                                productView.put(valueOf(i), productService.categorySearch(productCategory, i));
+                            } else if (productCategory.equals("과일")) {
+                                if (productService.categorySearch(productCategory, i).getProductCategory().equals("과일")) {
+                                    productView.put(valueOf(i), productService.categorySearch(productCategory, i));
+                                }
+                            } else if (productCategory.equals("의류")) {
+                                if (productService.categorySearch(productCategory, i).getProductCategory().equals("의류")) {
+                                    productView.put(valueOf(i), productService.categorySearch(productCategory, i));
+                                }
+                            } else if (productCategory.equals("가구")) {
+                                if (productService.categorySearch(productCategory, i).getProductCategory().equals("가구")) {
+                                    productView.put(valueOf(i), productService.categorySearch(productCategory, i));
+                                }
+                            } else if (productCategory.equals("잡화")) {
+                                if (productService.categorySearch(productCategory, i).getProductCategory().equals("잡화")) {
+                                    productView.put(valueOf(i), productService.categorySearch(productCategory, i));
+                                }
+                            } else if (productCategory.equals("기타")) {
+                                if (productService.categorySearch(productCategory, i).getProductCategory().equals("기타")) {
+                                    productView.put(valueOf(i), productService.categorySearch(productCategory, i));
+                                }
+                            } else {
+                                productView.put(valueOf(i), productService.categorySearch(productCategory, i));
                             }
-                        }else if(productCategory.equals("의류") && searchItem.equals("")){
-                            if(productService.productSearch(searchItem, i).getProductCategory().equals("의류")){
+                        } else {
+
+                            //System.out.println("검색결과 없음");
+                        }
+                    }else {
+                        if (productService.productSearch(searchItem, 0) != null) { // 검색 키워드가 있을 경우
+                            if (productCategory.equals("선택")) {
                                 productView.put(valueOf(i), productService.productSearch(searchItem, i));
-                            }
-                        }else if(productCategory.equals("가구") && searchItem.equals("")){
-                            if(productService.productSearch(searchItem, i).getProductCategory().equals("가구")){
-                                productView.put(valueOf(i), productService.productSearch(searchItem, i));
-                            }
-                        }else if(productCategory.equals("잡화") && searchItem.equals("")){
-                            if(productService.productSearch(searchItem, i).getProductCategory().equals("잡화")){
-                                productView.put(valueOf(i), productService.productSearch(searchItem, i));
-                            }
-                        }else if(productCategory.equals("기타") && searchItem.equals("")){
-                            if(productService.productSearch(searchItem, i).getProductCategory().equals("기타")){
+                            } else if (productCategory.equals("과일")) {
+                                if (productService.productSearch(searchItem, i).getProductCategory().equals("과일")) {
+                                    productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                                }
+                            } else if (productCategory.equals("의류")) {
+                                if (productService.productSearch(searchItem, i).getProductCategory().equals("의류")) {
+                                    productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                                }
+                            } else if (productCategory.equals("가구")) {
+                                if (productService.productSearch(searchItem, i).getProductCategory().equals("가구")) {
+                                    productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                                }
+                            } else if (productCategory.equals("잡화")) {
+                                if (productService.productSearch(searchItem, i).getProductCategory().equals("잡화")) {
+                                    productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                                }
+                            } else if (productCategory.equals("기타")) {
+                                if (productService.productSearch(searchItem, i).getProductCategory().equals("기타")) {
+                                    productView.put(valueOf(i), productService.productSearch(searchItem, i));
+                                }
+                            } else {
                                 productView.put(valueOf(i), productService.productSearch(searchItem, i));
                             }
                         }else {
                             productView.put(valueOf(i), productService.productSearch(searchItem, i));
                         }
-                    } else {
-
-                        //System.out.println("검색결과 없음");
                     }
                 }
                 return productView;
             } else {
+                //부적절한 카테고리 입력값 감지
                 return null;
             }
         }else {

@@ -58,7 +58,10 @@
 
     <select id="searchCount" parameterType="com.shopping.kshopping.product.vo.ProductVo" resultType="integer">
         <if test='searchItem != null'>
-          SELECT COUNT(*) FROM product WHERE product_name rlike #{searchItem} AND product_category = #{productCategory}
+          SELECT COUNT(*) FROM product WHERE product_name rlike #{searchItem}
+          <if test='productCategory != "선택"'>
+              AND product_category = #{productCategory}
+          </if>
         </if>
         <if test='searchItem == null'>
           SELECT COUNT(*) FROM product WHERE product_category = #{productCategory}
