@@ -248,6 +248,7 @@ window.addEventListener('DOMContentLoaded', event => {
     $("#searchBtn").click(function (){ // 검색 버튼 클릭 시
         if($(".dataTable-input").val() == ""){
             alert("검색어를 입력해주세요");
+            window.location.reload(true);
         }else {
             product($(".dataTable-input").val(), $("#productCategory option:selected").val());
         }
