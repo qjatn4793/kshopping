@@ -1,11 +1,13 @@
 package com.shopping.kshopping.admin.controller;
 
 import com.shopping.kshopping.admin.service.AdminService;
+import com.shopping.kshopping.admin.service.FileService;
 import com.shopping.kshopping.admin.vo.AdminVo;
 import com.shopping.kshopping.configuration.SHA256;
 import com.shopping.kshopping.login.vo.LoginVo;
 import com.shopping.kshopping.product.service.ProductService;
 import com.shopping.kshopping.product.vo.ProductVo;
+import com.shopping.kshopping.util.MD5Generator;
 import com.shopping.kshopping.util.UploadFileUtils;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.IOUtils;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,6 +25,7 @@ import java.io.FileInputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.String.valueOf;
 
@@ -39,6 +43,8 @@ public class AdminController {
 
     AdminService adminService;
     ProductService productService;
+
+    FileService fileService;
 
     @PostMapping("/admin")
     public int adminLoginCheck(@RequestBody AdminVo adminVo, HttpServletRequest request)throws NoSuchAlgorithmException {
@@ -189,31 +195,25 @@ public class AdminController {
         String path = System.getProperty("user.dir"); // 현재 경로 > C:\Users\PHS-SECURUS\Desktop\kshopping
         // TODO : 프로젝트 경로가 바뀌면 상기 경로 확인 후 변경해줘야함
 
-
         //배포시 경로
-        if(path != "" || path != null){
+        /*if(path != "" || path != null){
             path = path.replace("apache-tomcat-8.5.75/bin","");
         }
-
-        System.out.println("=================");
-        System.out.println(path);
-        System.out.println(path);
-        System.out.println(path);
-        System.out.println("=================");
 
         // windows
         //String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\img\\";
         // linux
         String divPath = "img/";
 
-        productVo.setProductImg(path + divPath);
-
-        //File to Multipartfile
-        File file = new File(productVo.getProductImg()); // String to File
-
-        System.out.println(file);
-
         try {
+            //File to Multipartfile
+            System.out.println("1");
+            String fileS = productVo.getProductImg();
+            fileS = fileS.replace("C:\\uploadPath\\", "");
+
+            File file = new File(fileS); // String to File
+            System.out.println("2");
+
             FileInputStream input = new FileInputStream(file);
             MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
             //여기까지
@@ -233,11 +233,11 @@ public class AdminController {
             System.out.println("================= 파일 업로드 에러 발생 ===============");
             System.out.println(e);
             System.out.println("================= 파일 업로드 에러 발생 ===============");
-        }
+        }*/
         /*여기까지*/
 
         //개발시 경로
-        /*tring divPath = "\\src\\main\\resources\\static\\common\\img";
+        String divPath = "\\src\\main\\resources\\static\\common\\img";
 
         //File to Multipartfile
         File file = new File(productVo.getProductImg()); // String to File
@@ -258,8 +258,8 @@ public class AdminController {
             productVo.setProductImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
             productVo.setProductThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
         }catch (Exception e){
-
-        }*/
+            System.out.println(e);
+        }
         /*여기까지*/
 
         if (productVo == null){
