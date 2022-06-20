@@ -15,7 +15,7 @@
     </select>
 
     <select id="adminGetUser" resultType="com.shopping.kshopping.login.vo.LoginVo">
-        SELECT * FROM USER WHERE user_seq = #{userSeq}
+        SELECT * FROM user WHERE user_seq = #{userSeq}
     </select>
 
     <select id="adminGetUserCount" resultType="integer">
@@ -23,15 +23,15 @@
     </select>
 
     <delete id="adminUserDelete" parameterType="integer">
-        DELETE FROM USER WHERE user_seq=#{userSeq}
+        DELETE FROM user WHERE user_seq=#{userSeq}
     </delete>
 
     <update id="adminUserUpdate" parameterType="com.shopping.kshopping.login.vo.LoginVo">
-        UPDATE USER SET status = #{status} WHERE user_seq = #{userSeq}
+        UPDATE user SET status = #{status} WHERE user_seq = #{userSeq}
     </update>
 
     <update id="passwordReset" parameterType="com.shopping.kshopping.login.vo.LoginVo">
-        UPDATE USER SET user_pw = #{userPw} WHERE user_seq = #{userSeq}
+        UPDATE user SET user_pw = #{userPw} WHERE user_seq = #{userSeq}
     </update>
 
 </mapper>

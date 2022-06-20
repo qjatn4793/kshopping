@@ -139,9 +139,14 @@ public class AdminController {
         /*개발시*/
         //String divPath = "\\src\\main\\resources\\static\\common\\assets\\img\\";
         /*끝*/
-        /*배포시*/
+        /*배포시 windows*/
+        //path = path.replace("bin", "webapps");
+        //String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\assets\\img\\";
+        /*끝*/
+        /*배포시 linux*/
         path = path.replace("bin", "webapps");
-        String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\assets\\img\\";
+
+        String divPath = "/ROOT/WEB-INF/classes/static/common/assets/img/";
         /*끝*/
         String realPath = path + divPath;
 
@@ -186,11 +191,53 @@ public class AdminController {
 
 
         //배포시 경로
-        /*if(path != "" || path != null){
-            path = path.replace("bin","webapps");
+        if(path != "" || path != null){
+            path = path.replace("apache-tomcat-8.5.75/bin","");
         }
 
-        String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\img\\";
+        System.out.println("=================");
+        System.out.println(path);
+        System.out.println(path);
+        System.out.println(path);
+        System.out.println("=================");
+
+        // windows
+        //String divPath = "\\ROOT\\WEB-INF\\classes\\static\\common\\img\\";
+        // linux
+        String divPath = "img/";
+
+        productVo.setProductImg(path + divPath);
+
+        //File to Multipartfile
+        File file = new File(productVo.getProductImg()); // String to File
+
+        System.out.println(file);
+
+        try {
+            FileInputStream input = new FileInputStream(file);
+            MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
+            //여기까지
+            String imgUploadPath = path + divPath + File.separator + "imgUpload";
+            String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+            String fileName = null;
+
+            if (multipartFile != null) {
+                fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
+            } else {
+                fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
+            }
+
+            productVo.setProductImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+            productVo.setProductThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+        }catch (Exception e){
+            System.out.println("================= 파일 업로드 에러 발생 ===============");
+            System.out.println(e);
+            System.out.println("================= 파일 업로드 에러 발생 ===============");
+        }
+        /*여기까지*/
+
+        //개발시 경로
+        /*tring divPath = "\\src\\main\\resources\\static\\common\\img";
 
         //File to Multipartfile
         File file = new File(productVo.getProductImg()); // String to File
@@ -213,32 +260,6 @@ public class AdminController {
         }catch (Exception e){
 
         }*/
-        /*여기까지*/
-
-        //개발시 경로
-        String divPath = "\\src\\main\\resources\\static\\common\\img";
-
-        //File to Multipartfile
-        File file = new File(productVo.getProductImg()); // String to File
-        try {
-            FileInputStream input = new FileInputStream(file);
-            MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
-            //여기까지
-            String imgUploadPath = path + divPath + File.separator + "imgUpload";
-            String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
-            String fileName = null;
-
-            if (multipartFile != null) {
-                fileName = UploadFileUtils.fileUpload(imgUploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes(), ymdPath);
-            } else {
-                fileName = path + divPath + File.separator + "images" + File.separator + "none.png";
-            }
-
-            productVo.setProductImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
-            productVo.setProductThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-        }catch (Exception e){
-
-        }
         /*여기까지*/
 
         if (productVo == null){
