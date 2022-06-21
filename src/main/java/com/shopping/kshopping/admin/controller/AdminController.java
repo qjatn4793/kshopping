@@ -38,7 +38,7 @@ public class AdminController {
     AdminService adminService;
     ProductService productService;
 
-    @PostMapping("/admin")
+    @PostMapping("/admin") //관리자 로그인
     public int adminLoginCheck(@RequestBody AdminVo adminVo, HttpServletRequest request)throws NoSuchAlgorithmException {
         SHA256 sha256 = new SHA256();
 

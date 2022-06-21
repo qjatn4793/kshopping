@@ -25,4 +25,10 @@ public class ProductViewController {
         return "product/product.html";
     }
 
+    @RequestMapping("/popularProduct")
+    public String popularProduct(){
+
+        return "product/popularProduct.html";
+    }
+
 }
