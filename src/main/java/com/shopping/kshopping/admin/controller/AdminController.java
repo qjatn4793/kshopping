@@ -128,8 +128,7 @@ public class AdminController {
 
     @PostMapping("/admin/adminDesign/{fileName}")
     public int adminDesign(@PathVariable("fileName") String fileName, @RequestBody HashMap<String, String> uploadPath) throws Exception{
-
-        String uploadRealPath = uploadPath.get("uploadPath");
+        String uploadFileName = uploadPath.get("uploadPath");
         String realFileName = fileName + ".jpg";
 
         // TODO : 프로젝트 경로가 바뀌면 상기 경로 확인 후 변경해줘야함
@@ -147,21 +146,32 @@ public class AdminController {
         /*끝*/
         String realPath = path + divPath;
 
+        uploadFileName = uploadFileName.replace("C:\\uploadPath\\", "");
+
+        System.out.println("===========================");
+        System.out.println(uploadFileName);
+        System.out.println("===========================");
+
         //File to Multipartfile
-        File file = new File(uploadRealPath); // String to File
-        FileInputStream input = new FileInputStream(file);
-        MultipartFile multipartFile = new MockMultipartFile("file", fileName, "text/plain", IOUtils.toByteArray(input));
-        //여기까지
+        try {
 
-        if(multipartFile != null){
-            File target = new File(realPath, realFileName);
-            FileCopyUtils.copy(multipartFile.getBytes(), target);
+            File file = new File("/temp/uploadPath/" + uploadFileName); // String to File
+            FileInputStream input = new FileInputStream(file);
+            MultipartFile multipartFile = new MockMultipartFile("file", uploadFileName, "text/plain", IOUtils.toByteArray(input));
 
-            return 1;
-        }else {
+            if(multipartFile != null){
+                File target = new File(realPath, realFileName);
+                FileCopyUtils.copy(multipartFile.getBytes(), target);
+
+                return 1;
+            }else {
+                return 0;
+            }
+        }catch (Exception e) {
+            System.out.println(e);
             return 0;
         }
-
+        //여기까지
     }
 
     @GetMapping("/admin/product")
@@ -198,12 +208,10 @@ public class AdminController {
 
         try {
             //File to Multipartfile
-            System.out.println("1");
-            String fileS = productVo.getProductImg();
-            fileS = fileS.replace("C:\\uploadPath\\", "/temp/uploadPath/");
+            String realFileName = productVo.getProductImg();
+            realFileName = realFileName.replace("C:\\uploadPath\\", "");
 
-            File file = new File(fileS); // String to File
-            System.out.println("2");
+            File file = new File("/temp/uploadPath/" + realFileName); // String to File
 
             FileInputStream input = new FileInputStream(file);
             MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
