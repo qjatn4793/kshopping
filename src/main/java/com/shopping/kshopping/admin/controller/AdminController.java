@@ -29,6 +29,8 @@ import static java.lang.String.valueOf;
 @RestController
 public class AdminController {
 
+    /*github test*/
+
     /*@GetMapping("/admin/viewProduct")
     public String viewProduct(ProductVo productVo){
 
@@ -61,6 +63,8 @@ public class AdminController {
                 session.setAttribute("adminLoginCheck", "success");
                 session.setAttribute("adminId", adminVo.getAdminId());
                 session.setAttribute("adminPw", sha256.encrypt(adminVo.getAdminPw()));
+
+                System.out.println("관리자 로그인");
 
                 return adminLoginCheck;
             } else {
